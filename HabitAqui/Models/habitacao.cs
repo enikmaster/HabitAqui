@@ -1,6 +1,6 @@
 ﻿namespace HabitAqui.Models
 {
-    public class habitacao
+    public class Habitacao
     {
         private int id { get; set; }
     }
