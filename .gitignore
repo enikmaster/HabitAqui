@@ -2,3 +2,6 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
+/HabitAqui/.vs/HabitAqui/FileContentIndex/4e3d4004-3515-4408-ae40-54dbe84d012a.vsidx
+/HabitAqui/.vs/HabitAqui/FileContentIndex/fab29764-55ec-45c0-a209-49b7d49ac540.vsidx
+/HabitAqui/obj/*
