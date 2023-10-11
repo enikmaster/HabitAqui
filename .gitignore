@@ -1,45 +1,76 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
-
-/HabitAqui/obj/Debug/net6.0/staticwebassets
-/HabitAqui/obj/Debug/net6.0/ref
-/HabitAqui/obj/Debug/net6.0/refint
-/HabitAqui/obj/Debug/net6.0/scopedcss/bundle
-/HabitAqui/obj/Debug/net6.0/scopedcss/projectbundle
-/HabitAqui/obj/Debug/net6.0/scopedcss/Views/Shared
-/HabitAqui/obj/Debug/net6.0/apphost.exe
-/HabitAqui/obj/HabitAqui.csproj.nuget.dgspec.json
-/HabitAqui/obj/HabitAqui.csproj.nuget.g.props
-/HabitAqui/obj/project.assets.json
-/HabitAqui/obj/project.nuget.cache
-/HabitAqui/HabitAqui.csproj
-*.config
-/HabitAqui/.vs/HabitAqui/DesignTimeBuild/.dtbcache.v2
-/HabitAqui/.vs/HabitAqui/FileContentIndex/2a6a60c7-1512-457a-830d-49fbd1768409.vsidx
-/HabitAqui/.vs/HabitAqui/FileContentIndex/c444d1f3-2b28-437d-a5f6-c5ea62a3d937.vsidx
-/HabitAqui/.vs/HabitAqui/FileContentIndex/fab29764-55ec-45c0-a209-49b7d49ac540.vsidx
-/HabitAqui/.vs/HabitAqui/v17/.futdcache.v2
-/HabitAqui/.vs/HabitAqui/v17/.suo
-/HabitAqui/.vs/ProjectEvaluation/habitaqui.metadata.v7.bin
-/HabitAqui/.vs/ProjectEvaluation/habitaqui.projects.v7.bin
-/HabitAqui/bin/Debug/net6.0
-/HabitAqui/obj/Debug/net6.0/HabitAqui.AssemblyInfo.cs
-/HabitAqui/obj/Debug/net6.0/HabitAqui.assets.cache
-/HabitAqui/obj/Debug/net6.0/HabitAqui.csproj.AssemblyReference.cache
-/HabitAqui/obj/Debug/net6.0/HabitAqui.csproj.BuildWithSkipAnalyzers
-/HabitAqui/obj/Debug/net6.0/HabitAqui.csproj.CopyComplete
-/HabitAqui/obj/Debug/net6.0/HabitAqui.csproj.CoreCompileInputs.cache
-/HabitAqui/obj/Debug/net6.0/HabitAqui.csproj.FileListAbsolute.txt
-/HabitAqui/obj/Debug/net6.0/HabitAqui.dll
-/HabitAqui/obj/Debug/net6.0/HabitAqui.GeneratedMSBuildEditorConfig.editorconfig
-/HabitAqui/obj/Debug/net6.0/HabitAqui.genruntimeconfig.cache
-/HabitAqui/obj/Debug/net6.0/HabitAqui.MvcApplicationPartsAssemblyInfo.cache
-/HabitAqui/obj/Debug/net6.0/HabitAqui.MvcApplicationPartsAssemblyInfo.cs
-/HabitAqui/obj/Debug/net6.0/HabitAqui.pdb
-/HabitAqui/obj/Debug/net6.0/staticwebassets.build.json
-/HabitAqui/obj/Debug/net6.0/staticwebassets.development.json
-/HabitAqui/obj/Debug/net6.0/staticwebassets.pack.json
-
-/HabitAqui/.vs/HabitAqui/FileContentIndex/4e3d4004-3515-4408-ae40-54dbe84d012a.vsidx
-/HabitAqui/obj/*
+﻿###################
+# compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.pdb
+*.dll.config
+*.cache
+*.suo
+# Include dlls if they’re in the NuGet packages directory
+!/packages/*/lib/*.dll
+!/packages/*/lib/*/*.dll
+# Include dlls if they're in the CommonReferences directory
+!*CommonReferences/*.dll
+####################
+# VS Upgrade stuff #
+####################
+UpgradeLog.XML
+_UpgradeReport_Files/
+###############
+# Directories #
+###############
+bin/
+obj/
+TestResults/
+###################
+# Web publish log #
+###################
+*.Publish.xml
+#############
+# Resharper #
+#############
+/_ReSharper.*
+*.ReSharper.*
+############
+# Packages #
+############
+# it’s better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+######################
+# Logs and databases #
+######################
+*.log
+*.sqlite
+# OS generated files #
+######################
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db
+[Bb]in
+[Oo]bj
+[Tt]est[Rr]esults
+*.suo
+*.user
+*.[Cc]ache
+*[Rr]esharper*
+packages
+NuGet.exe
+_[Ss]cripts
+*.exe
+*.dll
+*.nupkg
+*.ncrunchsolution
+*.dot[Cc]over
+*.vsidx

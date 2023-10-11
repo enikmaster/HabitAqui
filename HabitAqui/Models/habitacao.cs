@@ -2,7 +2,7 @@
 {
     public class Habitacao
     {
-        private int Id { get; set; }
-        private string Nome { get; set; } = string.Empty;
+        private DetalhesHabitacao DetalhesHabitacao { get; set; }
+        private Gestor Gestor { get; set; }
     }
 }
