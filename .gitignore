@@ -19,3 +19,6 @@ HabitAqui/obj/project.assets.json
 HabitAqui/obj/project.nuget.cache
 *.cache
 *.editorconfig
+/HabitAqui/HabitAqui.csproj
+/.gitignore
+/.gitignore
