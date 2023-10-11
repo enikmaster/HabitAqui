@@ -2,3 +2,20 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
+HabitAqui/.vs/HabitAqui/DesignTimeBuild/.dtbcache.v2
+HabitAqui/.vs/HabitAqui/FileContentIndex/17b1d136-58e6-4038-826f-58f187bbb822.vsidx
+HabitAqui/.vs/HabitAqui/FileContentIndex/49072b91-815e-48f9-bf5d-e1ff375bb5f9.vsidx
+HabitAqui/.vs/HabitAqui/FileContentIndex/d6ddf44a-3e8c-4504-a336-094cdff194a9.vsidx
+HabitAqui/.vs/HabitAqui/FileContentIndex/fab29764-55ec-45c0-a209-49b7d49ac540.vsidx
+HabitAqui/.vs/HabitAqui/v17/.suo
+HabitAqui/.vs/HabitAqui/FileContentIndex/fab29764-55ec-45c0-a209-49b7d49ac540.vsidx
+HabitAqui/.vs/HabitAqui/v17/.suo
+HabitAqui/obj/Debug/net6.0/HabitAqui.assets.cache
+HabitAqui/obj/Debug/net6.0/HabitAqui.csproj.AssemblyReference.cache
+HabitAqui/obj/Debug/net6.0/HabitAqui.GeneratedMSBuildEditorConfig.editorconfig
+HabitAqui/obj/HabitAqui.csproj.nuget.dgspec.json
+HabitAqui/obj/HabitAqui.csproj.nuget.g.props
+HabitAqui/obj/project.assets.json
+HabitAqui/obj/project.nuget.cache
+*.cache
+*.editorconfig

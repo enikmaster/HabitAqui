@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\filip\\Documents\\ISEC\\Ano3\\Sem1\\PWeb\\tp\\HabitAqui\\HabitAqui\\HabitAqui.csproj": {}
+    "C:\\Users\\joaok\\Desktop\\Universidade\\PWEB\\TP\\HabitAqui\\HabitAqui\\HabitAqui.csproj": {}
   },
   "projects": {
-    "C:\\Users\\filip\\Documents\\ISEC\\Ano3\\Sem1\\PWeb\\tp\\HabitAqui\\HabitAqui\\HabitAqui.csproj": {
+    "C:\\Users\\joaok\\Desktop\\Universidade\\PWEB\\TP\\HabitAqui\\HabitAqui\\HabitAqui.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\filip\\Documents\\ISEC\\Ano3\\Sem1\\PWeb\\tp\\HabitAqui\\HabitAqui\\HabitAqui.csproj",
+        "projectUniqueName": "C:\\Users\\joaok\\Desktop\\Universidade\\PWEB\\TP\\HabitAqui\\HabitAqui\\HabitAqui.csproj",
         "projectName": "HabitAqui",
-        "projectPath": "C:\\Users\\filip\\Documents\\ISEC\\Ano3\\Sem1\\PWeb\\tp\\HabitAqui\\HabitAqui\\HabitAqui.csproj",
-        "packagesPath": "C:\\Users\\filip\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\filip\\Documents\\ISEC\\Ano3\\Sem1\\PWeb\\tp\\HabitAqui\\HabitAqui\\obj\\",
+        "projectPath": "C:\\Users\\joaok\\Desktop\\Universidade\\PWEB\\TP\\HabitAqui\\HabitAqui\\HabitAqui.csproj",
+        "packagesPath": "C:\\Users\\joaok\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\joaok\\Desktop\\Universidade\\PWEB\\TP\\HabitAqui\\HabitAqui\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\filip\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\joaok\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -40,6 +40,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "BootstrapIcons.AspNetCore": {
+              "target": "Package",
+              "version": "[1.9.2, )"
+            },
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
               "version": "[6.0.21, )"
