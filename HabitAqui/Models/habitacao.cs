@@ -2,6 +2,7 @@
 {
     public class Habitacao
     {
-        private int id { get; set; }
+        private int Id { get; set; }
+        private string Nome { get; set; } = string.Empty;
     }
 }
