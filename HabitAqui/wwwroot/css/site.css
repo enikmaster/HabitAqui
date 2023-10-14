@@ -1,3 +1,11 @@
+/*
+* Colors
+* purple: #4f4e79
+* white : #ffffff
+* grey  : #e3e3e3
+* blue  : #658bb1
+*/
+
 html {
   font-size: 14px;
 }
@@ -15,4 +23,14 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color: #e3e3e3;
+}
+nav {
+  border-bottom: 3px solid #658bb1;
+}
+.navbar-blue {
+  background-color: #4f4e79;
+}
+.nav-logo {
+  height: 100px;
 }
