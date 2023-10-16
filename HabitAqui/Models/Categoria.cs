@@ -2,6 +2,9 @@
 
 public class Categoria
 {
-    private Guid Guid { get; set; }
-    private string Nome { get; set; }
+    public int Id { get; set; }
+
+    public Guid Guid { get; set; }
+
+    public string Nome { get; set; }
 }

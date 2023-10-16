@@ -1,11 +1,12 @@
-﻿namespace HabitAqui.Models
+﻿namespace HabitAqui.Models;
+
+public class Localizacao
 {
-    public class Localizacao
-    {
-        private Guid Guid { get; set; }
-        private string Cidade { get; set; }
-        private string CodigoPostal { get; set; }
-        private string Morada { get; set; }
-        private string Pais { get; set; }
-    }
+    public int Id { get; set; }
+    public Guid Guid { get; set; }
+
+    public string Morada { get; set; }
+    public string CodigoPostal { get; set; }
+    public string Cidade { get; set; }
+    public string Pais { get; set; }
 }
