@@ -1,10 +1,14 @@
-﻿namespace HabitAqui.Models
+﻿namespace HabitAqui.Models;
+
+public class Habitacao
 {
-    public class Habitacao
-    {
-        private DetalhesHabitacao DetalhesHabitacao { get; set; }
-        private Gestor Gestor { get; set; }
-        private Categoria Categoria { get; set; }
-        private Avaliacao Avaliacao { get; set; }
-    }
+    public int Id { get; set; }
+    public Guid Guid { get; set; }
+
+    public DetalhesHabitacao DetalhesHabitacao { get; set; }
+
+    public Gestor Gestor { get; set; }
+
+    public Categoria Categoria { get; set; }
+    public double Avaliacao { get; set; }
 }

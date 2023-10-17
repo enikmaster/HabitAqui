@@ -1,9 +1,11 @@
 /*
 * Colors
-* purple: #4f4e79
-* white : #ffffff
-* grey  : #e3e3e3
-* blue  : #658bb1
+* purple   : #4f4e79
+* white    : #ffffff
+* grey     : #e3e3e3
+* darkbg   : #363636
+* blue     : #658bb1
+* lightBlue: #9bbcf5
 */
 
 html {
@@ -24,6 +26,18 @@ html {
 body {
   margin-bottom: 60px;
   background-color: #e3e3e3;
+  color: #e3e3e3;
+}
+a{
+  color: #9bbcf5;
+  transition: all ease-in-out 100ms;
+}
+a:hover{
+  transition: all ease-in-out 100ms;
+  color: #658bb1;
+}
+.dark-bg {
+  background-color: #363636;
 }
 nav {
   border-bottom: 3px solid #658bb1;
