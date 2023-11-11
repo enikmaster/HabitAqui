@@ -3,6 +3,7 @@
 public class Utilizador
 {
     public int Id { get; set; }
-    public Guid Guid { get; set; }
-    public DetalhesUtilizador detalhesUtilizador { get; set; }
+
+    public DetalhesUtilizador DetalhesUtilizador { get; set; }
+    public Locador Locador { get; set; }
 }

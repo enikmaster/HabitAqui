@@ -1,0 +1,26 @@
+﻿.galeria-container img {
+    object-fit: cover;
+    max-width: 100%;
+}
+
+.galeria-container .outside-flex {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.galeria-container .flex-left,
+.galeria-container .flex-right {
+    flex: 1;
+}
+
+.galeria-container .inner-flex-right {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.galeria-container .inner-flex-right img {
+    flex-grow: 1;
+    flex-shrink: 2;
+    max-width: 48%;
+}

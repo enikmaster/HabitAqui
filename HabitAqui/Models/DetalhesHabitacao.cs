@@ -1,13 +1,19 @@
-﻿namespace HabitAqui.Models;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+namespace HabitAqui.Models;
 
 public class DetalhesHabitacao
 {
     public int Id { get; set; }
-    public Guid Guid { get; set; }
 
+    [Required]
+    [DisplayName("Nome da Habitação")]
     public string Nome { get; set; } = string.Empty;
-    public string Descricao { get; set; } = string.Empty;
-    public decimal Area { get; set; }
-    public decimal PrecoPorNoite { get; set; }
+
+    [DisplayName("Descrição")] public string Descricao { get; set; } = string.Empty;
+    [DisplayName("Área total")] public decimal Area { get; set; }
+    [DisplayName("Preço por noite")] public decimal PrecoPorNoite { get; set; }
     public Localizacao localizacao { get; set; }
+    public ICollection<ImagemHabitacao> Imagens { get; set; }
 }

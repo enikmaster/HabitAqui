@@ -16,4 +16,9 @@ public class HabitacaoController : Controller
     {
         return View();
     }
+
+    public IActionResult Detalhes()
+    {
+        return View();
+    }
 }

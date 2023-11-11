@@ -2,10 +2,9 @@
 
 namespace HabitAqui.Models;
 
-public class Categoria
+public class EquipamentoOpcional
 {
     public int Id { get; set; }
-
     [Required] public string Nome { get; set; }
-    public ICollection<HabitacaoCategoria>? Categorias { get; set; }
+    [Required] public string Estado { get; set; }
 }
