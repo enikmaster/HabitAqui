@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace HabitAqui.Data;
 
@@ -17,15 +18,24 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<DetalhesUtilizador> DetalhesUtilizadores { get; set; }
     public DbSet<Categoria> Categorias { get; set; }
     public DbSet<Habitacao> Habitacoes { get; set; }
-
-    protected override void OnModelCreating(ModelBuilder builder)
+    public DbSet<Reserva> Reservas { get; set; }
+    public DbSet<Avaliacao> Avaliacoes { get; set; }
+    public DbSet<EquipamentoOpcional> EquipamentosOpcionais { get; set; }
+    public DbSet<HabitacaoCategoria> HabitacaoCaregorias { get; set; }
+    public DbSet<ImagemHabitacao> Imagenshabitacoes { get; set; }
+    public DbSet<Locador> Locadores { get; set; }
+    public DbSet<RegistoEntrega> RegistosEntregas { get; set; }
+    public DbSet<Utilizador> Utilizadores { get; set; } //talvestirar
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(builder);
-        builder.Entity<Habitacao>().HasData(
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<Habitacao>().HasData(
             new Habitacao { Id = 1 },
             new Habitacao { Id = 2 }
         );
-        builder.Entity<IdentityUserLogin<string>>()
+        modelBuilder.Entity<IdentityUserLogin<string>>()
             .HasKey(login => new { login.LoginProvider, login.ProviderKey });
+
     }
+
 }

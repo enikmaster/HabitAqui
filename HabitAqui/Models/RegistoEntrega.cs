@@ -4,6 +4,7 @@ namespace HabitAqui.Models;
 
 public class RegistoEntrega
 {
+    [Key]
     public int Id { get; set; }
     [Required] public int FuncionarioID { get; set; }
     [Required] public bool Danos { get; set; }

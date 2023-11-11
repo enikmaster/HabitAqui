@@ -1,13 +1,24 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HabitAqui.Models;
 
 public class Habitacao
 {
     public int Id { get; set; }
-    [Required] public Utilizador Funcionario { get; set; }
-    [Required] public Locador Locador { get; set; }
-    [Required] public DetalhesHabitacao DetalhesHabitacao { get; set; }
+
+    // public int FuncionarioId { get; set; }
+    // public Utilizador Funcionario { get; set; }
+
+    // [Required]
+
+  //  [Required] public int LocadorId { get; set; }
+   // public Locador Locador { get; set; }
+
+   // [Required]
+   // public int DetalhesHabitacaoID { get; set; }
+   // public DetalhesHabitacao DetalhesHabitacao { get; set; }
+
     [Required] public ICollection<HabitacaoCategoria> Categorias { get; set; }
     public ICollection<Avaliacao>? Avaliacoes { get; set; }
     public ICollection<Reserva>? Reservas { get; set; }

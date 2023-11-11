@@ -5,6 +5,7 @@ namespace HabitAqui.Models;
 
 public class DetalhesHabitacao
 {
+    [Key]
     public int Id { get; set; }
 
     [Required]

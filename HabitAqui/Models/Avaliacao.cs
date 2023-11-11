@@ -4,6 +4,7 @@ namespace HabitAqui.Models;
 
 public class Avaliacao
 {
+    [Key]
     public int Id { get; set; }
     [Required] public int UtilizadorId { get; set; }
     [Required] public int Nota { get; set; }

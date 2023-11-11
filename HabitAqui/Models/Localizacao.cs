@@ -5,6 +5,7 @@ namespace HabitAqui.Models;
 
 public class Localizacao
 {
+    [Key]
     public int Id { get; set; }
 
     [Required] [DisplayName("Morada")] public string Morada { get; set; }

@@ -4,6 +4,7 @@ namespace HabitAqui.Models;
 
 public class Reserva
 {
+    [Key]
     public int Id { get; set; }
     [Required] public int ClienteId { get; set; }
     [Required] public int HabitacaoId { get; set; }
