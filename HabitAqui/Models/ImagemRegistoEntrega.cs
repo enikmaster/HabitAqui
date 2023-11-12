@@ -16,6 +16,7 @@ public class ImagemRegistoEntrega
     public byte[] Data { get; set; }
     public string CreatedBy { get; set; }
     public string ModifiedBy { get; set; }
-    [ForeignKey("DetalhesHabitacao")] public int DetalhesHabitacaoId { get; set; }
+    public int DetalhesHabitacaoId { get; set; }
+    [ForeignKey("DetalhesHabitacaoId")]
     [Required] public DetalhesHabitacao DetalhesHabitacao { get; set; }
 }

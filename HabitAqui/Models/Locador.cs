@@ -5,7 +5,7 @@ namespace HabitAqui.Models;
 public class Locador
 {
     [Key]
-    public int LocadorId { get; set; }
+    public int Id { get; set; }
 
     [Required(ErrorMessage = "O nome é obrigatório")]
     public string Nome { get; set; }

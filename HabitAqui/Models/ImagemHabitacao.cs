@@ -12,5 +12,6 @@ public class ImagemHabitacao
     public DateTime? CreatedOn { get; set; }
 
     public int DetalhesHabitacaoId { get; set; }
-    [Required] public DetalhesHabitacao DetalhesHabitacao { get; set; }
+    [Required]
+    public DetalhesHabitacao DetalhesHabitacao { get; set; }
 }
