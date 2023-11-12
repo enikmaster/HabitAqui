@@ -25,16 +25,16 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<ImagemHabitacao> Imagenshabitacoes { get; set; }
     public DbSet<Locador> Locadores { get; set; }
     public DbSet<RegistoEntrega> RegistosEntregas { get; set; }
-    public DbSet<Utilizador> Utilizadores { get; set; } //talvestirar
+    public DbSet<Utilizador> Utilizadores { get; set; } //talveztirar
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<Habitacao>().HasData(
-            new Habitacao { Id = 1 },
-            new Habitacao { Id = 2 }
-        );
-        modelBuilder.Entity<IdentityUserLogin<string>>()
-            .HasKey(login => new { login.LoginProvider, login.ProviderKey });
+        //modelBuilder.Entity<Habitacao>().HasData(
+        //    new Habitacao { Id = 1 },
+        //    new Habitacao { Id = 2 }
+        //);
+        //modelBuilder.Entity<IdentityUserLogin<string>>()
+        //    .HasKey(login => new { login.LoginProvider, login.ProviderKey });
 
     }
 

@@ -75,3 +75,11 @@ _[Ss]cripts
 *.dot[Cc]over
 *.vsidx
 *.map
+/HabitAqui/.vs/ProjectEvaluation
+/HabitAqui/.vs/HabitAqui/v17
+/HabitAqui/.vs/HabitAqui/DesignTimeBuild
+/.vs/pweb_tp/v17/.wsuo
+*.json
+*.cs
+/HabitAqui/Migrations/20231112000224_TesteInicialFinal.Designer.cs
+/HabitAqui/Migrations/20231112000224_TesteInicialFinal.cs

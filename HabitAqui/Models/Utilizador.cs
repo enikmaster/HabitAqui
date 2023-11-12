@@ -7,6 +7,9 @@ public class Utilizador
     [Key]
     public int Id { get; set; }
 
+
+
     public DetalhesUtilizador DetalhesUtilizador { get; set; }
+    public int LocadorId { get; set; }
     public Locador Locador { get; set; }
 }
