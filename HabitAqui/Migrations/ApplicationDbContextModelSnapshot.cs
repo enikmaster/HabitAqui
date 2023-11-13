@@ -99,40 +99,6 @@ namespace HabitAqui.Migrations
                     b.ToTable("DetalhesHabitacoes");
                 });
 
-            modelBuilder.Entity("HabitAqui.Models.DetalhesUtilizador", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Apelido")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("LocalizacaoId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Telefone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LocalizacaoId");
-
-                    b.ToTable("DetalhesUtilizadores");
-                });
-
             modelBuilder.Entity("HabitAqui.Models.EquipamentoOpcional", b =>
                 {
                     b.Property<int>("Id")
@@ -415,8 +381,9 @@ namespace HabitAqui.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("DetalhesUtilizadorId")
-                        .HasColumnType("int");
+                    b.Property<string>("DetalhesUtilizadorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("LocadorId")
                         .HasColumnType("int");
@@ -494,6 +461,10 @@ namespace HabitAqui.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -545,6 +516,8 @@ namespace HabitAqui.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -632,6 +605,30 @@ namespace HabitAqui.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("HabitAqui.Models.DetalhesUtilizador", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("Apelido")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LocalizacaoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nif")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasIndex("LocalizacaoId");
+
+                    b.HasDiscriminator().HasValue("DetalhesUtilizador");
+                });
+
             modelBuilder.Entity("HabitAqui.Models.Avaliacao", b =>
                 {
                     b.HasOne("HabitAqui.Models.Habitacao", null)
@@ -648,17 +645,6 @@ namespace HabitAqui.Migrations
                         .IsRequired();
 
                     b.Navigation("localizacao");
-                });
-
-            modelBuilder.Entity("HabitAqui.Models.DetalhesUtilizador", b =>
-                {
-                    b.HasOne("HabitAqui.Models.Localizacao", "Localizacao")
-                        .WithMany()
-                        .HasForeignKey("LocalizacaoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Localizacao");
                 });
 
             modelBuilder.Entity("HabitAqui.Models.EquipamentoOpcional", b =>
@@ -824,6 +810,17 @@ namespace HabitAqui.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("HabitAqui.Models.DetalhesUtilizador", b =>
+                {
+                    b.HasOne("HabitAqui.Models.Localizacao", "Localizacao")
+                        .WithMany()
+                        .HasForeignKey("LocalizacaoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Localizacao");
                 });
 
             modelBuilder.Entity("HabitAqui.Models.Categoria", b =>
