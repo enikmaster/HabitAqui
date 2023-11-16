@@ -21,7 +21,7 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Reserva> Reservas { get; set; }
     public DbSet<Avaliacao> Avaliacoes { get; set; }
     public DbSet<EquipamentoOpcional> EquipamentosOpcionais { get; set; }
-    public DbSet<HabitacaoCategoria> HabitacaoCaregorias { get; set; }
+    public DbSet<HabitacaoCategoria> HabitacaoCategorias { get; set; }
     public DbSet<ImagemHabitacao> Imagenshabitacoes { get; set; }
     public DbSet<Locador> Locadores { get; set; }
     public DbSet<RegistoEntrega> RegistosEntregas { get; set; }

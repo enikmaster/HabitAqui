@@ -155,28 +155,25 @@ namespace HabitAqui.Migrations
 
             modelBuilder.Entity("HabitAqui.Models.HabitacaoCategoria", b =>
                 {
-                    b.Property<int>("HabitacaoId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HabitacaoId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("CategoriaId")
                         .HasColumnType("int");
 
-                    b.Property<int>("HabitacaoId1")
+                    b.Property<int>("HabitacaoId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("HabitacaoId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CategoriaId");
 
-                    b.HasIndex("HabitacaoId1");
+                    b.HasIndex("HabitacaoId");
 
-                    b.ToTable("HabitacaoCaregorias");
+                    b.ToTable("HabitacaoCategorias");
                 });
 
             modelBuilder.Entity("HabitAqui.Models.ImagemHabitacao", b =>
@@ -691,7 +688,7 @@ namespace HabitAqui.Migrations
 
                     b.HasOne("HabitAqui.Models.Habitacao", "Habitacao")
                         .WithMany("Categorias")
-                        .HasForeignKey("HabitacaoId1")
+                        .HasForeignKey("HabitacaoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
