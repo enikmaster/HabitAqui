@@ -1,10 +1,13 @@
 ﻿using HabitAqui.Data;
 using HabitAqui.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HabitAqui.Controllers;
 
+//podemos alterar para [Authorize] e só permite se estivermos logados
+[Authorize(Roles = "Administrador, Gestor, Funcionario, Cliente")]
 public class HabitacaoController : Controller
 {
     private readonly ApplicationDbContext _context;
