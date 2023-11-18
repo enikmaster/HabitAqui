@@ -42,11 +42,38 @@
     </main>
 </div>
 
-<footer class="border-top footer text-muted">
-    <div class="container">
-        &copy; 2023 - HabitAqui - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-    </div>
-</footer>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Suporte</h3>
+                <ul>
+                    <li><a href="#">Central de Ajuda</a></li>
+                    <li><a href="#">Contate-nos</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Política de Privacidade</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Informações</h3>
+                <ul>
+                    <li><a href="#">Sobre Nós</a></li>
+                    <li><a href="#">Termos de Serviço</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="language-switch">
+            <form asp-controller="Language" asp-action="SetLanguage" method="post">
+                <label for="language-select">Selecione o Idioma:</label>
+                <select id="language-select" name="culture">
+                    <option value="en">English</option>
+                    <option value="pt">Português</option>
+                    <option value="es">Español</option>
+                </select>
+                <button type="button" onclick="changeLanguage()">Selecionar</button>
+            </form>
+        </div>
+    </footer>
+
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
