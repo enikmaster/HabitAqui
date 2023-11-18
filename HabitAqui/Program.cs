@@ -1,4 +1,5 @@
 using HabitAqui.Data;
+using HabitAqui.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +17,7 @@ public class Program
 
         builder.Services
             .AddDefaultIdentity<
-                IdentityUser>(options =>
+                DetalhesUtilizador>(options =>
                 options.SignIn.RequireConfirmedAccount =
                     false) //por agora não vamos usar contas confirmadas, depois alterar para true
             .AddRoles<IdentityRole>() //para conseguirmos criar roles para o identity
@@ -75,7 +76,7 @@ public class Program
 
         using (var scope = app.Services.CreateScope())
         {
-            var UserManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var UserManager = scope.ServiceProvider.GetRequiredService<UserManager<DetalhesUtilizador>>();
             //verificar se existe
             var adminEmail = "admin@isec.pt";
             var password = "Test123!";
@@ -83,9 +84,17 @@ public class Program
             if (await UserManager.FindByEmailAsync(adminEmail) == null)
             {
                 //criar uma conta
-                var user = new IdentityUser();
+                var user = new DetalhesUtilizador();
                 user.UserName = adminEmail;
                 user.Email = adminEmail;
+                user.Nome = "BURRO";
+                user.Apelido = "ESTUPIDO";
+                user.Nif = "123456789";
+                user.Morada = "Rua do Burro";
+                user.CodigoPostal = "1234-123";
+                user.Cidade = "Burro";
+                user.Pais = "Burrolandia";
+                user.Active = true;
 
                 await UserManager.CreateAsync(user, password);
 
@@ -99,7 +108,7 @@ public class Program
             var funcionarioPassword = "Test123!";
             if (await UserManager.FindByEmailAsync(funcionarioEmail) == null)
             {
-                var funcionarioUser = new IdentityUser { UserName = funcionarioEmail, Email = funcionarioEmail };
+                var funcionarioUser = new DetalhesUtilizador {Active = true, Nome = "Antonio", Apelido = "Jose", Nif = "123456789", Morada = "Roas", CodigoPostal = "1234-321", Cidade = "Oksd", Pais = "PT",UserName = funcionarioEmail, Email = funcionarioEmail };
                 await UserManager.CreateAsync(funcionarioUser, funcionarioPassword);
                 await UserManager.AddToRoleAsync(funcionarioUser, "Funcionario");
             }
@@ -110,7 +119,7 @@ public class Program
             var gestorPassword = "Test123!";
             if (await UserManager.FindByEmailAsync(gestorEmail) == null)
             {
-                var gestorUser = new IdentityUser { UserName = gestorEmail, Email = gestorEmail };
+                var gestorUser = new DetalhesUtilizador { Active = true, Nome = "AAAAntonio", Apelido = "JoseS", Nif = "123453789", Morada = "Roas", CodigoPostal = "1234-321", Cidade = "Oksd", Pais = "PT", UserName = gestorEmail, Email = gestorEmail };
                 await UserManager.CreateAsync(gestorUser, gestorPassword);
                 await UserManager.AddToRoleAsync(gestorUser, "Gestor");
             }
@@ -120,7 +129,7 @@ public class Program
             var clientePassword = "Test123!";
             if (await UserManager.FindByEmailAsync(clienteEmail) == null)
             {
-                var clienteUser = new IdentityUser { UserName = clienteEmail, Email = clienteEmail };
+                var clienteUser = new DetalhesUtilizador { Nome = "AntoOOOnio", Apelido = "JosSe", Nif = "123456189", Morada = "Roas", CodigoPostal = "1234-321", Cidade = "Oksd", Pais = "PT", UserName = clienteEmail, Email = clienteEmail };
                 await UserManager.CreateAsync(clienteUser, clientePassword);
                 await UserManager.AddToRoleAsync(clienteUser, "Cliente");
             }
