@@ -6,7 +6,6 @@ public class Program
 {
     public static async Task Main(string[] args)
     {
-
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
@@ -15,10 +14,13 @@ public class Program
             options.UseSqlServer(connectionString));
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-        builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false) //por agora n„o vamos usar contas confirmadas, depois alterar para true
+        builder.Services
+            .AddDefaultIdentity<
+                IdentityUser>(options =>
+                options.SignIn.RequireConfirmedAccount =
+                    false) //por agora n√£o vamos usar contas confirmadas, depois alterar para true
             .AddRoles<IdentityRole>() //para conseguirmos criar roles para o identity
             .AddEntityFrameworkStores<ApplicationDbContext>();
-
 
 
         builder.Services.AddControllersWithViews();
@@ -46,14 +48,14 @@ public class Program
         app.UseAuthorization();
 
         app.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Habitacao}/{action=Index}/{id?}");
+            "default",
+            "{controller=Habitacao}/{action=Index}/{id?}");
         app.MapRazorPages();
 
         //criar um socpe
         using (var scope = app.Services.CreateScope())
         {
-            //Para aceder aos serviÁos que configuramos acima
+            //Para aceder aos servi√ßos que configuramos acima
             //seeding initial data
 
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -63,76 +65,67 @@ public class Program
 
             //agora vamos criar adicionar as roles ao sistema
             foreach (var role in roles)
-            {
                 //Estamos a usar o await, logo temos que usar uma async task
-
-                //checkar se a role j· existe
+                //checkar se a role j√° existe
                 if (!await roleManager.RoleExistsAsync(role))
-                {
-                    //se n„o existir, vamos criar
+                    //se n√£o existir, vamos criar
                     await roleManager.CreateAsync(new IdentityRole(role));
-                }
-            }
-            //TambÈm podemos dar seed a user accounts 
+            //Tamb√©m podemos dar seed a user accounts 
         }
-            using (var scope = app.Services.CreateScope())
+
+        using (var scope = app.Services.CreateScope())
+        {
+            var UserManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            //verificar se existe
+            var adminEmail = "admin@isec.pt";
+            var password = "Test123!";
+
+            if (await UserManager.FindByEmailAsync(adminEmail) == null)
             {
+                //criar uma conta
+                var user = new IdentityUser();
+                user.UserName = adminEmail;
+                user.Email = adminEmail;
 
-                var UserManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-                //verificar se existe
-                string adminEmail = "admin@isec.pt";
-                string password = "Test123!";
-
-                if (await UserManager.FindByEmailAsync(adminEmail) == null)
-                {
-                    //criar uma conta
-                    var user = new IdentityUser();
-                    user.UserName = adminEmail;
-                    user.Email = adminEmail;
-
-                    await UserManager.CreateAsync(user, password);
+                await UserManager.CreateAsync(user, password);
 
 
-                    await UserManager.AddToRoleAsync(user, "Administrador");
-                }
-
-
-                // CriaÁ„o do user Funcionario
-                string funcionarioEmail = "funcionario@isec.pt";
-                string funcionarioPassword = "Test123!";
-                if (await UserManager.FindByEmailAsync(funcionarioEmail) == null)
-                {
-                    var funcionarioUser = new IdentityUser { UserName = funcionarioEmail, Email = funcionarioEmail };
-                    await UserManager.CreateAsync(funcionarioUser, funcionarioPassword);
-                    await UserManager.AddToRoleAsync(funcionarioUser, "Funcionario");
-                }
-
-
-                // CriaÁ„o do user Gestor
-                string gestorEmail = "gestor@isec.pt";
-                string gestorPassword = "Test123!";
-                if (await UserManager.FindByEmailAsync(gestorEmail) == null)
-                {
-                    var gestorUser = new IdentityUser { UserName = gestorEmail, Email = gestorEmail };
-                    await UserManager.CreateAsync(gestorUser, gestorPassword);
-                    await UserManager.AddToRoleAsync(gestorUser, "Gestor");
-                }
-
-                // CriaÁ„o do user Cliente
-                string clienteEmail = "cliente@isec.pt";
-                string clientePassword = "Test123!";
-                if (await UserManager.FindByEmailAsync(clienteEmail) == null)
-                {
-                    var clienteUser = new IdentityUser { UserName = clienteEmail, Email = clienteEmail };
-                    await UserManager.CreateAsync(clienteUser, clientePassword);
-                    await UserManager.AddToRoleAsync(clienteUser, "Cliente");
-                }
+                await UserManager.AddToRoleAsync(user, "Administrador");
             }
-            app.Run();
 
+
+            // Cria√ß√£o do user Funcionario
+            var funcionarioEmail = "funcionario@isec.pt";
+            var funcionarioPassword = "Test123!";
+            if (await UserManager.FindByEmailAsync(funcionarioEmail) == null)
+            {
+                var funcionarioUser = new IdentityUser { UserName = funcionarioEmail, Email = funcionarioEmail };
+                await UserManager.CreateAsync(funcionarioUser, funcionarioPassword);
+                await UserManager.AddToRoleAsync(funcionarioUser, "Funcionario");
+            }
+
+
+            // Cria√ß√£o do user Gestor
+            var gestorEmail = "gestor@isec.pt";
+            var gestorPassword = "Test123!";
+            if (await UserManager.FindByEmailAsync(gestorEmail) == null)
+            {
+                var gestorUser = new IdentityUser { UserName = gestorEmail, Email = gestorEmail };
+                await UserManager.CreateAsync(gestorUser, gestorPassword);
+                await UserManager.AddToRoleAsync(gestorUser, "Gestor");
+            }
+
+            // Cria√ß√£o do user Cliente
+            var clienteEmail = "cliente@isec.pt";
+            var clientePassword = "Test123!";
+            if (await UserManager.FindByEmailAsync(clienteEmail) == null)
+            {
+                var clienteUser = new IdentityUser { UserName = clienteEmail, Email = clienteEmail };
+                await UserManager.CreateAsync(clienteUser, clientePassword);
+                await UserManager.AddToRoleAsync(clienteUser, "Cliente");
+            }
         }
-    }
 
-        
-    
-   
+        app.Run();
+    }
+}
