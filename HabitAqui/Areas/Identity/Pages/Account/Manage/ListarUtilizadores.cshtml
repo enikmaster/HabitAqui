@@ -1,0 +1,157 @@
+﻿@page
+@model HabitAqui.Areas.Identity.Pages.Account.Manage.ListarUtilizadoresModel
+@{
+    ViewData["Title"] = "Listar Utilizadores";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .administrador-color {
+        background-color: #e57373;
+        color: white;
+        border-radius: 4px;
+        padding: 6px 12px;
+        display: inline-block;
+    }
+
+    .gestor-color {
+        background-color: #64b5f6;
+        color: white;
+        border-radius: 4px;
+        padding: 6px 12px;
+        display: inline-block;
+    }
+
+    .funcionario-color {
+        background-color: #81c784;
+        color: white;
+        border-radius: 4px;
+        padding: 6px 12px;
+        display: inline-block;
+    }
+
+    .cliente-color {
+        background-color: #ff8a65;
+        color: white;
+        border-radius: 4px;
+        padding: 6px 12px;
+        display: inline-block;
+    }
+
+    .anonimo-color {
+        background-color: #cfd8dc;
+        border-radius: 4px;
+        padding: 6px 12px;
+        display: inline-block;
+    }
+
+    h2 {
+        color: white;
+    }
+
+    th.identificador {
+        background-color: green;
+        color: white;
+    }
+</style>
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th class="identificador" onclick="sortTable(0)">Nome de Utilizador</th>
+            <th class="identificador">Email</th>
+            <th class="identificador" onclick="sortTable(2)">Funções</th>
+            <th class="identificador">Editar</th>
+            <th class="identificador">Ativar/Desativar</th>
+
+
+        </tr>
+    </thead>
+   
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>
+                    @foreach (var role in user.Roles)
+                    {
+                        <span class="@($"{role.ToLower()}-color")">@role</span>
+                        <br />
+                    }
+                </td>
+                <td>
+                    <span class="edit-link" onclick="editUser('@user.Id')">Editar</span>
+                </td>
+                <td>
+                Ativar/Desativar
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<script>
+    var ascendingOrder = true;
+
+    function sortTable(columnIndex) {
+        var table, rows, switching, i, x, y, shouldSwitch;
+        table = document.querySelector("table");
+        switching = true;
+
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+
+            for (i = 1; i < rows.length - 1; i++) {
+                shouldSwitch = false;
+
+                x = rows[i].getElementsByTagName("td")[columnIndex];
+                y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+
+                if (ascendingOrder ? x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase() : x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
+        }
+
+        ascendingOrder = !ascendingOrder;
+    }
+</script>

@@ -35,6 +35,14 @@ public static class ManageNavPages
     ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
     ///     directly from your code. This API may change or be removed in future releases.
     /// </summary>
+    /// 
+    public static string ListarUtilizadores => "ListarUtilizadores";
+
+    /// <summary>
+    ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+    ///     directly from your code. This API may change or be removed in future releases.
+    /// </summary>
+
     public static string DownloadPersonalData => "DownloadPersonalData";
 
     /// <summary>
@@ -68,6 +76,15 @@ public static class ManageNavPages
     public static string IndexNavClass(ViewContext viewContext)
     {
         return PageNavClass(viewContext, Index);
+    }
+
+    /// <summary>
+    ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+    ///     directly from your code. This API may change or be removed in future releases.
+    /// </summary>
+    public static string ListarUtilizadorNavClass(ViewContext viewContext)
+    {
+        return PageNavClass(viewContext, ListarUtilizadores);
     }
 
     /// <summary>
