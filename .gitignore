@@ -83,3 +83,6 @@ _[Ss]cripts
 *.cs
 /HabitAqui/Migrations/20231112000224_TesteInicialFinal.Designer.cs
 /HabitAqui/Migrations/20231112000224_TesteInicialFinal.cs
+/HabitAqui/Areas/Identity/Pages/Account/Manage/ChangePassword - Copy.cshtml
+/HabitAqui/Areas/Identity/Pages/Account/Manage/EditarUtilizador.razor
+/HabitAqui/Areas/Identity/Pages/Account/Manage/ManageNavPages.cs

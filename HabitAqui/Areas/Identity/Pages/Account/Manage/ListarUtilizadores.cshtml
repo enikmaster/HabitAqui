@@ -1,7 +1,11 @@
 ﻿@page
 @model HabitAqui.Areas.Identity.Pages.Account.Manage.ListarUtilizadoresModel
+@using System.Security.Claims
+
 @{
     ViewData["Title"] = "Listar Utilizadores";
+    var users = Model.Users; // Registra Model.Users em uma variável local para facilitar o acesso no JavaScript
+
 }
 
 <style>
@@ -90,7 +94,9 @@
             <th class="identificador" onclick="sortTable(0)">Nome de Utilizador</th>
             <th class="identificador">Email</th>
             <th class="identificador" onclick="sortTable(2)">Funções</th>
-            <th class="identificador">Editar</th>
+            <td>
+                <span class="identificador" data-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" onclick="editUser('@User.FindFirstValue(ClaimTypes.NameIdentifier)')">Editar</span>
+            </td>
             <th class="identificador">Ativar/Desativar</th>
 
 
@@ -153,5 +159,11 @@
         }
 
         ascendingOrder = !ascendingOrder;
+    }
+
+    function editUser(userId) {
+        console.log('Clicou em Editar com ID:', userId);
+
+        window.location.href = '/Areas/Identity/Pages/Account/Manage/EditarUtilizador';
     }
 </script>
