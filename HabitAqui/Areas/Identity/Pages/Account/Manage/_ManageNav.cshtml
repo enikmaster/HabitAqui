@@ -48,7 +48,7 @@
             <a class="nav-link" asp-page="">Gestão de Categorias</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" asp-page="">Gestão de Utilizadores</a>
+            <a class="nav-link @ManageNavPages.ListarUtilizadorNavClass(ViewContext)" id="ListarUtilizador" asp-page="./ListarUtilizadores">Listar Utilizadores</a>
         </li>
     }
     @* @if (hasExternalLogins) *@
