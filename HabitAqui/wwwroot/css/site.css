@@ -52,3 +52,44 @@ nav {
 .nav-logo {
     height: 100px;
 }
+
+.container-categorias {
+    display: flex;
+    justify-content: center; /* Aligns items to the center */
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    gap: 50px; /* Adjust the gap between items */
+}
+
+.categoria {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center; /* Ensures text is centered under icons */
+    transition: color 0.3s;
+}
+
+.categoria img {
+    width: 25px; /* Adjust size as needed */
+    height: auto;
+    margin-bottom: 10px; /* Space between icon and text */
+}
+
+.bi {
+    font-size: 24px; /* Example size */
+    color: black; /* Example color */
+    transition: color 0.3s;
+}
+.fa-solid {
+    font-size: 25px; /* Match size with Bootstrap Icons */
+    color: black; /* Match color with Bootstrap Icons */
+    margin-bottom: 8px;
+    margin-top: 2px;
+    transition: color 0.3s;
+}
+
+.bi:hover, .fa-solid:hover {
+    color: white; /* Color changes to white on hover */
+ }
+
