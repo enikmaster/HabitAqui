@@ -93,3 +93,42 @@ nav {
     color: white; /* Color changes to white on hover */
  }
 
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 45px;
+}
+
+.footer-links a {
+    margin: 0 10px;
+}
+
+.footer-social a {
+    margin: 0 5px;
+}
+
+.footer-contact {
+    text-align: right; /* Align text to the right */
+}
+
+    .footer-contact p {
+        margin-top: 10px;
+    }
+
+@media (min-width: 768px) {
+    .footer-container {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .footer-links, .footer-social {
+        flex: 1;
+    }
+
+    .footer-contact {
+        flex: 0 0 auto; /* Do not grow or shrink */
+        margin-left: auto; /* Push to the far right */
+    }
+}
