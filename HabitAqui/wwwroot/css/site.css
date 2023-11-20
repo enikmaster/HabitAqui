@@ -101,6 +101,10 @@ nav {
     gap: 45px;
 }
 
+.footer-text-color{
+    color: grey;
+}
+
 .footer-links a {
     margin: 0 10px;
 }
