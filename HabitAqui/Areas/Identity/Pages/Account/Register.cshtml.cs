@@ -174,10 +174,11 @@ namespace HabitAqui.Areas.Identity.Pages.Account
                 user.Apelido = Input.Apelido;
                 user.Nif = Input.Nif;
                 user.PhoneNumber = Input.PhoneNumber;
-                user.Morada = Input.Morada;
-                user.CodigoPostal = Input.CodigoPostal;
-                user.Cidade = Input.Cidade;
-                user.Pais = Input.Pais;
+                user.LocalizacaoX = new Localizacao();
+                user.LocalizacaoX.Morada = Input.Morada;
+                user.LocalizacaoX.CodigoPostal = Input.CodigoPostal;
+                user.LocalizacaoX.Cidade = Input.Cidade;
+                user.LocalizacaoX.Pais = Input.Pais;
                 user.Active = true;
 
 

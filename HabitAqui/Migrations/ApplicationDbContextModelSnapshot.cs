@@ -114,14 +114,6 @@ namespace HabitAqui.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Cidade")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CodigoPostal")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -133,15 +125,14 @@ namespace HabitAqui.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int>("LocalizacaoXId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Morada")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nif")
                         .IsRequired()
@@ -158,10 +149,6 @@ namespace HabitAqui.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("Pais")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -183,6 +170,8 @@ namespace HabitAqui.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LocalizacaoXId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -643,6 +632,17 @@ namespace HabitAqui.Migrations
                         .IsRequired();
 
                     b.Navigation("localizacao");
+                });
+
+            modelBuilder.Entity("HabitAqui.Models.DetalhesUtilizador", b =>
+                {
+                    b.HasOne("HabitAqui.Models.Localizacao", "LocalizacaoX")
+                        .WithMany()
+                        .HasForeignKey("LocalizacaoXId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LocalizacaoX");
                 });
 
             modelBuilder.Entity("HabitAqui.Models.EquipamentoOpcional", b =>

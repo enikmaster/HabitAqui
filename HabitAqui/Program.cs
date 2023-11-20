@@ -90,10 +90,11 @@ public class Program
                 user.Nome = "BURRO";
                 user.Apelido = "ESTUPIDO";
                 user.Nif = "123456789";
-                user.Morada = "Rua do Burro";
-                user.CodigoPostal = "1234-123";
-                user.Cidade = "Burro";
-                user.Pais = "Burrolandia";
+                user.LocalizacaoX = new Localizacao();
+                user.LocalizacaoX.Morada = "Rua do Burro";
+                user.LocalizacaoX.CodigoPostal = "1234-123";
+                user.LocalizacaoX.Cidade = "Burro";
+                user.LocalizacaoX.Pais = "Burrolandia";
                 user.Active = true;
 
                 await userManager.CreateAsync(user, password);
@@ -108,7 +109,12 @@ public class Program
             var funcionarioPassword = "Test123!";
             if (await userManager.FindByEmailAsync(funcionarioEmail) == null)
             {
-                var funcionarioUser = new DetalhesUtilizador {Active = true, Nome = "Antonio", Apelido = "Jose", Nif = "123456789", Morada = "Roas", CodigoPostal = "1234-321", Cidade = "Oksd", Pais = "PT",UserName = funcionarioEmail, Email = funcionarioEmail };
+                var funcionarioUser = new DetalhesUtilizador {Active = true, LocalizacaoX = new Localizacao(), Nome = "Antonio", Apelido = "Jose", Nif = "123456789",UserName = funcionarioEmail, Email = funcionarioEmail };
+                funcionarioUser.LocalizacaoX.Morada = "Rua do Burro";
+                funcionarioUser.LocalizacaoX.CodigoPostal = "1234-123";
+                funcionarioUser.LocalizacaoX.Cidade = "Burro";
+                funcionarioUser.LocalizacaoX.Pais = "Burrolandia";
+                
                 await userManager.CreateAsync(funcionarioUser, funcionarioPassword);
                 await userManager.AddToRoleAsync(funcionarioUser, "Funcionario");
             }
@@ -119,7 +125,13 @@ public class Program
             var gestorPassword = "Test123!";
             if (await userManager.FindByEmailAsync(gestorEmail) == null)
             {
-                var gestorUser = new DetalhesUtilizador { Active = true, Nome = "AAAAntonio", Apelido = "JoseS", Nif = "123453789", Morada = "Roas", CodigoPostal = "1234-321", Cidade = "Oksd", Pais = "PT", UserName = gestorEmail, Email = gestorEmail };
+                var gestorUser = new DetalhesUtilizador { Active = true, Nome = "AAAAntonio", Apelido = "JoseS", Nif = "123453789", LocalizacaoX = new Localizacao(), UserName = gestorEmail, Email = gestorEmail };
+                gestorUser.Active = true;
+                gestorUser.LocalizacaoX.Morada = "Rua do Burro";
+                gestorUser.LocalizacaoX.CodigoPostal = "1234-123";
+                gestorUser.LocalizacaoX.Cidade = "Burro";
+                gestorUser.LocalizacaoX.Pais = "Burrolandia";
+
                 await userManager.CreateAsync(gestorUser, gestorPassword);
                 await userManager.AddToRoleAsync(gestorUser, "Gestor");
             }
@@ -129,7 +141,13 @@ public class Program
             var clientePassword = "Test123!";
             if (await userManager.FindByEmailAsync(clienteEmail) == null)
             {
-                var clienteUser = new DetalhesUtilizador { Nome = "AntoOOOnio", Apelido = "JosSe", Nif = "123456189", Morada = "Roas", CodigoPostal = "1234-321", Cidade = "Oksd", Pais = "PT", UserName = clienteEmail, Email = clienteEmail };
+                var clienteUser = new DetalhesUtilizador { Nome = "AntoOOOnio", Apelido = "JosSe", Nif = "123456189", LocalizacaoX = new Localizacao(), UserName = clienteEmail, Email = clienteEmail };
+                clienteUser.Active = true;
+                clienteUser.LocalizacaoX.Morada = "Rua do Burro";
+                clienteUser.LocalizacaoX.CodigoPostal = "1234-123";
+                clienteUser.LocalizacaoX.Cidade = "Burro";
+                clienteUser.LocalizacaoX.Pais = "Burrolandia";
+
                 await userManager.CreateAsync(clienteUser, clientePassword);
                 await userManager.AddToRoleAsync(clienteUser, "Cliente");
             }

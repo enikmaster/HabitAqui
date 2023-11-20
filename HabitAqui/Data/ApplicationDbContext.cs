@@ -29,6 +29,7 @@ public class ApplicationDbContext : IdentityDbContext<DetalhesUtilizador>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
         //modelBuilder.Entity<Habitacao>().HasData(
         //    new Habitacao { Id = 1 },
         //    new Habitacao { Id = 2 }
