@@ -20,6 +20,6 @@ public class DetalhesUtilizador : IdentityUser
 
     public bool Active { get; set; }
 
-    //  public int LocalizacaoId { get; set; }
+    //public int LocalizacaoId { get; set; }
     //public Localizacao Localizacao { get; set; }
 }

@@ -76,12 +76,12 @@ public class Program
 
         using (var scope = app.Services.CreateScope())
         {
-            var UserManager = scope.ServiceProvider.GetRequiredService<UserManager<DetalhesUtilizador>>();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<DetalhesUtilizador>>();
             //verificar se existe
             var adminEmail = "admin@isec.pt";
             var password = "Test123!";
 
-            if (await UserManager.FindByEmailAsync(adminEmail) == null)
+            if (await userManager.FindByEmailAsync(adminEmail) == null)
             {
                 //criar uma conta
                 var user = new DetalhesUtilizador();
@@ -96,42 +96,42 @@ public class Program
                 user.Pais = "Burrolandia";
                 user.Active = true;
 
-                await UserManager.CreateAsync(user, password);
+                await userManager.CreateAsync(user, password);
 
 
-                await UserManager.AddToRoleAsync(user, "Administrador");
+                await userManager.AddToRoleAsync(user, "Administrador");
             }
 
 
             // Criação do user Funcionario
             var funcionarioEmail = "funcionario@isec.pt";
             var funcionarioPassword = "Test123!";
-            if (await UserManager.FindByEmailAsync(funcionarioEmail) == null)
+            if (await userManager.FindByEmailAsync(funcionarioEmail) == null)
             {
                 var funcionarioUser = new DetalhesUtilizador {Active = true, Nome = "Antonio", Apelido = "Jose", Nif = "123456789", Morada = "Roas", CodigoPostal = "1234-321", Cidade = "Oksd", Pais = "PT",UserName = funcionarioEmail, Email = funcionarioEmail };
-                await UserManager.CreateAsync(funcionarioUser, funcionarioPassword);
-                await UserManager.AddToRoleAsync(funcionarioUser, "Funcionario");
+                await userManager.CreateAsync(funcionarioUser, funcionarioPassword);
+                await userManager.AddToRoleAsync(funcionarioUser, "Funcionario");
             }
 
 
             // Criação do user Gestor
             var gestorEmail = "gestor@isec.pt";
             var gestorPassword = "Test123!";
-            if (await UserManager.FindByEmailAsync(gestorEmail) == null)
+            if (await userManager.FindByEmailAsync(gestorEmail) == null)
             {
                 var gestorUser = new DetalhesUtilizador { Active = true, Nome = "AAAAntonio", Apelido = "JoseS", Nif = "123453789", Morada = "Roas", CodigoPostal = "1234-321", Cidade = "Oksd", Pais = "PT", UserName = gestorEmail, Email = gestorEmail };
-                await UserManager.CreateAsync(gestorUser, gestorPassword);
-                await UserManager.AddToRoleAsync(gestorUser, "Gestor");
+                await userManager.CreateAsync(gestorUser, gestorPassword);
+                await userManager.AddToRoleAsync(gestorUser, "Gestor");
             }
 
             // Criação do user Cliente
             var clienteEmail = "cliente@isec.pt";
             var clientePassword = "Test123!";
-            if (await UserManager.FindByEmailAsync(clienteEmail) == null)
+            if (await userManager.FindByEmailAsync(clienteEmail) == null)
             {
                 var clienteUser = new DetalhesUtilizador { Nome = "AntoOOOnio", Apelido = "JosSe", Nif = "123456189", Morada = "Roas", CodigoPostal = "1234-321", Cidade = "Oksd", Pais = "PT", UserName = clienteEmail, Email = clienteEmail };
-                await UserManager.CreateAsync(clienteUser, clientePassword);
-                await UserManager.AddToRoleAsync(clienteUser, "Cliente");
+                await userManager.CreateAsync(clienteUser, clientePassword);
+                await userManager.AddToRoleAsync(clienteUser, "Cliente");
             }
         }
 
