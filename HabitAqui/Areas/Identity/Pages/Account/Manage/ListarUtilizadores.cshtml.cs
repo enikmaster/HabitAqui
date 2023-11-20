@@ -1,3 +1,4 @@
+using HabitAqui.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -7,9 +8,9 @@ namespace HabitAqui.Areas.Identity.Pages.Account.Manage
     public class ListarUtilizadoresModel : PageModel
     {
         //injeção de dependencias para aceder ao IdentityUser
-        private readonly UserManager<IdentityUser> UserManager;
+        private readonly UserManager<DetalhesUtilizador> UserManager;
 
-        public ListarUtilizadoresModel(UserManager<IdentityUser> userManager)
+        public ListarUtilizadoresModel(UserManager<DetalhesUtilizador> userManager)
         {
             this.UserManager = userManager;
         }
