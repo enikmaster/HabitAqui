@@ -1,5 +1,6 @@
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@using HabitAqui.Models
+@inject SignInManager<DetalhesUtilizador> SignInManager
+@inject UserManager<DetalhesUtilizador> UserManager
 
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
