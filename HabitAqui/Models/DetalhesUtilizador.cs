@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
 namespace HabitAqui.Models;
@@ -15,5 +13,5 @@ public class DetalhesUtilizador : IdentityUser
     public bool Active { get; set; }
 
     // public int LocalizacaoId { get; set; }
-    [Required] public Localizacao LocalizacaoX { get; set; }
+    [Required] public Localizacao Localizacao { get; set; }
 }

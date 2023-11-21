@@ -13,17 +13,24 @@
         <div class="col-md-6">
             <h4>Informação geral</h4>
             <div class="row data-row">
-                <div class="col-md-4 data-label">Nome completo</div>
+                <div class="col-md-4 data-label">Nome</div>
                 <div class="col-md-8 data-content">
-                    <span>Adolfo Dias</span>
+                    <span>@Model.Input.Nome @Model.Input.Apelido</span>
                 </div>
             </div>
             <div class="row data-row">
                 <div class="col-md-4 data-label">E-mail</div>
                 <div class="col-md-8 data-content">
-                    <span>adolfodias@ad.com</span>
+                    <span>@Model.Input.Email</span>
                 </div>
             </div>
+            <div class="row data-row">
+                <div class="col-md-4 data-label">Password</div>
+                <div class="col-md-8 data-content">
+                    <span>********</span>
+                </div>
+            </div>
+
             <div class="row data-row">
                 <div class="col-md-4 data-label">Data de registo</div>
                 <div class="col-md-8 data-content">
@@ -33,13 +40,13 @@
             <div class="row data-row">
                 <div class="col-md-4 data-label">Nº de telemóvel</div>
                 <div class="col-md-8 data-content">
-                    <span>123456789</span>
+                    <span>@Model.Input.PhoneNumber</span>
                 </div>
             </div>
             <div class="row data-row">
                 <div class="col-md-4 data-label">Nº de contribuinte</div>
                 <div class="col-md-8 data-content">
-                    <span>123456789</span>
+                    <span>@Model.Input.Nif</span>
                 </div>
             </div>
         </div>
@@ -51,35 +58,41 @@
             <div class="row data-row">
                 <div class="col-md-4 data-label">Morada</div>
                 <div class="col-md-8 data-content">
-                    <span>Rua Direita 1 - esquerdo</span>
+                    <span>@Model.Input.Morada</span>
                 </div>
             </div>
             <div class="row data-row">
                 <div class="col-md-4 data-label">Código Postal</div>
                 <div class="col-md-8 data-content">
-                    <span>1234-567 Coimbra</span>
+                    <span>@Model.Input.CodigoPostal @Model.Input.Cidade</span>
                 </div>
             </div>
             <div class="row data-row">
                 <div class="col-md-4 data-label">Cidade</div>
                 <div class="col-md-8 data-content">
-                    <span>Coimbra</span>
+                    <span>@Model.Input.Cidade</span>
                 </div>
             </div>
             <div class="row data-row">
                 <div class="col-md-4 data-label">País</div>
                 <div class="col-md-8 data-content">
-                    <span>Krakovia</span>
+                    <span>@Model.Input.Pais</span>
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6 mt-4">
-            <button id="edit-profile-button" type="button" class="btn btn-md btn-primary">Editar</button>
+            <a id="edit-profile-link" class="btn btn-md btn-primary" href="./Manage/EditarDados">Editar</a>
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(() => $("#edit-profile-link").click(() => {
+        $("#profile").removeClass("active");
+    }));
+</script>
 @* se carregar no botão para editar aparece o formulário de baixo e desaparece o de cima *@
 @*<div class="edit-container">
     <div class="row">
