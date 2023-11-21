@@ -49,15 +49,7 @@
             <a class="nav-link" asp-page="">Gestão de Categorias</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link @ManageNavPages.ListarUtilizadorNavClass(ViewContext)" id="ListarUtilizador" asp-page="./ListarUtilizadores">Listar Utilizadores</a>
+            <a class="nav-link @ManageNavPages.ListarUtilizadorNavClass(ViewContext)" id="ListarUtilizador" asp-page="./ListarUtilizadores">Gestão de Utilizadores</a>
         </li>
     }
-    @* @if (hasExternalLogins) *@
-    @* { *@
-    @*     <li id="external-logins" class="nav-item"><a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External logins</a></li> *@
-    @* } *@
-    @* <li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Autentica��o de dois Fatores</a></li> *@
-    @*<li class="nav-item">
-        <a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Informa��o pessoal</a>
-    </li>*@
 </ul>

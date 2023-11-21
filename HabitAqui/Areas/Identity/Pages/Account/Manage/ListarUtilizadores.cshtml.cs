@@ -6,7 +6,7 @@ namespace HabitAqui.Areas.Identity.Pages.Account.Manage;
 
 public class ListarUtilizadoresModel : PageModel
 {
-    //inje��o de dependencias para aceder ao IdentityUser
+    //injeção de dependencias para aceder ao IdentityUser
     private readonly UserManager<DetalhesUtilizador> UserManager;
 
     public ListarUtilizadoresModel(UserManager<DetalhesUtilizador> userManager)
