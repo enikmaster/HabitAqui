@@ -58,25 +58,25 @@
             <div class="row data-row">
                 <div class="col-md-4 data-label">Morada</div>
                 <div class="col-md-8 data-content">
-                    <span>@Model.Input.Morada</span>
+                    <span>@Model.Input.Localizacao?.Morada</span>
                 </div>
             </div>
             <div class="row data-row">
                 <div class="col-md-4 data-label">Código Postal</div>
                 <div class="col-md-8 data-content">
-                    <span>@Model.Input.CodigoPostal @Model.Input.Cidade</span>
+                    <span>@Model.Input.Localizacao?.CodigoPostal @Model.Input.Localizacao?.Cidade</span>
                 </div>
             </div>
             <div class="row data-row">
                 <div class="col-md-4 data-label">Cidade</div>
                 <div class="col-md-8 data-content">
-                    <span>@Model.Input.Cidade</span>
+                    <span>@Model.Input.Localizacao?.Cidade</span>
                 </div>
             </div>
             <div class="row data-row">
                 <div class="col-md-4 data-label">País</div>
                 <div class="col-md-8 data-content">
-                    <span>@Model.Input.Pais</span>
+                    <span>@Model.Input.Localizacao?.Pais</span>
                 </div>
             </div>
         </div>

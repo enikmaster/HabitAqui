@@ -1,13 +1,9 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-
-#nullable disable
-
 using System.ComponentModel.DataAnnotations;
 using HabitAqui.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace HabitAqui.Areas.Identity.Pages.Account.Manage;
 
@@ -42,7 +38,7 @@ public class IndexModel : PageModel
     ///     directly from your code. This API may change or be removed in future releases.
     /// </summary>
     [BindProperty]
-    public InputModel Input { get; set; }
+    public InputModel Input { get; set; } = new();
 
     private async Task LoadAsync(DetalhesUtilizador user)
     {
@@ -58,16 +54,18 @@ public class IndexModel : PageModel
             Nome = user.Nome,
             Apelido = user.Apelido,
             Nif = user.Nif,
-            Morada = user.Localizacao?.Morada,
-            CodigoPostal = user.Localizacao?.CodigoPostal,
-            Cidade = user.Localizacao?.Cidade,
-            Pais = user.Localizacao?.Pais
+            Localizacao = user.Localizacao
         };
     }
 
     public async Task<IActionResult> OnGetAsync()
     {
-        var user = await _userManager.GetUserAsync(User);
+        //var user = await _userManager.GetUserAsync(User);
+        var userId = _userManager.GetUserId(User);
+        var user = await _userManager.Users
+            .Include(u => u.Localizacao)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+
         if (user == null) return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
 
         await LoadAsync(user);
@@ -117,13 +115,9 @@ public class IndexModel : PageModel
 
         [EmailAddress] public string Email { get; set; }
 
-        [Phone] [Display(Name = "Telemóvel")] public string PhoneNumber { get; set; }
+        [Phone] [Display(Name = "TelemÃ³vel")] public string PhoneNumber { get; set; }
 
         public string Nif { get; set; }
-
-        public string Morada { get; set; }
-        [Display(Name = "Código Postal")] public string CodigoPostal { get; set; }
-        public string Cidade { get; set; }
-        [Display(Name = "País")] public string Pais { get; set; }
+        public Localizacao Localizacao { get; set; } = new();
     }
 }

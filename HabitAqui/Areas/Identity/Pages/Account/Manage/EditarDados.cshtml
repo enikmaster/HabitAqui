@@ -31,7 +31,9 @@
                 <label asp-for="Input.PhoneNumber" class="form-label"></label>
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-md btn-primary">Atualizar dados</button>
+            <button type="submit" class="btn btn-md btn-success">Atualizar dados</button>
+            <!-- adicionar um botão Cancelar para retornar à página Manage/Index -->
+            <a asp-page="./Index" class="btn btn-md btn-danger">Cancelar</a>
         </form>
     </div>
 </div>
