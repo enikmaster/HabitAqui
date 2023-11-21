@@ -1,6 +1,6 @@
 ﻿@page
-@model HabitAqui.Areas.Identity.Pages.Account.Manage.ListarUtilizadoresModel
 @using System.Security.Claims
+@model ListarUtilizadoresModel
 
 
 @{
@@ -9,122 +9,45 @@
 
 }
 
-<style>
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-    }
-
-    table {
-        width: 100%;
-        margin-top: 20px;
-        border-collapse: collapse;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        background-color: #fff;
-    }
-
-    th, td {
-        padding: 12px;
-        text-align: left;
-        border-bottom: 1px solid #eee;
-    }
-
-    th {
-        background-color: #4CAF50;
-        color: white;
-    }
-
-    .administrador-color {
-        background-color: #e57373;
-        color: white;
-        border-radius: 4px;
-        padding: 6px 12px;
-        display: inline-block;
-    }
-
-    .gestor-color {
-        background-color: #64b5f6;
-        color: white;
-        border-radius: 4px;
-        padding: 6px 12px;
-        display: inline-block;
-    }
-
-    .funcionario-color {
-        background-color: #81c784;
-        color: white;
-        border-radius: 4px;
-        padding: 6px 12px;
-        display: inline-block;
-    }
-
-    .cliente-color {
-        background-color: #ff8a65;
-        color: white;
-        border-radius: 4px;
-        padding: 6px 12px;
-        display: inline-block;
-    }
-
-    .anonimo-color {
-        background-color: #cfd8dc;
-        border-radius: 4px;
-        padding: 6px 12px;
-        display: inline-block;
-    }
-
-    h2 {
-        color: white;
-    }
-
-    th.identificador {
-        background-color: green;
-        color: white;
-    }
-</style>
-
+<link rel="stylesheet" href="~/css/custom-table.css"/>
 <h2>@ViewData["Title"]</h2>
 
 <table class="table">
     <thead>
-        <tr>
-            <th class="identificador" onclick="sortTable(0)">Nome de Utilizador</th>
-            <th class="identificador">Email</th>
-            <th class="identificador" onclick="sortTable(2)">Funções</th>
-            <td>
-                <span class="identificador" data-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" onclick="editUser('@User.FindFirstValue(ClaimTypes.NameIdentifier)')">Editar</span>
-            </td>
-            <th class="identificador">Ativar/Desativar</th>
+    <tr>
+        <th class="identificador" onclick="sortTable(0)">Nome de Utilizador</th>
+        <th class="identificador">Email</th>
+        <th class="identificador" onclick="sortTable(2)">Funções</th>
+        <td>
+            <span class="identificador" data-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" onclick="editUser('@User.FindFirstValue(ClaimTypes.NameIdentifier)')">Editar</span>
+        </td>
+        <th class="identificador">Ativar/Desativar</th>
 
 
-        </tr>
+    </tr>
     </thead>
 
     <tbody>
-        @foreach (var user in Model.Users)
-        {
-            <tr>
-                <td>@user.UserName</td>
-                <td>@user.Email</td>
-                <td>
-                    @foreach (var role in user.Roles)
-                    {
-                        <span class="@($"{role.ToLower()}-color")">@role</span>
-                        <br />
-                    }
-                </td>
-                <td>
-                    <span class="edit-link" onclick="editUser('@user.Id')">Editar</span>
-                </td>
-                <td>
-                    Ativar/Desativar
-                </td>
-            </tr>
-        }
+    @foreach (var user in Model.Users)
+    {
+        <tr>
+            <td>@user.UserName</td>
+            <td>@user.Email</td>
+            <td>
+                @foreach (var role in user.Roles)
+                {
+                    <span class="@($"{role.ToLower()}-color")">@role</span>
+                    <br/>
+                }
+            </td>
+            <td>
+                <span class="edit-link" onclick="editUser('@user.Id')">Editar</span>
+            </td>
+            <td>
+                Ativar/Desativar
+            </td>
+        </tr>
+    }
     </tbody>
 </table>
 

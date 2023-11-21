@@ -1,0 +1,41 @@
+﻿@page
+@model EditarDados
+@{
+    ViewData["Title"] = "Editar Dados";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+<link rel="stylesheet" href="~/css/custom-form.css">
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage"/>
+<div class="row">
+    <div class="col-md-6">
+        <form id="editar-dados-pessoais-form" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Nome" class="form-control" autocomplete="nome" aria-required="true" placeholder="Nome" value="@Model.Input.Nome">
+                <label asp-for="Input.Nome" class="form-label"></label>
+                <span asp-validation-for="Input.Nome" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Apelido" class="form-control" autocomplete="apelido" aria-required="true" placeholder="Apelido" value="@Model.Input.Apelido">
+                <label asp-for="Input.Apelido" class="form-label"></label>
+                <span asp-validation-for="Input.Apelido" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" autocomplete="email" aria-required="true" placeholder="Email" value="@Model.Input.Email">
+                <label asp-for="Input.Email" class="form-label"></label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.PhoneNumber" class="form-control" autocomplete="phoneNumber" aria-required="true" placeholder="Telemóvel" value="@Model.Input.PhoneNumber"/>
+                <label asp-for="Input.PhoneNumber" class="form-label"></label>
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-md btn-primary">Atualizar dados</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+}
