@@ -34,6 +34,6 @@ public class ListarUtilizadoresModel : PageModel
         public string Email { get; set; }
 
         public IList<string> Roles { get; set; }
-        // Adicione mais propriedades conforme necessÃ¡rio
+        // Adicione mais propriedades conforme necessário
     }
 }

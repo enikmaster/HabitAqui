@@ -10,6 +10,7 @@
 
 html {
     font-size: 14px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     position: relative;
     min-height: 100%;
 }
@@ -81,6 +82,7 @@ nav {
     color: black; /* Example color */
     transition: color 0.3s;
 }
+
 .fa-solid {
     font-size: 25px; /* Match size with Bootstrap Icons */
     color: black; /* Match color with Bootstrap Icons */
@@ -91,7 +93,7 @@ nav {
 
 .bi:hover, .fa-solid:hover {
     color: white; /* Color changes to white on hover */
- }
+}
 
 .footer-container {
     display: flex;
@@ -101,7 +103,7 @@ nav {
     gap: 45px;
 }
 
-.footer-text-color{
+.footer-text-color {
     color: grey;
 }
 
@@ -117,9 +119,9 @@ nav {
     text-align: right; /* Align text to the right */
 }
 
-    .footer-contact p {
-        margin-top: 10px;
-    }
+.footer-contact p {
+    margin-top: 10px;
+}
 
 @media (min-width: 768px) {
     .footer-container {
