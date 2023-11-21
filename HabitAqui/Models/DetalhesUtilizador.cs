@@ -12,6 +12,5 @@ public class DetalhesUtilizador : IdentityUser
     [Required] public string Nif { get; set; }
     public bool Active { get; set; }
 
-    // public int LocalizacaoId { get; set; }
     [Required] public Localizacao Localizacao { get; set; }
 }
