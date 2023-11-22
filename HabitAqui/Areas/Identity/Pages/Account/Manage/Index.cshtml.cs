@@ -20,33 +20,12 @@ public class IndexModel : PageModel
         _signInManager = signInManager;
     }
 
-    /// <summary>
-    ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-    ///     directly from your code. This API may change or be removed in future releases.
-    /// </summary>
-    public string Username { get; set; }
+    [TempData] public string StatusMessage { get; set; }
 
-    /// <summary>
-    ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-    ///     directly from your code. This API may change or be removed in future releases.
-    /// </summary>
-    [TempData]
-    public string StatusMessage { get; set; }
-
-    /// <summary>
-    ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-    ///     directly from your code. This API may change or be removed in future releases.
-    /// </summary>
-    [BindProperty]
-    public InputModel Input { get; set; } = new();
+    [BindProperty] public InputModel Input { get; set; } = new();
 
     private async Task LoadAsync(DetalhesUtilizador user)
     {
-        //var userName = await _userManager.GetUserNameAsync(user);
-        //var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
-        //Username = userName;
-
         Input = new InputModel
         {
             Email = user.Email,
@@ -60,7 +39,6 @@ public class IndexModel : PageModel
 
     public async Task<IActionResult> OnGetAsync()
     {
-        //var user = await _userManager.GetUserAsync(User);
         var userId = _userManager.GetUserId(User);
         var user = await _userManager.Users
             .Include(u => u.Localizacao)
