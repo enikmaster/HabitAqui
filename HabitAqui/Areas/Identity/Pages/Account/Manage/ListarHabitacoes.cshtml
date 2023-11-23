@@ -1,0 +1,37 @@
+﻿@page
+@attribute [Authorize(Roles = "Funcionario,Gestor")]
+@using Microsoft.AspNetCore.Authorization
+@model ListarHabitacoesModel
+
+@{
+    ViewData["Title"] = "Habitações";
+}
+
+<link rel="stylesheet" href="~/css/custom-table.css"/>
+<h2>@ViewData["Title"]</h2>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th class="identificador">Nome da Habitação</th>
+        <th class="identificador">Funcionário responsável</th>
+        <th class="identificador">Locador</th>
+        <th class="identificador">Avaliação</th>
+        <th class="identificador"></th> <!-- Coluna vazia para os botões -->
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var hab in Model.Habitacoes)
+    {
+        <tr>
+            <td>@hab.DetalhesHabitacao.Nome</td>
+            <td>@hab.Funcionario.DetalhesUtilizador.Nome @hab.Funcionario.DetalhesUtilizador.Apelido</td>
+            <td>@hab.Locador</td>
+            <td>@hab.MediaAvaliacoes.ToString("F2")</td>
+            <td>
+                <a></a>
+            </td>
+        </tr>
+    }
+
+    </tbody>
+</table>
