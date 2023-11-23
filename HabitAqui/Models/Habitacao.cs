@@ -19,4 +19,14 @@ public class Habitacao
     [Required] public ICollection<HabitacaoCategoria> Categorias { get; set; }
     public ICollection<Avaliacao>? Avaliacoes { get; set; }
     public ICollection<Reserva>? Reservas { get; set; }
+
+    public double MediaAvaliacoes
+    {
+        get
+        {
+            if (Avaliacoes != null && Avaliacoes.Count > 0)
+                return Avaliacoes.Average(a => a.Nota);
+            return 0;
+        }
+    }
 }

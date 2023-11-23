@@ -1,5 +1,7 @@
 ﻿@page
+@attribute [Authorize(Roles = "Administrador")]
 @using System.Security.Claims
+@using Microsoft.AspNetCore.Authorization
 @model ListarUtilizadoresModel
 
 @{
@@ -21,11 +23,8 @@
             <span class="identificador" data-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" onclick="editUser('@User.FindFirstValue(ClaimTypes.NameIdentifier)')">Editar</span>
         </td>
         <th class="identificador">Ativar/Desativar</th>
-
-
     </tr>
     </thead>
-
     <tbody>
     @foreach (var user in Model.Users)
     {
