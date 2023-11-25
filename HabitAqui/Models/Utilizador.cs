@@ -4,10 +4,7 @@ namespace HabitAqui.Models;
 
 public class Utilizador
 {
-    [Key]
-    public int Id { get; set; }
-
-
+    [Key] public int Id { get; set; }
 
     public DetalhesUtilizador DetalhesUtilizador { get; set; }
     public int LocadorId { get; set; }

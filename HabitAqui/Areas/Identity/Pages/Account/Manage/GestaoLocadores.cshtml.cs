@@ -16,8 +16,7 @@ public class GestaoLocadoresModel : PageModel
     }
 
     [BindProperty] public InputModel Input { get; set; }
-
-    public IList<Locador> Locadores { get; set; }
+    public IList<Locador> Locadores { set; get; }
 
     public void OnGet()
     {

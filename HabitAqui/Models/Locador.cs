@@ -13,6 +13,5 @@ public class Locador
     public bool Ativo { get; set; }
     public ICollection<Habitacao> Habitacoes { get; set; }
 
-    public ICollection<Utilizador> Funcionarios { get; set; }
-    //public ICollection<Utilizador> Gestores { get; set; }
+    public ICollection<Utilizador> Administradores { get; set; } // diferenciados por role
 }
