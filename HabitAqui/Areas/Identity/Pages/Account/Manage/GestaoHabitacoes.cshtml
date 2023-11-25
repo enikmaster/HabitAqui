@@ -1,7 +1,7 @@
 ﻿@page
 @attribute [Authorize(Roles = "Funcionario,Gestor")]
 @using Microsoft.AspNetCore.Authorization
-@model ListarHabitacoesModel
+@model GestaoHabitacoesModel
 
 @{
     ViewData["Title"] = "Habitações";
@@ -45,7 +45,7 @@
     <tfoot>
     <tr>
     <td colspan="5">
-        <a asp-page="./CriarHabitacao" class="btn btn-success">
+        <a asp-page="./AdicionarHabitacao" class="btn btn-success">
             <i class="fa-regular fa-plus" aria-hidden="true"></i>
         </a>
         @* só ativar o botão se alguma habitação estiver selecionada *@

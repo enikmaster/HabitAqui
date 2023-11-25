@@ -4,15 +4,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace HabitAqui.Areas.Identity.Pages.Account.Manage;
 
-public class ListarHabitacoesModel : PageModel
+public class GestaoHabitacoesModel : PageModel
 {
     private readonly ApplicationDbContext _context;
-    
-    public ListarHabitacoesModel(ApplicationDbContext context)
+
+    public GestaoHabitacoesModel(ApplicationDbContext context)
     {
         _context = context;
     }
+
     public IList<Habitacao> Habitacoes { get; set; }
+
     public void OnGet()
     {
         Habitacoes = _context.Habitacoes.ToList();
