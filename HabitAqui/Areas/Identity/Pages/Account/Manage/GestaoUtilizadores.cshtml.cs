@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace HabitAqui.Areas.Identity.Pages.Account.Manage;
 
-public class ListarUtilizadoresModel : PageModel
+public class GestaoUtilizadoresModel : PageModel
 {
     //injeção de dependências para aceder ao IdentityUser
     private readonly UserManager<DetalhesUtilizador> UserManager;
 
-    public ListarUtilizadoresModel(UserManager<DetalhesUtilizador> userManager)
+    public GestaoUtilizadoresModel(UserManager<DetalhesUtilizador> userManager)
     {
         UserManager = userManager;
     }
