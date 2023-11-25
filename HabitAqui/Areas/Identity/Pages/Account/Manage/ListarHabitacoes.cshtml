@@ -20,18 +20,38 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var hab in Model.Habitacoes)
+    @if (Model.Habitacoes.Count == 0)
     {
         <tr>
-            <td>@hab.DetalhesHabitacao.Nome</td>
-            <td>@hab.Funcionario.DetalhesUtilizador.Nome @hab.Funcionario.DetalhesUtilizador.Apelido</td>
-            <td>@hab.Locador</td>
-            <td>@hab.MediaAvaliacoes.ToString("F2")</td>
-            <td>
-                <a></a>
-            </td>
+            <td colspan="5">Não existem habitações registadas.</td>
         </tr>
     }
-
+    else
+    {
+        @foreach (var hab in Model.Habitacoes)
+        {
+            <tr>
+                <td>@hab.DetalhesHabitacao.Nome</td>
+                <td>@hab.Funcionario.DetalhesUtilizador.Nome @hab.Funcionario.DetalhesUtilizador.Apelido</td>
+                <td>@hab.Locador</td>
+                <td>@hab.MediaAvaliacoes.ToString("F2")</td>
+                <td>
+                    <a></a>
+                </td>
+            </tr>
+        }
+    }
     </tbody>
+    <tfoot>
+    <tr>
+    <td colspan="5">
+        <a asp-page="./CriarHabitacao" class="btn btn-success">
+            <i class="fa-regular fa-plus" aria-hidden="true"></i>
+        </a>
+        @* só ativar o botão se alguma habitação estiver selecionada *@
+        <a class="btn btn-danger">
+            <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
+        </a>
+    </td>
+    </tfoot>
 </table>
