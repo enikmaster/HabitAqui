@@ -9,6 +9,7 @@
 }
 <link rel="stylesheet" href="~/css/custom-table.css"/>
 <link rel="stylesheet" href="~/css/custom-form.css"/>
+@await Html.PartialAsync("_ConfirmationModal")
 
 <h2>@ViewData["Title"]</h2>
 <partial name="_StatusMessage" for="StatusMessage"/>
@@ -69,7 +70,7 @@
                         <a class="btn btn-primary btn-sm ">
                             <i class="fa-solid fa-pen"></i>
                         </a> @* ao clicar neste botão, abrir uma modal para editar o locador *@
-                        <a class="btn btn-danger btn-sm ">
+                        <a class="btn btn-danger btn-sm" href="#" id="deleteLocador" data-bs-toggle="modal" data-bs-target="#confirmationModal">
                             <i class="fa-solid fa-trash"></i>
                         </a> @* ao clicar neste botão, abrir uma modal para confirmar a eliminação do locador *@
                     </td>
@@ -90,7 +91,27 @@
     </td>
     </tfoot>
 </table>
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+  </ul>
+</nav>
 
+@* TODO: fazer uma modal para editar os dados *@
 <!-- Modal -->
 <div class="modal fade" id="adicionarLocadorModal" tabindex="-1" aria-labelledby="adicionarLocadorModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered">
@@ -209,6 +230,9 @@
         </div>
     </div>
 </div>
+
+@* TODO: fazer uma modal para confirmação de Delete *@
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial"/>

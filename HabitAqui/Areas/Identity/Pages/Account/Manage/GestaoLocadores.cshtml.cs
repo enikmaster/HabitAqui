@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel;
 using HabitAqui.Data;
 using HabitAqui.Models;
+using HabitAqui.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using PagedList;
 
 namespace HabitAqui.Areas.Identity.Pages.Account.Manage;
 
@@ -12,6 +14,7 @@ public class GestaoLocadoresModel : PageModel
 {
     private readonly ApplicationDbContext _context;
     private readonly UserManager<DetalhesUtilizador> _userManager;
+    private readonly LocadorService _locadorService;
 
     public GestaoLocadoresModel(
         ApplicationDbContext context,
@@ -23,20 +26,21 @@ public class GestaoLocadoresModel : PageModel
 
     [BindProperty] public InputModel Input { get; set; }
     [TempData] public string StatusMessage { get; set; }
-    public IList<Locador> Locadores { set; get; }
+    public IPagedList<Locador> Locadores { set; get; }
 
-    private async Task LoadAsync()
+    private async Task LoadAsync(int page, int pageSize)
     {
-        Locadores = await _context.Locadores
-            .Include(response => response.Administradores)
-            .Include(response => response.Habitacoes)
-            .ToListAsync();
+        Locadores = _locadorService.GetLocadoresPaginados(page, pageSize);
+        // Locadores = await _context.Locadores
+        //     .Include(response => response.Administradores)
+        //     .Include(response => response.Habitacoes)
+        //     .ToListAsync();
         Input = new InputModel();
     }
 
     public async Task<IActionResult> OnGetAsync()
     {
-        await LoadAsync();
+        await LoadAsync(page: 1, pageSize: 10);
         return Page();
     }
 
