@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HabitAqui.Areas.Identity.Pages.Account.Manage;
 
-// [Authorize]
 public class EditarDados : PageModel
 {
     private readonly SignInManager<DetalhesUtilizador> _signInManager;
@@ -51,7 +50,6 @@ public class EditarDados : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        //var user = await _userManager.GetUserAsync(User);
         var userId = _userManager.GetUserId(User);
         var user = await _userManager.Users
             .Include(u => u.Localizacao)

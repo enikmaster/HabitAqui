@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace HabitAqui.Models;
 
@@ -13,5 +14,6 @@ public class Locador
     public bool Ativo { get; set; }
     public ICollection<Habitacao> Habitacoes { get; set; }
 
-    public ICollection<Utilizador> Administradores { get; set; } // diferenciados por role
+    [DisplayName("Funcionário(s) responsável(eis)")]
+    public ICollection<DetalhesUtilizador> Administradores { get; set; } // diferenciados por role
 }

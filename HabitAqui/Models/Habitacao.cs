@@ -8,7 +8,7 @@ public class Habitacao
     public int Id { get; set; }
 
     public int FuncionarioId { get; set; }
-    public Utilizador Funcionario { get; set; }
+    public DetalhesUtilizador Funcionario { get; set; }
     [Required] public int LocadorId { get; set; }
     public Locador Locador { get; set; }
 

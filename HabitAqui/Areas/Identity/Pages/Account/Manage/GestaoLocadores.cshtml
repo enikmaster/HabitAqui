@@ -10,41 +10,64 @@
 <link rel="stylesheet" href="~/css/custom-form.css"/>
 
 <h2>@ViewData["Title"]</h2>
+<partial name="_StatusMessage" for="StatusMessage"/>
 <table class="table table-striped">
     <thead>
     <tr>
-        <th class="identificador">Nome do Locador</th>
-        <th class="identificador">Estado da Subscrição</th>
-        <th class="identificador">Ativo</th>
+        <th class="identificador">
+            @Html.DisplayNameFor(model => model.Input.NomeLocador)
+        </th>
+        <th class="identificador">
+            @Html.DisplayNameFor(model => model.Input.EstadoDaSubscricao)
+        </th>
+        <th class="identificador">
+            @Html.DisplayNameFor(model => model.Input.Ativo)
+        </th>
         <th class="identificador">Total de Habitações</th>
-        <th class="identificador">Funcionário Responsável</th>
+        <th class="identificador">
+            @Html.DisplayNameFor(model => model.Input.Administradores)
+        </th>
         <th class="identificador"></th> <!-- Coluna vazia para os botões -->
     </tr>
     </thead>
     <tbody>
-    @if (Model.Locadores.Count == 0)
+    @if (Model != null && Model.Locadores != null)
     {
-        <tr>
-            <td colspan="5">Não existem locadores registados.</td>
-        </tr>
-    }
-    else
-    {
-        @foreach (var loc in Model.Locadores)
+        @if (Model.Locadores.Count == 0)
         {
             <tr>
-                <td>@loc.Nome</td>
-                <td>@loc.EstadoDaSubscricao</td>
-                <td>@loc.Ativo</td>
-                <td>@loc.Habitacoes.Count</td>
-                @* <td>@loc.Funcionarios[0].DetalhesUtilizador.Nome @loc.Funcionario.DetalhesUtilizador.Apelido</td> *@
-                <td></td>
-                <td>
-                    <a></a>
-                </td>
+                <td colspan="5">Não existem locadores registados.</td>
             </tr>
         }
+        else
+        {
+            @foreach (var loc in Model.Locadores)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(model => loc.Nome)</td>
+                    <td>@Html.DisplayFor(model => loc.EstadoDaSubscricao)</td>
+                    <td>@Html.DisplayFor(model => loc.Ativo)</td>
+                    <td>@Html.DisplayFor(model => loc.Habitacoes.Count)</td>
+                    @switch (loc.Administradores.Count)
+                    {
+                        case 0:
+                            <td>Nenhum gestor associado. Adicione um gestor.</td>
+                            break;
+                        case 1:
+                            <td>@loc.Administradores.First().Nome @loc.Administradores.First().Apelido</td>
+                            break;
+                        default:
+                            <td>Vários gestores. Clicar para ver mais informação.</td>
+                            break;
+                    }
+                    <td>
+
+                    </td>
+                </tr>
+            }
+        }
     }
+
     </tbody>
     <tfoot>
     <tr>
@@ -55,9 +78,9 @@
             <i class="fa-regular fa-plus" aria-hidden="true"></i>
         </a>
         @* só ativar o botão se algum locador estiver selecionado *@
-        <a class="btn btn-danger">
+        @*<a class="btn btn-danger">
             <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
-        </a>
+        </a>*@
     </td>
     </tfoot>
 </table>
@@ -116,6 +139,22 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
+                                <input asp-for="Input.Password" class="form-control" autocomplete="password" aria-required="true" placeholder="Password" value="@Model.Input.Password" type="password"/>
+                                <label asp-for="Input.Password" class="form-label"></label>
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Nif" class="form-control" autocomplete="nif" aria-required="true" placeholder="Nif" value="@Model.Input.Nif" type="number">
+                                <label asp-for="Input.Nif" class="form-label"></label>
+                                <span asp-validation-for="Input.Nif" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
                                 <input asp-for="Input.PhoneNumber" class="form-control" autocomplete="phoneNumber" aria-required="true" placeholder="Telemóvel" value="@Model.Input.PhoneNumber"/>
                                 <label asp-for="Input.PhoneNumber" class="form-label"></label>
                                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
@@ -154,13 +193,17 @@
                             </div>
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        @* Adicionar uma função onclick() no botão fechar para limpar os dados *@
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                @* Adicionar uma função onclick() no botão fechar para limpar os dados *@
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-primary">Salvar</button>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+}

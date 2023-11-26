@@ -29,8 +29,8 @@
     @foreach (var user in Model.Users)
     {
         <tr>
-            <td>@user.UserName</td>
-            <td>@user.Email</td>
+            <td>@Html.DisplayFor(model => user.UserName)</td>
+            <td>@Html.DisplayFor(model => user.Email)</td>
             <td>
                 @foreach (var role in user.Roles)
                 {

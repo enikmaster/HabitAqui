@@ -24,8 +24,8 @@ public class ApplicationDbContext : IdentityDbContext<DetalhesUtilizador>
     public DbSet<HabitacaoCategoria> HabitacaoCategorias { get; set; }
     public DbSet<ImagemHabitacao> Imagenshabitacoes { get; set; }
     public DbSet<Locador> Locadores { get; set; }
+
     public DbSet<RegistoEntrega> RegistosEntregas { get; set; }
-    public DbSet<Utilizador> Utilizadores { get; set; } //talveztirar
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
