@@ -29,6 +29,7 @@ public class GestaoLocadoresModel : PageModel
     {
         Locadores = await _context.Locadores
             .Include(response => response.Administradores)
+            .Include(response => response.Habitacoes)
             .ToListAsync();
         Input = new InputModel();
     }

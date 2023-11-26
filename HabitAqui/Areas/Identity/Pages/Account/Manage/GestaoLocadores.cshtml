@@ -1,6 +1,7 @@
 ﻿@page
 @attribute [Authorize(Roles = "Administrador")]
 @using Microsoft.AspNetCore.Authorization
+@using HabitAqui.Models
 @model GestaoLocadoresModel
 
 @{
@@ -61,7 +62,16 @@
                             break;
                     }
                     <td>
-
+                        <a class="btn btn-success btn-sm"
+                           href="@Url.Action("Detalhes", "Locador", new { id = loc.Id })">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </a> @* ao clicar neste botão, abrir uma página com os detalhes do locador *@
+                        <a class="btn btn-primary btn-sm ">
+                            <i class="fa-solid fa-pen"></i>
+                        </a> @* ao clicar neste botão, abrir uma modal para editar o locador *@
+                        <a class="btn btn-danger btn-sm ">
+                            <i class="fa-solid fa-trash"></i>
+                        </a> @* ao clicar neste botão, abrir uma modal para confirmar a eliminação do locador *@
                     </td>
                 </tr>
             }
@@ -77,10 +87,6 @@
            data-bs-target="#adicionarLocadorModal">
             <i class="fa-regular fa-plus" aria-hidden="true"></i>
         </a>
-        @* só ativar o botão se algum locador estiver selecionado *@
-        @*<a class="btn btn-danger">
-            <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
-        </a>*@
     </td>
     </tfoot>
 </table>
