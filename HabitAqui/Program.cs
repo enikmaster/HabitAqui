@@ -131,7 +131,7 @@ public class Program
             {
                 var gestorUser = new DetalhesUtilizador
                 {
-                    Active = true, Nome = "AAAAntonio", Apelido = "JoseS", Nif = "123453789",
+                    Active = true, Nome = "Carlos", Apelido = "Miguel", Nif = "123453789",
                     Localizacao = new Localizacao(), UserName = gestorEmail, Email = gestorEmail
                 };
                 gestorUser.Active = true;
