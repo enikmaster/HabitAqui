@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using HabitAqui.Data;
 using HabitAqui.Models;
+using HabitAqui.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,6 +12,7 @@ namespace HabitAqui.Areas.Identity.Pages.Account.Manage;
 public class GestaoLocadoresModel : PageModel
 {
     private readonly ApplicationDbContext _context;
+    private readonly LocadorService _locadorService;
     private readonly UserManager<DetalhesUtilizador> _userManager;
 
     public GestaoLocadoresModel(
@@ -25,17 +27,18 @@ public class GestaoLocadoresModel : PageModel
     [TempData] public string StatusMessage { get; set; }
     public IList<Locador> Locadores { set; get; }
 
-    private async Task LoadAsync()
+    private async Task LoadAsync(int page, int pageSize)
     {
         Locadores = await _context.Locadores
             .Include(response => response.Administradores)
+            .Include(response => response.Habitacoes)
             .ToListAsync();
         Input = new InputModel();
     }
 
     public async Task<IActionResult> OnGetAsync()
     {
-        await LoadAsync();
+        await LoadAsync(1, 10);
         return Page();
     }
 
@@ -79,6 +82,16 @@ public class GestaoLocadoresModel : PageModel
         var linhasAlteradas = await _context.SaveChangesAsync();
         StatusMessage = linhasAlteradas == 0 ? "Não foi possível criar o locador." : "Locador criado com sucesso.";
         return Page();
+    }
+
+    public async Task<IActionResult> OnSoftDeleteAsync(int id)
+    {
+        var locador = await _context.Locadores.FindAsync(id);
+        if (locador == null) return NotFound();
+        locador.Ativo = false;
+        _context.Locadores.Update(locador);
+        await _context.SaveChangesAsync();
+        return RedirectToPage();
     }
 
     public class InputModel

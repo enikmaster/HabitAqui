@@ -11,31 +11,30 @@ public class ApplicationDbContext : IdentityDbContext<DetalhesUtilizador>
     {
     }
 
-    public DbSet<Localizacao> Localizacoes { get; set; }
-
-    public DbSet<DetalhesHabitacao> DetalhesHabitacoes { get; set; }
-
-    public DbSet<DetalhesUtilizador> DetalhesUtilizadores { get; set; }
+    public DbSet<Avaliacao> Avaliacoes { set; get; }
     public DbSet<Categoria> Categorias { get; set; }
+    public DbSet<Cliente> Clientes { get; set; }
+    public DbSet<DetalhesHabitacao> DetalhesHabitacoes { get; set; }
+    public DbSet<DetalhesUtilizador> DetalhesUtilizadores { get; set; }
     public DbSet<Habitacao> Habitacoes { get; set; }
-    public DbSet<Reserva> Reservas { get; set; }
-    public DbSet<Avaliacao> Avaliacoes { get; set; }
-    public DbSet<EquipamentoOpcional> EquipamentosOpcionais { get; set; }
-    public DbSet<HabitacaoCategoria> HabitacaoCategorias { get; set; }
-    public DbSet<ImagemHabitacao> Imagenshabitacoes { get; set; }
+    public DbSet<HabitacaoCategoria> HabitacoesCategorias { get; set; }
+    public DbSet<Imagem> Imagens { get; set; }
+    public DbSet<ImagemHabitacao> ImagensHabitacoes { get; set; }
+    public DbSet<ImagemRegistoEntrega> ImagensRegistoEntregas { get; set; }
     public DbSet<Locador> Locadores { get; set; }
-
-    public DbSet<RegistoEntrega> RegistosEntregas { get; set; }
+    public DbSet<Localizacao> Localizacoes { get; set; }
+    public DbSet<Opcional> Opcionais { get; set; }
+    public DbSet<RegistoEntrega> RegistoEntregas { get; set; }
+    public DbSet<Reserva> Reservas { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
-        //modelBuilder.Entity<Habitacao>().HasData(
-        //    new Habitacao { Id = 1 },
-        //    new Habitacao { Id = 2 }
-        //);
-        //modelBuilder.Entity<IdentityUserLogin<string>>()
-        //    .HasKey(login => new { login.LoginProvider, login.ProviderKey });
+        modelBuilder.Entity<DetalhesHabitacao>()
+            .Property(h => h.PrecoPorNoite)
+            .HasColumnType("decimal(18,2)");
+        modelBuilder.Entity<DetalhesHabitacao>()
+            .Property(h => h.Area)
+            .HasColumnType("decimal(18,2)");
     }
 }

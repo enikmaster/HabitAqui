@@ -1,6 +1,7 @@
 ﻿@page
 @attribute [Authorize(Roles = "Administrador")]
 @using Microsoft.AspNetCore.Authorization
+@using HabitAqui.Models
 @model GestaoLocadoresModel
 
 @{
@@ -8,6 +9,7 @@
 }
 <link rel="stylesheet" href="~/css/custom-table.css"/>
 <link rel="stylesheet" href="~/css/custom-form.css"/>
+@*@await Html.PartialAsync("_ConfirmationModal")*@
 
 <h2>@ViewData["Title"]</h2>
 <partial name="_StatusMessage" for="StatusMessage"/>
@@ -61,7 +63,16 @@
                             break;
                     }
                     <td>
-
+                        <a class="btn btn-success btn-sm"
+                           href="@Url.Action("Detalhes", "Locador", new { id = loc.Id })">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </a> @* ao clicar neste botão, abrir uma página com os detalhes do locador *@
+                        <a class="btn btn-primary btn-sm ">
+                            <i class="fa-solid fa-pen"></i>
+                        </a> @* ao clicar neste botão, abrir uma modal para editar o locador *@
+                        <a class="btn btn-danger btn-sm" href="#" id="deleteLocador" data-bs-toggle="modal" data-bs-target="#confirmationModal">
+                            <i class="fa-solid fa-trash"></i>
+                        </a> @* ao clicar neste botão, abrir uma modal para confirmar a eliminação do locador *@
                     </td>
                 </tr>
             }
@@ -74,17 +85,19 @@
     <td colspan="5">
         <a class="btn btn-success"
            data-bs-toggle="modal"
-           data-bs-target="#adicionarLocadorModal">
+           data-bs-target="#adicionarLocadorModal"
+           @*data-locador-id="@Model.Locador.Id"*@>
             <i class="fa-regular fa-plus" aria-hidden="true"></i>
         </a>
-        @* só ativar o botão se algum locador estiver selecionado *@
-        @*<a class="btn btn-danger">
-            <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
-        </a>*@
     </td>
     </tfoot>
 </table>
+@* 
+TODO: Adicionar paginação do tutorial 
+https://learn.microsoft.com/en-us/aspnet/core/data/ef-mvc/sort-filter-page?view=aspnetcore-7.0
+*@
 
+@* TODO: fazer uma modal para editar os dados *@
 <!-- Modal -->
 <div class="modal fade" id="adicionarLocadorModal" tabindex="-1" aria-labelledby="adicionarLocadorModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered">
@@ -203,6 +216,9 @@
         </div>
     </div>
 </div>
+
+@* TODO: fazer uma modal para confirmação de Delete *@
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial"/>

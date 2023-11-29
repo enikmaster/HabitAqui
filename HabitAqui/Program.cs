@@ -1,5 +1,6 @@
 using HabitAqui.Data;
 using HabitAqui.Models;
+using HabitAqui.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,6 +25,7 @@ public class Program
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
+        builder.Services.AddScoped<LocadorService>();
         builder.Services.AddControllersWithViews();
 
         var app = builder.Build();
@@ -165,6 +167,13 @@ public class Program
             }
         }
 
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllerRoute(
+                "DetalhesLocador",
+                "Locador/Detalhes/{id}",
+                new { controller = "Locador", action = "Detalhes" });
+        });
         app.Run();
     }
 }

@@ -47,5 +47,15 @@ th, td {
 }
 
 h2 {
-    color: white;
+    color: #fff;
+}
+
+.fa-solid {
+    color: #d9d9d9;
+    margin-bottom: 2px;
+    font-size: 1rem;
+}
+
+.fa-solid:hover {
+    color: #d9d9d9;
 }
