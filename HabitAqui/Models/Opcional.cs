@@ -2,10 +2,9 @@
 
 namespace HabitAqui.Models;
 
-public class EquipamentoOpcional
+public class Opcional
 {
-    [Key]
-    public int Id { get; set; }
+    [Key] public int Id { get; set; }
     [Required] public string Nome { get; set; }
     [Required] public string Estado { get; set; }
 }

@@ -4,10 +4,7 @@ namespace HabitAqui.Models;
 
 public class Reserva
 {
-    [Key]
-    public int Id { get; set; }
-    [Required] public int ClienteId { get; set; }
-    [Required] public int HabitacaoId { get; set; }
+    [Key] public int Id { get; set; }
     [Required] public DateTime DataInicio { get; set; }
     [Required] public DateTime DataFim { get; set; }
     public ICollection<RegistoEntrega> RegistoEntregas { get; set; }

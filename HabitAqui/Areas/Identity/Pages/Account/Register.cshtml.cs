@@ -176,7 +176,7 @@ public class RegisterModel : PageModel
         public string Morada { get; set; }
 
 
-        [DisplayName("C�digo Postal")]
+        [DisplayName("Código Postal")]
         [DataType(DataType.PostalCode)]
         [RegularExpression(@"^\d{4}-\d{3}$", ErrorMessage = "O c�digo postal deve estar no formato 0000-000.")]
         public string CodigoPostal { get; set; }
@@ -192,7 +192,7 @@ public class RegisterModel : PageModel
 
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name = "Pa�s")]
+        [Display(Name = "País")]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
             MinimumLength = 3)]
         public string Pais { get; set; }
@@ -201,7 +201,7 @@ public class RegisterModel : PageModel
         [DataType(DataType.Text)]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
             MinimumLength = 3)]
-        [Display(Name = "Telem�vel")]
+        [Display(Name = "Telemóvel")]
         public string PhoneNumber { get; set; }
 
         /// <summary>

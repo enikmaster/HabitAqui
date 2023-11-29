@@ -14,8 +14,17 @@
                 @ViewData["Message"]
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <a href="#" class="btn btn-danger" id="confirmDelete">Confirmar</a>
+                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form action="post"
+                      asp-page-handler="OnSoftDeleteAsync"
+                      asp-route-id="@Model.Id">
+                    <button
+                        type="submit"
+                        class="btn btn-danger"
+                        id="confirmDelete">
+                        Confirmar
+                    </button>
+                </form>
             </div>
         </div>
     </div>

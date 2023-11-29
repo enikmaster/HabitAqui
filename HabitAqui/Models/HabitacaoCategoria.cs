@@ -4,10 +4,7 @@ namespace HabitAqui.Models;
 
 public class HabitacaoCategoria
 {
-    [Key]
-    public int Id { get; set; }
-    public int HabitacaoId { get; set; }
+    [Key] public int Id { get; set; }
     public Habitacao Habitacao { get; set; }
-    public int CategoriaId { get; set; }
     public Categoria Categoria { get; set; }
 }

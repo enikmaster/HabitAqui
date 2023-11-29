@@ -12,8 +12,9 @@ public class Locador
 
     public string EstadoDaSubscricao { get; set; }
     public bool Ativo { get; set; }
-    public ICollection<Habitacao> Habitacoes { get; set; }
+
+    public ICollection<Habitacao>? Habitacoes { get; set; } // pode ter 0 ou mais habitacoes
 
     [DisplayName("Funcionário(s) responsável(eis)")]
-    public ICollection<DetalhesUtilizador> Administradores { get; set; } // diferenciados por role
+    public ICollection<DetalhesUtilizador> Administradores { get; set; } // tem de ter pelo menos 1 administrador
 }

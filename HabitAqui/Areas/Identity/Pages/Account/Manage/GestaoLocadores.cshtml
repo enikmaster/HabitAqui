@@ -9,7 +9,7 @@
 }
 <link rel="stylesheet" href="~/css/custom-table.css"/>
 <link rel="stylesheet" href="~/css/custom-form.css"/>
-@await Html.PartialAsync("_ConfirmationModal")
+@*@await Html.PartialAsync("_ConfirmationModal")*@
 
 <h2>@ViewData["Title"]</h2>
 <partial name="_StatusMessage" for="StatusMessage"/>
@@ -85,31 +85,17 @@
     <td colspan="5">
         <a class="btn btn-success"
            data-bs-toggle="modal"
-           data-bs-target="#adicionarLocadorModal">
+           data-bs-target="#adicionarLocadorModal"
+           @*data-locador-id="@Model.Locador.Id"*@>
             <i class="fa-regular fa-plus" aria-hidden="true"></i>
         </a>
     </td>
     </tfoot>
 </table>
-<nav aria-label="Page navigation example">
-  <ul class="pagination">
-    <li class="page-item">
-      <a class="page-link" href="#" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-        <span class="sr-only">Previous</span>
-      </a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-        <span class="sr-only">Next</span>
-      </a>
-    </li>
-  </ul>
-</nav>
+@* 
+TODO: Adicionar paginação do tutorial 
+https://learn.microsoft.com/en-us/aspnet/core/data/ef-mvc/sort-filter-page?view=aspnetcore-7.0
+*@
 
 @* TODO: fazer uma modal para editar os dados *@
 <!-- Modal -->
