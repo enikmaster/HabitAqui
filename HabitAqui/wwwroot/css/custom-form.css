@@ -5,3 +5,7 @@
 .form-control {
     background-color: #efefef;
 }
+
+.custom-select {
+    border-color: #cad2dc;
+}
