@@ -128,16 +128,17 @@ public class RegisterModel : PageModel
         }
         catch
         {
-            throw new InvalidOperationException($"Can't create an instance of '{nameof(DetalhesUtilizador)}'. " +
-                                                $"Ensure that '{nameof(DetalhesUtilizador)}' is not an abstract class and has a parameterless constructor, or alternatively " +
-                                                $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
+            throw new InvalidOperationException(
+                $"Não foi possível criar uma instância de '{nameof(DetalhesUtilizador)}'. " +
+                $"Certifique-se que '{nameof(DetalhesUtilizador)}' não é uma classe abstrata e tem um construtor sem parâmetros ou, em alternativa " +
+                $"altere a página de registo em /Areas/Identity/Pages/Account/Register.cshtml");
         }
     }
 
     private IUserEmailStore<DetalhesUtilizador> GetEmailStore()
     {
         if (!_userManager.SupportsUserEmail)
-            throw new NotSupportedException("The default UI requires a user store with email support.");
+            throw new NotSupportedException("O UI padrão requer um armazenamento de utilizador com suporte por email.");
         return (IUserEmailStore<DetalhesUtilizador>)_userStore;
     }
 

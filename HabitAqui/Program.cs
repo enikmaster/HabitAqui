@@ -55,6 +55,7 @@ public class Program
             "{controller=Habitacao}/{action=Index}/{id?}");
         app.MapRazorPages();
 
+        // tudo isto deve estar no ficheiro Startup.cs
         //criar um socpe
         using (var scope = app.Services.CreateScope())
         {

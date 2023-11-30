@@ -14,9 +14,18 @@ public class GestaoHabitacoesModel : PageModel
     }
 
     public IList<Habitacao> Habitacoes { get; set; }
+    public IList<Locador> Locadores { get; set; }
 
     public void OnGet()
     {
         Habitacoes = _context.Habitacoes.ToList();
+        Locadores = _context.Locadores.ToList();
+    }
+
+    public string GetLocadorName(Habitacao habitacao)
+    {
+        // procurar na tabela de locadores o locador que tem, na sua lista de habitacoes, a habitacao passada por argumento
+        var locador = Locadores.FirstOrDefault(l => l.Habitacoes != null && l.Habitacoes.Contains(habitacao));
+        return locador == null ? "Sem locador" : locador.Nome + " " + locador.Apelido;
     }
 }

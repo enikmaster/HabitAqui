@@ -5,8 +5,10 @@ namespace HabitAqui.Models;
 public class Habitacao
 {
     public int Id { get; set; }
+
     public DetalhesUtilizador Funcionario { get; set; }
-    public Locador Locador { get; set; }
+
+    //public virtual Locador Locador { get; set; }
     public DetalhesHabitacao DetalhesHabitacao { get; set; }
     [Required] public ICollection<HabitacaoCategoria> Categorias { get; set; }
     public ICollection<ImagemHabitacao> Imagens { get; set; }
