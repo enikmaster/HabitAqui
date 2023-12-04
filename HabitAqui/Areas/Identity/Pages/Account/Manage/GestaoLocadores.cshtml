@@ -1,5 +1,5 @@
 ﻿@page
-@attribute [Authorize(Roles = "Administrador")]
+@attribute [Authorize(Roles = "Webmaster")]
 @using Microsoft.AspNetCore.Authorization
 @using HabitAqui.Models
 @model GestaoLocadoresModel
@@ -13,8 +13,7 @@
 
 <h2>@ViewData["Title"]</h2>
 <partial name="_StatusMessage" for="StatusMessage"/>
-@* TODO: alterar o formulário de criação do locador uma vez que este é um admintistrador *@
-@* TODO: alterar a lógica de criação do locador *@
+@* TODO: primeiro criar um locador e depois um gestor *@
 <table class="table table-striped">
     <thead>
     <tr>
@@ -100,187 +99,76 @@ https://learn.microsoft.com/en-us/aspnet/core/data/ef-mvc/sort-filter-page?view=
 @* TODO: fazer uma modal para editar os dados *@
 <!-- Modal -->
 <div class="modal fade" id="adicionarLocadorModal" tabindex="-1" aria-labelledby="adicionarLocadorModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-dialog-scrollable modal-xl modal-dialog-centered">
-<div class="modal-content">
-<div class="modal-header">
-    <h5 class="modal-title text-dark" id="adicionarLocadorModalLabel">Adicionar Locador</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-</div>
-
-<div class="modal-body">
-    <form id="adicionar-locador" method="post">
-        @* Mensagem de validação *@
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="row">
-            <div class="col-md-6">
-                @* Coluna para os inputs do locador *@
-                <h6 class="modal-title text-dark mb-3">Dados do Locador</h6>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
-                            <input asp-for="Input.NomeLocador" class="form-control" autocomplete="nome" aria-required="true" placeholder="Nome do Locador" value="@Model.Input.NomeLocador"/>
-                            <label asp-for="Input.NomeLocador" class="form-label"></label>
-                            <span asp-validation-for="Input.NomeLocador" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
-                            <input asp-for="Input.ApelidoLocador" class="form-control" autocomplete="nome" aria-required="true" placeholder="Apelido do Locador" value="@Model.Input.ApelidoLocador"/>
-                            <label asp-for="Input.ApelidoLocador" class="form-label"></label>
-                            <span asp-validation-for="Input.ApelidoLocador" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
-                            <input asp-for="Input.EmailLocador" class="form-control" autocomplete="email" aria-required="true" placeholder="Email" value="@Model.Input.EmailLocador">
-                            <label asp-for="Input.EmailLocador" class="form-label"></label>
-                            <span asp-validation-for="Input.EmailLocador" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
-                            <input asp-for="Input.PasswordLocador" class="form-control" autocomplete="password" aria-required="true" placeholder="Password" value="@Model.Input.PasswordLocador" type="password"/>
-                            <label asp-for="Input.PasswordLocador" class="form-label"></label>
-                            <span asp-validation-for="Input.PasswordLocador" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
-                            <input asp-for="Input.NifLocador" class="form-control" autocomplete="nif" aria-required="true" placeholder="Nif" value="@Model.Input.NifLocador" type="number">
-                            <label asp-for="Input.NifLocador" class="form-label"></label>
-                            <span asp-validation-for="Input.NifLocador" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
-                            <input asp-for="Input.PhoneNumberLocador" class="form-control" autocomplete="phoneNumber" aria-required="true" placeholder="Telemóvel" value="@Model.Input.PhoneNumberLocador"/>
-                            <label asp-for="Input.PhoneNumberLocador" class="form-label"></label>
-                            <span asp-validation-for="Input.PhoneNumberLocador" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
-                            <input asp-for="Input.LocalizacaoLocador.Morada" class="form-control" autocomplete="morada" aria-required="true" placeholder="Morada" value="@Model.Input.LocalizacaoLocador.Morada"/>
-                            <label asp-for="Input.LocalizacaoLocador.Morada" class="form-label"></label>
-                            <span asp-validation-for="Input.Localizacao.Morada" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
-                            <input asp-for="Input.LocalizacaoLocador.CodigoPostal" class="form-control" autocomplete="codigoPostal" aria-required="true" placeholder="Código Postal" value="@Model.Input.LocalizacaoLocador.CodigoPostal"/>
-                            <label asp-for="Input.LocalizacaoLocador.CodigoPostal" class="form-label"></label>
-                            <span asp-validation-for="Input.Localizacao.CodigoPostal" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
-                            <input asp-for="Input.LocalizacaoLocador.Cidade" class="form-control" autocomplete="cidade" aria-required="true" placeholder="Cidade" value="@Model.Input.LocalizacaoLocador.Cidade"/>
-                            <label asp-for="Input.LocalizacaoLocador.Cidade" class="form-label"></label>
-                            <span asp-validation-for="Input.Localizacao.Cidade" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
-                            <input asp-for="Input.LocalizacaoLocador.Pais" class="form-control" autocomplete="pais" aria-required="true" placeholder="País" value="@Model.Input.LocalizacaoLocador.Pais"/>
-                            <label asp-for="Input.LocalizacaoLocador.Pais" class="form-label"></label>
-                            <span asp-validation-for="Input.LocalizacaoLocador.Pais" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
+    <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark" id="adicionarLocadorModalLabel">Adicionar Locador</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="col-md-6">
-                @* Coluna para os inputs do gestor. começar com o dropdown de gestores *@
-                <h6 class="modal-title text-dark mb-3">Associar um Gestor</h6>
-                <div class="row">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputGroupSelect01">Gestor</label>
-                        </div>
-                        <select class="custom-select" id="listaGestores" style="flex: 1 1 auto; border-color: #cad2dc;">
-                            <option selected>Selecione um Gestor da lista</option>
-                            @* loop que passa por todos os gestores e adiciona à lista *@
-                            @foreach (var gestor in Model.Gestores)
-                            {
-                                <option value="@gestor.Id">@gestor.Nome @gestor.Apelido</option>
-                            }
-                        </select>
-                        <div class="input-group-append" id="adicionarGestorBtn">
-                            <button class="btn btn-primary" type="button" onclick="toggleAdicionar()">Novo Gestor</button>
-                        </div>
-                    </div>
-                </div>
-                <div id="adicionar-gestor">
-                    <div class="row">
-                        <h6 class="modal-title text-dark mb-3">Adicionar Gestor</h6>
-                    </div>
+            <div class="modal-body criar-locador">
+                <form id="adicionar-locador" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <h6 class="modal-title text-dark mb-3">Dados do Locador</h6>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
-                                <input asp-for="Input.Nome" class="form-control" autocomplete="nome" aria-required="true" placeholder="Nome" value="@Model.Input.Nome">
-                                <label asp-for="Input.Nome" class="form-label"></label>
-                                <span asp-validation-for="Input.Nome" class="text-danger"></span>
+                                <input asp-for="Input.NomeLocador" class="form-control" autocomplete="nome" aria-required="true" placeholder="Nome do Locador" value="@Model.Input.NomeLocador"/>
+                                <label asp-for="Input.NomeLocador" class="form-label"></label>
+                                <span asp-validation-for="Input.NomeLocador" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
-                                <input asp-for="Input.Apelido" class="form-control" autocomplete="apelido" aria-required="true" placeholder="Apelido" value="@Model.Input.Apelido">
-                                <label asp-for="Input.Apelido" class="form-label"></label>
-                                <span asp-validation-for="Input.Apelido" class="text-danger"></span>
+                                <input asp-for="Input.ApelidoLocador" class="form-control" autocomplete="nome" aria-required="true" placeholder="Apelido do Locador" value="@Model.Input.ApelidoLocador"/>
+                                <label asp-for="Input.ApelidoLocador" class="form-label"></label>
+                                <span asp-validation-for="Input.ApelidoLocador" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
-                                <input asp-for="Input.Email" class="form-control" autocomplete="email" aria-required="true" placeholder="Email" value="@Model.Input.Email">
-                                <label asp-for="Input.Email" class="form-label"></label>
-                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                <input asp-for="Input.EmailLocador" class="form-control" autocomplete="email" aria-required="true" placeholder="Email" value="@Model.Input.EmailLocador">
+                                <label asp-for="Input.EmailLocador" class="form-label"></label>
+                                <span asp-validation-for="Input.EmailLocador" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
-                                <input asp-for="Input.Password" class="form-control" autocomplete="password" aria-required="true" placeholder="Password" value="@Model.Input.Password" type="password"/>
-                                <label asp-for="Input.Password" class="form-label"></label>
-                                <span asp-validation-for="Input.Password" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-floating mb-3">
-                                <input asp-for="Input.Nif" class="form-control" autocomplete="nif" aria-required="true" placeholder="Nif" value="@Model.Input.Nif" type="number">
-                                <label asp-for="Input.Nif" class="form-label"></label>
-                                <span asp-validation-for="Input.Nif" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-floating mb-3">
-                                <input asp-for="Input.PhoneNumber" class="form-control" autocomplete="phoneNumber" aria-required="true" placeholder="Telemóvel" value="@Model.Input.PhoneNumber"/>
-                                <label asp-for="Input.PhoneNumber" class="form-label"></label>
-                                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                                <input asp-for="Input.PasswordLocador" class="form-control" autocomplete="password" aria-required="true" placeholder="Password" value="@Model.Input.PasswordLocador" type="password"/>
+                                <label asp-for="Input.PasswordLocador" class="form-label"></label>
+                                <span asp-validation-for="Input.PasswordLocador" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
-                                <input asp-for="Input.Localizacao.Morada" class="form-control" autocomplete="morada" aria-required="true" placeholder="Morada" value="@Model.Input.Localizacao.Morada"/>
-                                <label asp-for="Input.Localizacao.Morada" class="form-label"></label>
+                                <input asp-for="Input.NifLocador" class="form-control" autocomplete="nif" aria-required="true" placeholder="Nif" value="@Model.Input.NifLocador" type="number">
+                                <label asp-for="Input.NifLocador" class="form-label"></label>
+                                <span asp-validation-for="Input.NifLocador" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.PhoneNumberLocador" class="form-control" autocomplete="phoneNumber" aria-required="true" placeholder="Telemóvel" value="@Model.Input.PhoneNumberLocador"/>
+                                <label asp-for="Input.PhoneNumberLocador" class="form-label"></label>
+                                <span asp-validation-for="Input.PhoneNumberLocador" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.LocalizacaoLocador.Morada" class="form-control" autocomplete="morada" aria-required="true" placeholder="Morada" value="@Model.Input.LocalizacaoLocador.Morada"/>
+                                <label asp-for="Input.LocalizacaoLocador.Morada" class="form-label"></label>
                                 <span asp-validation-for="Input.Localizacao.Morada" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
-                                <input asp-for="Input.Localizacao.CodigoPostal" class="form-control" autocomplete="codigoPostal" aria-required="true" placeholder="Código Postal" value="@Model.Input.Localizacao.CodigoPostal"/>
-                                <label asp-for="Input.Localizacao.CodigoPostal" class="form-label"></label>
+                                <input asp-for="Input.LocalizacaoLocador.CodigoPostal" class="form-control" autocomplete="codigoPostal" aria-required="true" placeholder="Código Postal" value="@Model.Input.LocalizacaoLocador.CodigoPostal"/>
+                                <label asp-for="Input.LocalizacaoLocador.CodigoPostal" class="form-label"></label>
                                 <span asp-validation-for="Input.Localizacao.CodigoPostal" class="text-danger"></span>
                             </div>
                         </div>
@@ -288,38 +176,166 @@ https://learn.microsoft.com/en-us/aspnet/core/data/ef-mvc/sort-filter-page?view=
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
-                                <input asp-for="Input.Localizacao.Cidade" class="form-control" autocomplete="cidade" aria-required="true" placeholder="Cidade" value="@Model.Input.Localizacao.Cidade"/>
-                                <label asp-for="Input.Localizacao.Cidade" class="form-label"></label>
+                                <input asp-for="Input.LocalizacaoLocador.Cidade" class="form-control" autocomplete="cidade" aria-required="true" placeholder="Cidade" value="@Model.Input.LocalizacaoLocador.Cidade"/>
+                                <label asp-for="Input.LocalizacaoLocador.Cidade" class="form-label"></label>
                                 <span asp-validation-for="Input.Localizacao.Cidade" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
-                                <input asp-for="Input.Localizacao.Pais" class="form-control" autocomplete="pais" aria-required="true" placeholder="País" value="@Model.Input.Localizacao.Pais"/>
-                                <label asp-for="Input.Localizacao.Pais" class="form-label"></label>
-                                <span asp-validation-for="Input.Localizacao.Pais" class="text-danger"></span>
+                                <input asp-for="Input.LocalizacaoLocador.Pais" class="form-control" autocomplete="pais" aria-required="true" placeholder="País" value="@Model.Input.LocalizacaoLocador.Pais"/>
+                                <label asp-for="Input.LocalizacaoLocador.Pais" class="form-label"></label>
+                                <span asp-validation-for="Input.LocalizacaoLocador.Pais" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        @* TODO: Adicionar uma função onclick() no botão fechar para limpar os dados *@
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fase" id="associarGestorModal" tabindex="-1" aria-labelledby="associarGestorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark" id="associarGestorModalLabel">Associar Gestor</h5>
+                </div>
+                <div class="modal-body associar-gestor">
+                    <form id="associar-gestor" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <h6 class="modal-title text-dark mb-3">Associar um Gestor</h6>
+                        <div class="row">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="inputGroupSelect01">Gestor</label>
+                                </div>
+                                <select
+                                    class="custom-select"
+                                    id="listaGestores"
+                                    asp-for="Input.GestorSelecionadoId"
+                                    style="flex: 1 1 auto; border-color: #cad2dc;">
+                                    <option selected>Selecione um Gestor da lista</option>
+                                    @* loop que passa por todos os gestores e adiciona à lista *@
+                                    @foreach (var gestor in Model.Gestores)
+                                    {
+                                        <option value="@gestor.Id">@gestor.Nome @gestor.Apelido</option>
+                                    }
+                                </select>
+                                <div class="input-group-append" id="adicionarGestorBtn">
+                                    <button class="btn btn-primary" type="button" onclick="toggleAdicionar()">Novo Gestor</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="toggle-show" style="display: none;">
+                            <div class="row">
+                                <h6 class="modal-title text-dark mb-3">Adicionar Gestor</h6>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Input.Nome" class="form-control" autocomplete="nome" aria-required="false" placeholder="Nome" value="@Model.Input.Nome">
+                                        <label asp-for="Input.Nome" class="form-label"></label>
+                                        <span asp-validation-for="Input.Nome" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Input.Apelido" class="form-control" autocomplete="apelido" aria-required="false" placeholder="Apelido" value="@Model.Input.Apelido">
+                                        <label asp-for="Input.Apelido" class="form-label"></label>
+                                        <span asp-validation-for="Input.Apelido" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Input.Email" class="form-control" autocomplete="email" aria-required="false" placeholder="Email" value="@Model.Input.Email">
+                                        <label asp-for="Input.Email" class="form-label"></label>
+                                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Input.Password" class="form-control" autocomplete="password" aria-required="false" placeholder="Password" value="@Model.Input.Password" type="password"/>
+                                        <label asp-for="Input.Password" class="form-label"></label>
+                                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Input.Nif" class="form-control" autocomplete="nif" aria-required="false" placeholder="Nif" value="@Model.Input.Nif" type="number">
+                                        <label asp-for="Input.Nif" class="form-label"></label>
+                                        <span asp-validation-for="Input.Nif" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Input.PhoneNumber" class="form-control" autocomplete="phoneNumber" aria-required="false" placeholder="Telemóvel" value="@Model.Input.PhoneNumber"/>
+                                        <label asp-for="Input.PhoneNumber" class="form-label"></label>
+                                        <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Input.Localizacao.Morada" class="form-control" autocomplete="morada" aria-required="false" placeholder="Morada" value="@Model.Input.Localizacao.Morada"/>
+                                        <label asp-for="Input.Localizacao.Morada" class="form-label"></label>
+                                        <span asp-validation-for="Input.Localizacao.Morada" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Input.Localizacao.CodigoPostal" class="form-control" autocomplete="codigoPostal" aria-required="false" placeholder="Código Postal" value="@Model.Input.Localizacao.CodigoPostal"/>
+                                        <label asp-for="Input.Localizacao.CodigoPostal" class="form-label"></label>
+                                        <span asp-validation-for="Input.Localizacao.CodigoPostal" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Input.Localizacao.Cidade" class="form-control" autocomplete="cidade" aria-required="false" placeholder="Cidade" value="@Model.Input.Localizacao.Cidade"/>
+                                        <label asp-for="Input.Localizacao.Cidade" class="form-label"></label>
+                                        <span asp-validation-for="Input.Localizacao.Cidade" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Input.Localizacao.Pais" class="form-control" autocomplete="pais" aria-required="false" placeholder="País" value="@Model.Input.Localizacao.Pais"/>
+                                        <label asp-for="Input.Localizacao.Pais" class="form-label"></label>
+                                        <span asp-validation-for="Input.Localizacao.Pais" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            @* Adicionar uma função onclick() no botão fechar para limpar os dados 
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>*@
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-        <div class="modal-footer">
-            @* Adicionar uma função onclick() no botão fechar para limpar os dados *@
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-            <button type="submit" class="btn btn-primary">Guardar</button>
-        </div>
-    </form>
+    </div>
 </div>
-</div>
-</div>
-</div>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial"/>
     <script>
         function toggleAdicionar() {
-            const adicionarGestor = document.getElementById("adicionar-gestor");
+            const adicionarGestor = document.getElementById("toggle-show");
             if (adicionarGestor.style.display === "none") {
                 adicionarGestor.style.display = "block";
             } else {

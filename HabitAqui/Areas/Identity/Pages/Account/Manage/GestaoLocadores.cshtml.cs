@@ -16,6 +16,12 @@ public enum EstadoSubscricao
     Cancelado
 }
 
+public enum Role
+{
+    Administrador,
+    Gestor
+}
+
 public class GestaoLocadoresModel : PageModel
 {
     private readonly ApplicationDbContext _context;
@@ -60,16 +66,78 @@ public class GestaoLocadoresModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        if (ModelState.IsValid)
+        DetalhesUtilizador? gestorSelecionado;
+        if (!string.IsNullOrEmpty(Input.GestorSelecionadoId))
         {
-            var locador = CreateLocador();
-            locador.Nome = Input.NomeLocador;
-            await _userStore.SetUserNameAsync(locador, Input.Email, CancellationToken.None);
-            await _emailStore.SetEmailAsync(locador, Input.Email, CancellationToken.None);
-
-            var user = CreateUser();
+            gestorSelecionado =
+                await _userManager.Users.FirstOrDefaultAsync(g => g.Id.Equals(Input.GestorSelecionadoId));
+            if (gestorSelecionado == null) return RedirectToPage();
+            Input.Nome = gestorSelecionado.Nome;
+            Input.Apelido = gestorSelecionado.Apelido;
+            Input.Email = gestorSelecionado.Email;
+            Input.Nif = gestorSelecionado.Nif;
+            Input.PhoneNumber = gestorSelecionado.PhoneNumber;
+            Input.Localizacao = gestorSelecionado.Localizacao;
+            Input.Password = gestorSelecionado.PasswordHash;
         }
 
+        if (!ModelState.IsValid) return RedirectToPage();
+        var locador = CreateLocador();
+        locador.Active = true;
+        locador.DataInicioSubscricao = DateTime.Now;
+        locador.EstadoDaSubscricao = EstadoSubscricao.Ativo.ToString();
+        locador.Nome = Input.NomeLocador;
+        locador.Apelido = Input.ApelidoLocador;
+        locador.UserName = Input.EmailLocador;
+        locador.Email = Input.EmailLocador;
+        locador.Nif = Input.NifLocador;
+        locador.PhoneNumber = Input.PhoneNumberLocador;
+        locador.Localizacao = Input.LocalizacaoLocador;
+        await _userStore.SetUserNameAsync(locador, Input.EmailLocador, CancellationToken.None);
+        await _emailStore.SetEmailAsync(locador, Input.EmailLocador, CancellationToken.None);
+
+        var result = await _userManager.CreateAsync(locador, Input.PasswordLocador);
+        if (result.Succeeded)
+        {
+            await _userManager.AddToRoleAsync(locador, Role.Administrador.ToString());
+            if (!string.IsNullOrEmpty(Input.GestorSelecionadoId))
+            {
+                var gestor = Gestores.FirstOrDefault(g => g.Id.Equals(Input.GestorSelecionadoId));
+                locador.Administradores.Add(gestor!);
+                await _context.SaveChangesAsync();
+                StatusMessage = "Locador criado com sucesso.";
+                return RedirectToPage();
+            }
+            else
+            {
+                var gestor = CreateUser();
+                gestor.Active = true;
+                gestor.UserName = Input.Email;
+                gestor.Nome = Input.Nome;
+                gestor.Apelido = Input.Apelido;
+                gestor.Email = Input.Email;
+                gestor.Nif = Input.Nif;
+                gestor.PhoneNumber = Input.PhoneNumber;
+                gestor.Localizacao = Input.Localizacao;
+                await _userStore.SetUserNameAsync(gestor, Input.Email, CancellationToken.None);
+                await _emailStore.SetEmailAsync(gestor, Input.Email, CancellationToken.None);
+
+                var resultGestor = await _userManager.CreateAsync(gestor, Input.Password);
+                if (resultGestor.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(gestor, Role.Gestor.ToString());
+                    locador.Administradores.Add(gestor);
+                    await _context.SaveChangesAsync();
+                    StatusMessage = "Locador e gestor criados com sucesso.";
+                    return RedirectToPage();
+                }
+
+                foreach (var error in resultGestor.Errors) ModelState.AddModelError(string.Empty, error.Description);
+                return Page();
+            }
+        }
+
+        foreach (var error in result.Errors) ModelState.AddModelError(string.Empty, error.Description);
         return Page();
         /*if (!ModelState.IsValid) return Page();
 
@@ -111,7 +179,6 @@ public class GestaoLocadoresModel : PageModel
         var linhasAlteradas = await _context.SaveChangesAsync();
         //await _signInManager.RefreshSignInAsync(user);
         StatusMessage = linhasAlteradas == 0 ? "Não foi possível criar o locador." : "Locador criado com sucesso.";*/
-        return RedirectToPage();
     }
 
     public async Task<IActionResult> OnSoftDeleteAsync(int id)
@@ -160,6 +227,7 @@ public class GestaoLocadoresModel : PageModel
 
     public class InputModel
     {
+        public string GestorSelecionadoId { get; set; } = string.Empty;
         [DisplayName("Nome")] public string NomeLocador { get; set; }
         public string Nome { get; set; }
         [DisplayName("Apelido")] public string ApelidoLocador { get; set; }
