@@ -20,7 +20,8 @@ public class LocadorController : Controller
         return View();
     }*/
 
-    public IActionResult Detalhes(int id)
+    [HttpGet]
+    public IActionResult Detalhes(string id)
     {
         var locador = _locadorService.GetLocador(id);
         if (locador == null)

@@ -5,7 +5,6 @@ namespace HabitAqui.Data;
 
 public enum Roles
 {
-    Webmaster,
     Administrador,
     Gestor,
     Funcionario,
@@ -17,35 +16,10 @@ public static class Startup
     public static async Task CriaDadosIniciais(UserManager<DetalhesUtilizador> userManager,
         RoleManager<IdentityRole> roleManager)
     {
-        await roleManager.CreateAsync(new IdentityRole(Roles.Webmaster.ToString()));
         await roleManager.CreateAsync(new IdentityRole(Roles.Administrador.ToString()));
         await roleManager.CreateAsync(new IdentityRole(Roles.Gestor.ToString()));
         await roleManager.CreateAsync(new IdentityRole(Roles.Funcionario.ToString()));
         await roleManager.CreateAsync(new IdentityRole(Roles.Cliente.ToString()));
-
-        const string webmasterEmail = "webmaster@localhost.pt";
-        const string webmasterPassword = "Test123!";
-        if (await userManager.FindByEmailAsync(webmasterEmail) == null)
-        {
-            var webmasterUser = new DetalhesUtilizador
-            {
-                UserName = webmasterEmail,
-                Email = webmasterPassword,
-                Nome = "Webmaster",
-                Apelido = "Webmaster",
-                Nif = "123456789",
-                Localizacao = new Localizacao
-                {
-                    Morada = "Morada",
-                    CodigoPostal = "0000-000",
-                    Cidade = "Cidade",
-                    Pais = "País"
-                },
-                Active = true
-            };
-            await userManager.CreateAsync(webmasterUser, webmasterPassword);
-            await userManager.AddToRoleAsync(webmasterUser, Roles.Webmaster.ToString());
-        }
 
         const string adminEmail = "admin@isec.pt";
         const string password = "Test123!";

@@ -81,30 +81,6 @@ public class Program
         {
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<DetalhesUtilizador>>();
 
-            const string webmasterEmail = "webmaster@localhost.pt";
-            const string webmasterPassword = "Test123!";
-            if (await userManager.FindByEmailAsync(webmasterEmail) == null)
-            {
-                var webmasterUser = new DetalhesUtilizador
-                {
-                    UserName = webmasterEmail,
-                    Email = webmasterPassword,
-                    Nome = "Webmaster",
-                    Apelido = "Webmaster",
-                    Nif = "123456789",
-                    Localizacao = new Localizacao
-                    {
-                        Morada = "Morada",
-                        CodigoPostal = "0000-000",
-                        Cidade = "Cidade",
-                        Pais = "País"
-                    },
-                    Active = true
-                };
-                await userManager.CreateAsync(webmasterUser, webmasterPassword);
-                await userManager.AddToRoleAsync(webmasterUser, "Webmaster");
-            }
-
             //verificar se existe
             const string adminEmail = "admin@isec.pt";
             const string password = "Test123!";
@@ -138,7 +114,7 @@ public class Program
                 var funcionarioUser = new DetalhesUtilizador
                 {
                     UserName = funcionarioEmail,
-                    Email = funcionarioPassword,
+                    Email = funcionarioEmail,
                     Nome = "Funcionário",
                     Apelido = "Funcionário",
                     Nif = "123456789",
@@ -163,7 +139,7 @@ public class Program
                 var gestorUser = new DetalhesUtilizador
                 {
                     UserName = gestorEmail,
-                    Email = gestorPassword,
+                    Email = gestorEmail,
                     Nome = "Gestor",
                     Apelido = "Gestor",
                     Nif = "123456789",
@@ -188,7 +164,7 @@ public class Program
                 var clienteUser = new DetalhesUtilizador
                 {
                     UserName = clienteEmail,
-                    Email = clientePassword,
+                    Email = clienteEmail,
                     Nome = "Cliente",
                     Apelido = "Cliente",
                     Nif = "123456789",

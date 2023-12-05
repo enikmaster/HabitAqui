@@ -12,7 +12,7 @@ public class LocadorService
         _context = context;
     }
 
-    public Locador GetLocador(int id)
+    public Locador GetLocador(string id)
     {
         return _context.Locadores.Find(id);
     }
