@@ -9,3 +9,7 @@
 .custom-select {
     border-color: #cad2dc;
 }
+
+#toggle-show {
+    display: none;
+}

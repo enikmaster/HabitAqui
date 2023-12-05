@@ -1,4 +1,5 @@
 @using HabitAqui.Models
+@using HabitAqui.Data
 @inject SignInManager<DetalhesUtilizador> SignInManager
 @inject UserManager<DetalhesUtilizador> UserManager
 
@@ -13,7 +14,7 @@
         <a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Alterar Password</a>
     </li>
 
-    @if (User.IsInRole("Cliente"))
+    @if (User.IsInRole(Roles.Cliente.ToString()))
     {
         <li class="nav-item">
             <a class="nav-link" asp-page="">Os meus Alugueres</a>
@@ -22,7 +23,7 @@
             <a class="nav-link" asp-page="">As minhas Avaliações</a>
         </li>
     }
-    @if (User.IsInRole("Funcionario") || User.IsInRole("Gestor"))
+    @if (User.IsInRole(Roles.Funcionario.ToString()) || User.IsInRole(Roles.Gestor.ToString()))
     {
         <li class="nav-item">
             <a class="nav-link @ManageNavPages.GestaoHabitacoesNavClass(ViewContext)" id="gestao-habitacoes" asp-page="./GestaoHabitacoes">Gestão de Habitações</a>
@@ -34,13 +35,13 @@
             <a class="nav-link" asp-page="">Gestão de Entregas</a>
         </li>
     }
-    @if (User.IsInRole("Gestor"))
+    @if (User.IsInRole(Roles.Gestor.ToString()))
     {
         <li class="nav-item">
             <a class="nav-link" asp-page="">Gestão de Funcionários</a>
         </li>
     }
-    @if (User.IsInRole("Administrador"))
+    @if (User.IsInRole(Roles.Administrador.ToString()))
     {
         <li class="nav-item">
             <a class="nav-link @ManageNavPages.GestaoLocadoresNavClass(ViewContext)" id="gestao-locadores" asp-page="./GestaoLocadores">Gestão de Locadores</a>

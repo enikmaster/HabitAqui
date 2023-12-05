@@ -4,10 +4,6 @@ namespace HabitAqui.Models;
 
 public class Locador : DetalhesUtilizador
 {
-    //[Key] public int Id { get; set; }
-    //[Required(ErrorMessage = "O nome é obrigatório")] public string Nome { get; set; }
-    //public bool Ativo { get; set; }
-
     [DisplayName("Data de início da subscrição")]
     public DateTime DataInicioSubscricao { get; set; }
 
