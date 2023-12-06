@@ -8,6 +8,7 @@ public class Locador : DetalhesUtilizador
     public DateTime DataInicioSubscricao { get; set; }
 
     public string EstadoDaSubscricao { get; set; }
+
     public ICollection<Habitacao>? Habitacoes { get; set; } // pode ter 0 ou mais habitacoes
 
     [DisplayName("Funcionário(s) responsável(eis)")]

@@ -28,7 +28,43 @@ public class Program
         builder.Services.AddScoped<LocadorService>();
         builder.Services.AddControllersWithViews();
 
+        builder.Services.Configure<IdentityOptions>(options =>
+        {
+            // Password settings.
+            options.Password.RequireDigit = true;
+            options.Password.RequireLowercase = true;
+            options.Password.RequireNonAlphanumeric = true;
+            options.Password.RequireUppercase = true;
+            options.Password.RequiredLength = 8;
+            options.Password.RequiredUniqueChars = 1;
+
+            /*// Lockout settings.
+            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            options.Lockout.MaxFailedAccessAttempts = 5;
+            options.Lockout.AllowedForNewUsers = true;
+
+            // User settings.
+            options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+            options.User.RequireUniqueEmail = true;*/
+        });
+
         var app = builder.Build();
+
+        using (var scope = app.Services.CreateScope())
+        {
+            try
+            {
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<DetalhesUtilizador>>();
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                await Startup.CriaDadosIniciais(userManager, roleManager);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -57,7 +93,7 @@ public class Program
 
         // tudo isto deve estar no ficheiro Startup.cs
         //criar um socpe
-        using (var scope = app.Services.CreateScope())
+        /*using (var scope = app.Services.CreateScope())
         {
             //Para aceder aos serviços que configuramos acima
             //seeding initial data
@@ -74,7 +110,7 @@ public class Program
                 if (!await roleManager.RoleExistsAsync(role))
                     //se não existir, vamos criar
                     await roleManager.CreateAsync(new IdentityRole(role));
-            //Também podemos dar seed a user accounts 
+            //Também podemos dar seed a user accounts
         }
 
         using (var scope = app.Services.CreateScope())
@@ -180,7 +216,7 @@ public class Program
                 await userManager.CreateAsync(clienteUser, clientePassword);
                 await userManager.AddToRoleAsync(clienteUser, "Cliente");
             }
-        }
+        }*/
 
         app.MapRazorPages();
         app.UseEndpoints(endpoints =>
