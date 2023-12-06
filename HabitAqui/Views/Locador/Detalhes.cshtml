@@ -1,25 +1,55 @@
 ﻿@model Locador
 
-@{
+ @{
     ViewData["Title"] = "Detalhes do Locador";
 }
-@* TODO: fazer a página de Detalhes do locador *@
+
+
+<link rel="stylesheet" href="~/css/custom-table.css" />
+<link rel="stylesheet" href="~/css/custom-form.css" />
+
 <h2>@ViewData["Title"]</h2>
-<div class="row">
-    <div class="col-md-6">
-        <dl>
-            <dt>Nome</dt>
-            <dd>@Model.Nome</dd>
-            <dt>Apelido</dt>
-            <dd>@Model.Apelido</dd>
-            <dt>Telefone</dt>
-            <dd>@Model.PhoneNumber</dd>
+
+
+<div class="card detalhes-locador">
+    <div class="card-header">
+        Detalhes do Locador
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-4 detalhes-label">@Html.DisplayNameFor(model => model.Nome)</dt>
+            <dd class="col-sm-8 detalhes-value">@Model.Nome</dd>
+
+            <dt class="col-sm-4 detalhes-label">@Html.DisplayNameFor(model => model.Apelido)</dt>
+            <dd class="col-sm-8 detalhes-value">@Model.Apelido</dd>
+
+            <dt class="col-sm-4 detalhes-label">@Html.DisplayNameFor(model => model.Email)</dt>
+            <dd class="col-sm-8 detalhes-value">@Model.Email</dd>
+
+            <dt class="col-sm-4 detalhes-label">@Html.DisplayNameFor(model => model.PhoneNumber)</dt>
+            <dd class="col-sm-8 detalhes-value">@Model.PhoneNumber</dd>
+
+            <dt class="col-sm-4 detalhes-label">@Html.DisplayNameFor(model => model.Nif)</dt>
+            <dd class="col-sm-8 detalhes-value">@Model.Nif</dd>
+            
+            <dt class="col-sm-4 detalhes-label">@Html.DisplayNameFor(model => model.Localizacao.Morada)</dt>
+            <dd class="col-sm-8 detalhes-value">@Model.Localizacao.Morada </dd>
+            
+            <dt class="col-sm-4 detalhes-label">@Html.DisplayNameFor(model => model.Localizacao.CodigoPostal)</dt>
+            <dd class="col-sm-8 detalhes-value">@Model.Localizacao.CodigoPostal</dd>
+
+            <dt class="col-sm-4 detalhes-label">@Html.DisplayNameFor(model => model.Localizacao.Cidade)</dt>
+            <dd class="col-sm-8 detalhes-value">@Model.Localizacao.Cidade</dd>
+
+            <dt class="col-sm-4 detalhes-label">@Html.DisplayNameFor(model => model.Localizacao.Pais)</dt>
+            <dd class="col-sm-8 detalhes-value">@Model.Localizacao.Pais</dd> 
         </dl>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-4">
-        @* adicionar um botão para voltar à página de onde veio, em Areas/Identity/Pages/Account/Manage/GestaoLocadores *@
-        <a class="btn btn-sm btn-primary" asp-page="/Identity/Pages/Account/Manage/GestaoLocadores">Voltar</a>
+    <div class="card-footer">
+        <a class="btn btn-sm btn-primary" asp-area="Identity" asp-page="/Account/Manage/GestaoLocadores">Voltar</a>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

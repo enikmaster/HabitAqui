@@ -2,6 +2,7 @@
 using HabitAqui.Data;
 using HabitAqui.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HabitAqui.Services;
 
@@ -18,7 +19,7 @@ public class LocadorService
 
     public async Task<Locador> GetLocador(string id)
     {
-        var locador = await _context.Locadores.FindAsync(id);
+        var locador = await _context.Locadores.Include(l => l.Localizacao).FirstOrDefaultAsync(l =>l.Id == id);
         return locador;
     }
 
