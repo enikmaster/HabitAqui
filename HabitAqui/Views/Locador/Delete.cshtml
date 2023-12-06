@@ -1,0 +1,18 @@
+﻿@model Locador
+
+@{
+    ViewBag.Title = "Remover o Locador";
+    Layout = "_Layout";
+}
+
+<h2>@ViewData["Title"]</h2>
+@*<partial name="_StatusMessage" for="ViewBag.StatusMessage"/>*@
+<div class="row">
+    <div class="col-md-4">
+        <dl>
+            <dt>Nome</dt>
+            <dd>@Model.Nome @Model.Apelido</dd>
+
+        </dl>
+    </div>
+</div>
