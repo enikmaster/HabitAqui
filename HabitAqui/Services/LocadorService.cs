@@ -20,6 +20,7 @@ public class LocadorService
     public async Task<Locador> GetLocador(string id)
     {
         var locador = await _context.Locadores
+            .Include(l => l.Localizacao)
             .Include(h => h.Habitacoes)
             .Include(a => a.Administradores)
             .FirstOrDefaultAsync(l => l.Id == id);

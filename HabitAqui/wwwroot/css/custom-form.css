@@ -13,3 +13,31 @@
 #toggle-show {
     display: none;
 }
+
+
+.detalhes-locador {
+    background-color: #e3e3e3;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+    .detalhes-locador .card-header {
+        background-color: #4f4e79;
+        color: #fff;
+    }
+
+.detalhes-label {
+    background-color: #6c757d; 
+    color: #fff;
+    padding: 8px 12px; 
+    text-align: left;
+    font-weight: bold; 
+    border-bottom: 1px solid #adbbd4;
+}
+
+.detalhes-value {
+    background-color: #f8f9fa; 
+    color: #212529;
+    padding: 8px 12px;
+    border-bottom: 1px solid #adbbd4;
+    font-weight: normal;
+}

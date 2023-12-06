@@ -96,6 +96,7 @@ public class GestaoLocadoresModel : PageModel
         user.Nif = Input.Nif;
         user.PhoneNumber = Input.PhoneNumber;
         user.Localizacao = Input.Localizacao;
+
     }
 
     private async Task<DetalhesUtilizador> CreateGestor(string role)
