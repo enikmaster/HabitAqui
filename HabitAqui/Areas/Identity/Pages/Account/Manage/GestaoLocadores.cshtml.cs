@@ -86,73 +86,8 @@ public class GestaoLocadoresModel : PageModel
 
         foreach (var error in result.Errors) ModelState.AddModelError(string.Empty, error.Description);
         return Page();
-        /*var locador = CreateLocador();
-        locador.Active = true;
-        locador.DataInicioSubscricao = DateTime.Now;
-        locador.EstadoDaSubscricao = EstadoSubscricao.Ativo.ToString();
-        locador.Nome = Input.Nome;
-        locador.Apelido = Input.Apelido;
-        locador.UserName = Input.Email;
-        locador.Email = Input.Email;
-        locador.Nif = Input.Nif;
-        locador.PhoneNumber = Input.PhoneNumber;
-        locador.Localizacao = Input.Localizacao;
-        await _userStore.SetUserNameAsync(locador, Input.Email, CancellationToken.None);
-        await _emailStore.SetEmailAsync(locador, Input.Email, CancellationToken.None);
-
-        var result = await _userManager.CreateAsync(locador, Input.Password);
-        if (result.Succeeded)
-        {
-            await _userManager.AddToRoleAsync(locador, Roles.Administrador.ToString());
-
-            var gestor = CreateUser();
-            gestor.Active = true;
-            gestor.UserName = Input.Email;
-            gestor.Nome = Input.Nome;
-            gestor.Apelido = Input.Apelido;
-            gestor.Email = Input.Email;
-            gestor.Nif = Input.Nif;
-            gestor.PhoneNumber = Input.PhoneNumber;
-            gestor.Localizacao = Input.Localizacao;
-            await _userStore.SetUserNameAsync(gestor, Input.Email, CancellationToken.None);
-            await _emailStore.SetEmailAsync(gestor, Input.Email, CancellationToken.None);
-
-            var resultGestor = await _userManager.CreateAsync(gestor, Input.Password);
-            if (resultGestor.Succeeded)
-            {
-                await _userManager.AddToRoleAsync(gestor, Roles.Gestor.ToString());
-                locador.Administradores.Add(gestor);
-                await _context.SaveChangesAsync();
-                StatusMessage = "Locador e gestor criados com sucesso.";
-                return RedirectToPage();
-            }
-
-            foreach (var error in resultGestor.Errors) ModelState.AddModelError(string.Empty, error.Description);
-            return Page();
-        }
-
-        foreach (var error in result.Errors) ModelState.AddModelError(string.Empty, error.Description);
-        return Page();*/
     }
-
-    public async Task<IActionResult> OnSoftDeleteAsync(int id)
-    {
-        var locador = await _context.Locadores.FindAsync(id);
-        if (locador == null) return NotFound();
-        if (locador.Habitacoes != null && locador.Habitacoes.Count > 0)
-        {
-            StatusMessage = "Não é possível eliminar um locador com habitações associadas.";
-            return RedirectToPage();
-        }
-
-        locador.Active = false;
-        locador.EstadoDaSubscricao = EstadoSubscricao.Cancelado.ToString();
-        /* TODO: inativar os gestores associados a este locador */
-        _context.Locadores.Update(locador);
-        await _context.SaveChangesAsync();
-        return RedirectToPage();
-    }
-
+    
     private void SetUserProperties(DetalhesUtilizador user)
     {
         user.Nome = Input.Nome;
@@ -216,19 +151,17 @@ public class GestaoLocadoresModel : PageModel
 
     public class InputModel
     {
+        public string LocadorSelecionadoId { get; set; } = string.Empty;
         [DisplayName("Nome")] public string Nome { get; set; }
         [DisplayName("Apelido")] public string Apelido { get; set; }
         [DisplayName("Email")] public string Email { get; set; }
         [DisplayName("Password")] public string Password { get; set; }
         [DisplayName("Telemóvel")] public string PhoneNumber { get; set; }
         [DisplayName("Nif")] public string Nif { get; set; }
-
         public Localizacao Localizacao { get; set; } = new();
-
-        //[DisplayName("Estado da Subscrição")] public string EstadoDaSubscricao { get; set; }
         public ICollection<Habitacao> Habitacoes { get; set; } = new List<Habitacao>();
 
-        [DisplayName("Funcionário(s) responsável(eis)")]
+        [DisplayName("Funcionários")]
         public ICollection<DetalhesUtilizador> Administradores { get; set; } = new List<DetalhesUtilizador>();
     }
 }

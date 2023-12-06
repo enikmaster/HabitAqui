@@ -53,7 +53,7 @@ public class Program
         app.MapControllerRoute(
             "default",
             "{controller=Habitacao}/{action=Index}/{id?}");
-        app.MapRazorPages();
+
 
         // tudo isto deve estar no ficheiro Startup.cs
         //criar um socpe
@@ -182,12 +182,23 @@ public class Program
             }
         }
 
+        app.MapRazorPages();
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllerRoute(
                 "DetalhesLocador",
                 "Locador/Detalhes/{id}",
                 new { controller = "Locador", action = "Detalhes" });
+            endpoints.MapControllerRoute(
+                "AtualizarLocador",
+                "Locador/Update/{id}",
+                new { controller = "Locador", action = "Update" });
+            endpoints.MapControllerRoute(
+                "ApagarLocador",
+                "Locador/Delete/{id}",
+                new { controller = "Locador", action = "Delete" });
+
+            endpoints.MapRazorPages();
         });
         app.Run();
     }

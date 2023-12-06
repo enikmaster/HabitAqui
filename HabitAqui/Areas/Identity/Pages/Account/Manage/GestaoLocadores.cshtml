@@ -10,11 +10,9 @@
 }
 <link rel="stylesheet" href="~/css/custom-table.css"/>
 <link rel="stylesheet" href="~/css/custom-form.css"/>
-@*@await Html.PartialAsync("_ConfirmationModal")*@
 
 <h2>@ViewData["Title"]</h2>
 <partial name="_StatusMessage" for="StatusMessage"/>
-@* TODO: primeiro criar um locador e depois um gestor *@
 <table class="table table-striped">
     <thead>
     <tr>
@@ -55,29 +53,20 @@
                         <td>Inativo</td>
                     }
                     <td>@Html.DisplayFor(model => loc.Habitacoes.Count)</td>
-                    @switch (loc.Administradores.Count)
-                    {
-                        case 0:
-                            <td>Nenhum gestor associado. Adicione um gestor.</td>
-                            break;
-                        case 1:
-                            <td>@loc.Administradores.First().Nome @loc.Administradores.First().Apelido</td>
-                            break;
-                        default:
-                            <td>Vários gestores. Clicar para ver mais informação.</td>
-                            break;
-                    }
+                    <td>@Html.DisplayFor(model => loc.Administradores.Count)</td>
                     <td>
                         <a class="btn btn-success btn-sm"
                            href="@Url.Action("Detalhes", "Locador", new { id = loc.Id })">
                             <i class="fa-solid fa-magnifying-glass"></i>
-                        </a> @* ao clicar neste botão, abrir uma página com os detalhes do locador *@
-                        <a class="btn btn-primary btn-sm ">
+                        </a>
+                        <a class="btn btn-primary btn-sm"
+                           href="@Url.Action("Update", "Locador", new { id = loc.Id })">
                             <i class="fa-solid fa-pen"></i>
-                        </a> @* ao clicar neste botão, abrir uma modal para editar o locador *@
-                        <a class="btn btn-danger btn-sm" href="#" id="deleteLocador" data-bs-toggle="modal" data-bs-target="#confirmationModal">
+                        </a>
+                        <a class="btn btn-danger btn-sm"
+                           href="@Url.Action("Delete", "Locador", new { id = loc.Id })">
                             <i class="fa-solid fa-trash"></i>
-                        </a> @* ao clicar neste botão, abrir uma modal para confirmar a eliminação do locador *@
+                        </a>
                     </td>
                 </tr>
             }
@@ -90,8 +79,7 @@
     <td colspan="5">
         <a class="btn btn-success"
            data-bs-toggle="modal"
-           data-bs-target="#adicionarLocadorModal"
-           @*data-locador-id="@Model.Locador.Id"*@>
+           data-bs-target="#adicionarLocadorModal">
             <i class="fa-regular fa-plus" aria-hidden="true"></i>
         </a>
     </td>
@@ -196,7 +184,6 @@ https://learn.microsoft.com/en-us/aspnet/core/data/ef-mvc/sort-filter-page?view=
                         </div>
                     </div>
                     <div class="modal-footer">
-                        @* TODO: Adicionar uma função onclick() no botão fechar para limpar os dados *@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     </div>
@@ -206,7 +193,6 @@ https://learn.microsoft.com/en-us/aspnet/core/data/ef-mvc/sort-filter-page?view=
         </div>
     </div>
 </div>
-
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial"/>
