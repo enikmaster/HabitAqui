@@ -9,10 +9,21 @@
 @*<partial name="_StatusMessage" for="ViewBag.StatusMessage"/>*@
 <div class="row">
     <div class="col-md-4">
+        <p>Tem a certeza que pretende remover este Locador?</p>
         <dl>
             <dt>Nome</dt>
             <dd>@Model.Nome @Model.Apelido</dd>
 
         </dl>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="SoftDelete">
+            <input type="hidden" asp-for="Id"/>
+            <input type="submit" value="Remover" class="btn btn-danger btn-sm"/>
+            <a class="btn btn-sm btn-primary" asp-area="Identity" asp-page="/Account/Manage/GestaoLocadores">Cancelar</a>
+        </form>
     </div>
 </div>

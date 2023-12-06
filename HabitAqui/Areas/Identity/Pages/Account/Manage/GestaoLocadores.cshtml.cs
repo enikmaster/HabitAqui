@@ -67,7 +67,7 @@ public class GestaoLocadoresModel : PageModel
         var result = await _userManager.CreateAsync(locador, Input.Password);
         if (result.Succeeded)
         {
-            await _userManager.AddToRoleAsync(locador, Roles.Administrador.ToString());
+            await _userManager.AddToRoleAsync(locador, Roles.Gestor.ToString());
             var gestor = await CreateGestor(Roles.Gestor.ToString());
             SetUserProperties(gestor);
             var resultGestor = await _userManager.CreateAsync(gestor, Input.Password);
@@ -87,7 +87,7 @@ public class GestaoLocadoresModel : PageModel
         foreach (var error in result.Errors) ModelState.AddModelError(string.Empty, error.Description);
         return Page();
     }
-    
+
     private void SetUserProperties(DetalhesUtilizador user)
     {
         user.Nome = Input.Nome;
