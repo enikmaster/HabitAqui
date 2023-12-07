@@ -19,17 +19,17 @@ public class LocadorService
 
     public async Task<Locador> GetLocador(string id)
     {
-        var locador = await _context.Locadores.Include(l => l.Localizacao).FirstOrDefaultAsync(l =>l.Id == id);
+        var locador = await _context.Locadores.Include(l => l.Localizacao).FirstOrDefaultAsync(l => l.Id == id);
         return locador;
     }
 
     public Locador UpdateLocador(Locador locador)
-    {   
+    {
         try
         {
-            
+
             var currentlocador = _context.Locadores.Where(l => l.Id == locador.Id).Include(x => x.Localizacao).FirstOrDefault();
-            if(currentlocador == null)
+            if (currentlocador == null)
             {
                 return null;
             }
@@ -39,17 +39,18 @@ public class LocadorService
             currentlocador.Email = locador.Email;
             currentlocador.PhoneNumber = locador.PhoneNumber;
             currentlocador.Nif = locador.Nif;
-            currentlocador.EstadoDaSubscricao = locador.EstadoDaSubscricao;
-           // currentlocador.Administradores = locador.Administradores;
-           //tratar a localizaçao objeto
+            //currentlocador.EstadoDaSubscricao = locador.EstadoDaSubscricao;
+            // currentlocador.Administradores = locador.Administradores;
+            //tratar a localizaçao objeto
             currentlocador.Localizacao.Cidade = locador.Localizacao.Cidade;
             currentlocador.Localizacao.Pais = locador.Localizacao.Pais;
             currentlocador.Localizacao.CodigoPostal = locador.Localizacao.CodigoPostal;
             currentlocador.Localizacao.Morada = locador.Localizacao.Morada;
-            //retornar o current locador
+
+
             _context.Update(currentlocador);
             _context.SaveChanges();
-           
+
             return currentlocador;
         }
         catch (DbUpdateConcurrencyException ex)

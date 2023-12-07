@@ -6,7 +6,9 @@
     @if (SignInManager.IsSignedIn(User))
     {
         // TODO: alterar o username para o nome do utilizador
-        <li>Olá @User.Identity?.Name!</li>
+        //através do usermanager, quero ir buscar o nome do utilizador@*
+        @*  <li>Bem-vindo @UserManager.FindByIdAsync(UserManager.GetUserId()) *@ 
+    <li>Olá @User.Identity?.Name!</li>
         <li class="nav-item">
             <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Área de Administração</a>
         </li>
