@@ -1,5 +1,7 @@
-﻿@{
+﻿@using HabitAqui.Data
+@{
     ViewData["Title"] = "Nome da habitação";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link rel="stylesheet" href="/css/detalhes-habitacao.css"/>
 
@@ -23,4 +25,10 @@
         </div>
     </div>
 </div>
-galeria de imagens
+@if (User.IsInRole(Roles.Funcionario.ToString()) || User.IsInRole(Roles.Gestor.ToString()))
+{
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
+}
