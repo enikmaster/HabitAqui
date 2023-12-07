@@ -45,6 +45,7 @@ public class GestaoLocadoresModel : PageModel
     private async Task LoadAsync(int page, int pageSize)
     {
         Locadores = await _context.Locadores
+            .Where(l => l.Active)
             .Include(response => response.Administradores)
             .Include(response => response.Habitacoes)
             .ToListAsync();
