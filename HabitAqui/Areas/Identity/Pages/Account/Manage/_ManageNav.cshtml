@@ -38,7 +38,7 @@
     @if (User.IsInRole(Roles.Gestor.ToString()))
     {
         <li class="nav-item">
-            <a class="nav-link" asp-page="">Gestão de Funcionários</a>
+            <a class="nav-link @(ManageNavPages.GestorGestaoUtilizadoresNavClass(ViewContext))" asp-page="/Areas/Identity/Pages/Account/Manage/GestorGestaoUtilizadores">Gestão de Utilizadores</a>
         </li>
     }
     @if (User.IsInRole(Roles.Administrador.ToString()))
@@ -47,7 +47,7 @@
             <a class="nav-link @ManageNavPages.GestaoLocadoresNavClass(ViewContext)" id="gestao-locadores" asp-page="./GestaoLocadores">Gestão de Locadores</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" asp-page="">Gestão de Categorias</a>
+            <a class="nav-link @ManageNavPages.GestaoCategoriasNavClass(ViewContext)" asp-page="./GestaoCategorias">Gestão de Categorias</a>
         </li>
         <li class="nav-item">
             <a class="nav-link @ManageNavPages.GestaoUtilizadoresNavClass(ViewContext)" id="gestao-utilizadores" asp-page="./GestaoUtilizadores">Gestão de Utilizadores</a>

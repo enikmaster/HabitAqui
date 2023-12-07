@@ -1,0 +1,14 @@
+﻿@page "{id:int}"
+@model HabitAqui.Areas.Identity.Pages.Account.Manage.ApagarCategoriaModel
+@{
+    ViewData["Title"] = "Apagar Categoria";
+}
+
+<h2>@ViewData["Title"]]</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="CategoriaId" />
+    <p>Tem certeza de que deseja apagar esta categoria?</p>
+    <button type="submit" class="btn btn-danger">Apagar</button>
+    <a asp-page="./GestaoCategorias" class="btn btn-secondary">Cancelar</a>
+</form>
