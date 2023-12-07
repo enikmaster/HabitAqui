@@ -39,17 +39,37 @@ public class LocadorController : Controller
         return View(locador);
     }
 
+
+
+
     [HttpPost]
     public IActionResult Update(Locador locador)
     {
-        if (!ModelState.IsValid) return View(locador);
+
+        if (!ModelState.IsValid)
+        {
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            Console.WriteLine(errors);
+
+            return View(locador);
+        }
+
+       
+      
+
+        // Adicione um log aqui
+        System.Diagnostics.Debug.WriteLine("A ação Update foi alcançada.");
+
         _locadorService.UpdateLocador(locador);
         var statusMessage = _locadorService.StatusMessage;
         if (!string.IsNullOrEmpty(statusMessage))
+        {
             ViewBag.StatusMessage = statusMessage;
+        }
 
         return RedirectToAction("Detalhes", new { id = locador.Id });
     }
+
 
     [HttpGet]
     public async Task<IActionResult> Delete(string id)

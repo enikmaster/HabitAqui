@@ -29,9 +29,38 @@ public class LocadorService
 
     public Locador UpdateLocador(Locador locador)
     {
-        _context.Locadores.Update(locador);
-        _context.SaveChanges();
-        return locador;
+        try
+        {
+
+            var currentlocador = _context.Locadores.Where(l => l.Id == locador.Id).Include(x => x.Localizacao).FirstOrDefault();
+            if (currentlocador == null)
+            {
+                return null;
+            }
+
+            currentlocador.Nome = locador.Nome;
+            currentlocador.Apelido = locador.Apelido;
+            currentlocador.Email = locador.Email;
+            currentlocador.PhoneNumber = locador.PhoneNumber;
+            currentlocador.Nif = locador.Nif;
+            //currentlocador.EstadoDaSubscricao = locador.EstadoDaSubscricao;
+            // currentlocador.Administradores = locador.Administradores;
+            //tratar a localizaçao objeto
+            currentlocador.Localizacao.Cidade = locador.Localizacao.Cidade;
+            currentlocador.Localizacao.Pais = locador.Localizacao.Pais;
+            currentlocador.Localizacao.CodigoPostal = locador.Localizacao.CodigoPostal;
+            currentlocador.Localizacao.Morada = locador.Localizacao.Morada;
+
+
+            _context.Update(currentlocador);
+            _context.SaveChanges();
+
+            return currentlocador;
+        }
+        catch (DbUpdateConcurrencyException ex)
+        {
+            throw new ApplicationException("Erro de concorrência ao atualizar o locador.", ex);
+        }
     }
 
     public async Task DeleteLocador(string locadorId)

@@ -5,14 +5,88 @@
     Layout = "_Layout";
 }
 
+<link rel="stylesheet" href="~/css/custom-table.css" />
+<link rel="stylesheet" href="~/css/custom-form.css" />
+
 @* TODO: fazer a página de Update do locador *@
 <h2>@ViewData["Title"]</h2>
-<div class="row">
-    <div class="col-md-4">
-        <dl>
-            <dt>Nome</dt>
-            <dd>@Model.Nome @Model.Apelido</dd>
 
-        </dl>
+<form id="atualizar-locador" method="post" asp-action="Update">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <h6 class="modal-title text-dark mb-3">Atualizar Dados do Locador</h6>
+
+    <input type="hidden" asp-for="Id" />
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-floating mb-3">
+                <input asp-for="Nome" class="form-control" autocomplete="nome" aria-required="true" placeholder="Nome do Locador" />
+                <label asp-for="Nome" class="form-label">Nome</label>
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Email" class="form-control" autocomplete="email" aria-required="true" placeholder="Email" />
+                <label asp-for="Email" class="form-label">Email</label>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Nif" class="form-control" autocomplete="nif" aria-required="true" placeholder="NIF" type="number" />
+                <label asp-for="Nif" class="form-label">NIF</label>
+                <span asp-validation-for="Nif" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Localizacao.CodigoPostal" class="form-control" autocomplete="codigoPostal" aria-required="true" placeholder="Código Postal" />
+                <label asp-for="Localizacao.CodigoPostal" class="form-label">Código Postal</label>
+                <span asp-validation-for="Localizacao.CodigoPostal" class="text-danger"></span>
+            </div>
+
+            <div style="display:none;">
+                <input asp-for="EstadoDaSubscricao" class="form-control" autocomplete="family-name" placeholder="Estado da Subscricao" />
+                <label asp-for="EstadoDaSubscricao" class="form-label">Estado da Subscricao</label>
+                <span asp-validation-for="EstadoDaSubscricao" class="text-danger"></span>
+            </div>
+            <div style="display:none;">
+                <input asp-for="Administradores" class="form-control" autocomplete="funcionario-responsavel" placeholder="Funcionario Responsavel" />
+                <label asp-for="Administradores" class="form-label">Funcionario Responsavel</label>
+                <span asp-validation-for="Administradores" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating mb-3">
+                <input asp-for="Apelido" class="form-control" autocomplete="tel" aria-required="true" placeholder="Apelido" />
+                <label asp-for="Apelido" class="form-label">Apelido</label>
+                <span asp-validation-for="Apelido" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="PhoneNumber" class="form-control" autocomplete="tel" aria-required="true" placeholder="Telemóvel" />
+                <label asp-for="PhoneNumber" class="form-label">Telemóvel</label>
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Localizacao.Morada" class="form-control" autocomplete="morada" aria-required="true" placeholder="Morada" />
+                <label asp-for="Localizacao.Morada" class="form-label">Morada</label>
+                <span asp-validation-for="Localizacao.Morada" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Localizacao.Cidade" class="form-control" autocomplete="cidade" aria-required="true" placeholder="Cidade" />
+                <label asp-for="Localizacao.Cidade" class="form-label">Cidade</label>
+                <span asp-validation-for="Localizacao.Cidade" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Localizacao.Pais" class="form-control" autocomplete="pais" aria-required="true" placeholder="País" />
+                <label asp-for="Localizacao.Pais" class="form-label">País</label>
+                <span asp-validation-for="Localizacao.Pais" class="text-danger"></span>
+            </div>
+
+        </div>
     </div>
-</div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a class="btn btn-danger" asp-area="Identity" asp-page="/Account/Manage/GestaoLocadores">Cancelar</a>
+    </div>
+
+
+</form>
+
+
