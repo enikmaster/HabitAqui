@@ -19,7 +19,11 @@ public class LocadorService
 
     public async Task<Locador> GetLocador(string id)
     {
-        var locador = await _context.Locadores.Include(l => l.Localizacao).FirstOrDefaultAsync(l => l.Id == id);
+        var locador = await _context.Locadores
+            .Include(l => l.Localizacao)
+            .Include(h => h.Habitacoes)
+            .Include(a => a.Administradores)
+            .FirstOrDefaultAsync(l => l.Id == id);
         return locador;
     }
 
@@ -59,8 +63,9 @@ public class LocadorService
         }
     }
 
-    public async Task DeleteLocador(Locador locador)
+    public async Task DeleteLocador(string locadorId)
     {
+        var locador = await GetLocador(locadorId);
         if (locador.Habitacoes is { Count: > 0 })
         {
             StatusMessage = "Não é possível eliminar um locador com habitações associadas.";
@@ -69,7 +74,8 @@ public class LocadorService
 
         locador.Active = false;
         locador.EstadoDaSubscricao = EstadoSubscricao.Cancelado.ToString();
-        foreach (var administrador in locador.Administradores) administrador.Active = false;
+        foreach (var administrador in locador.Administradores)
+            administrador.Active = false;
         _context.Locadores.Update(locador);
         await _context.SaveChangesAsync();
     }

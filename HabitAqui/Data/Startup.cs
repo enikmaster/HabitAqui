@@ -32,6 +32,8 @@ public static class Startup
                 Nome = "Admin",
                 Apelido = "Admin",
                 Nif = "123456789",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
                 Localizacao = new Localizacao
                 {
                     Morada = "Morada",
@@ -52,10 +54,12 @@ public static class Startup
             var funcionarioUser = new DetalhesUtilizador
             {
                 UserName = funcionarioEmail,
-                Email = funcionarioPassword,
+                Email = funcionarioEmail,
                 Nome = "Funcionário",
                 Apelido = "Funcionário",
                 Nif = "123456789",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
                 Localizacao = new Localizacao
                 {
                     Morada = "Morada",
@@ -76,10 +80,12 @@ public static class Startup
             var gestorUser = new DetalhesUtilizador
             {
                 UserName = gestorEmail,
-                Email = gestorPassword,
+                Email = gestorEmail,
                 Nome = "Gestor",
                 Apelido = "Gestor",
                 Nif = "123456789",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
                 Localizacao = new Localizacao
                 {
                     Morada = "Morada",
@@ -100,10 +106,12 @@ public static class Startup
             var clienteUser = new DetalhesUtilizador
             {
                 UserName = clienteEmail,
-                Email = clientePassword,
+                Email = clienteEmail,
                 Nome = "Cliente",
                 Apelido = "Cliente",
                 Nif = "123456789",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
                 Localizacao = new Localizacao
                 {
                     Morada = "Morada",

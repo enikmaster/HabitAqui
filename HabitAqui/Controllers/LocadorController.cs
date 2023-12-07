@@ -76,15 +76,15 @@ public class LocadorController : Controller
     {
         var locador = await _locadorService.GetLocador(id);
         if (locador == null)
-            return RedirectToAction("Index", "Home");
+            return Redirect("/Identity/Account/Manage/GestaoLocadores");
         return View(locador);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Delete(Locador locador)
+    public async Task<IActionResult> SoftDelete(string Id)
     {
-        await _locadorService.DeleteLocador(locador);
-        // TODO: redirecionar para a página de gestão de locadores
-        return RedirectToAction("Index", "Home");
+        if (!string.IsNullOrEmpty(Id))
+            await _locadorService.DeleteLocador(Id);
+        return Redirect("/Identity/Account/Manage/GestaoLocadores");
     }
 }
