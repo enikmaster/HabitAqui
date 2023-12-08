@@ -38,8 +38,8 @@
     @if (User.IsInRole(Roles.Gestor.ToString()))
     {
         <li class="nav-item">
-            <a class="nav-link @(ManageNavPages.GestorGestaoUtilizadoresNavClass(ViewContext))" asp-page="/Areas/Identity/Pages/Account/Manage/GestorGestaoUtilizadores">Gestão de Utilizadores</a>
-        </li>
+           <a class="nav-link @(ManageNavPages.GestaoUtilizadoresNavClass(ViewContext))" asp-page="/Areas/Identity/Pages/Account/Manage/GestaoUtilizadores">Gestão de Utilizadores</a>
+         </li>
     }
     @if (User.IsInRole(Roles.Administrador.ToString()))
     {
