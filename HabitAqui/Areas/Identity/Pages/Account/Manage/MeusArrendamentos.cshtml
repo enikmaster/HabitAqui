@@ -1,0 +1,36 @@
+﻿@page
+@model HabitAqui.Areas.Identity.Pages.Account.Manage.MeusArrendamentosModel
+
+
+@{
+    ViewData["Title"] = "Meus Arrendamentos";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (Model.Reservas != null && Model.Reservas.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID da Reserva</th>
+                <th>Data de Início</th>
+                <th>Data de Fim</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var reserva in Model.Reservas)
+            {
+                <tr>
+                    <td>@reserva.Id</td>
+                    <td>@reserva.DataInicio.ToShortDateString()</td>
+                    <td>@reserva.DataFim.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Não há reservas para mostrar.</p>
+}
