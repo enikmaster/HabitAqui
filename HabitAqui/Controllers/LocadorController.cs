@@ -1,4 +1,4 @@
-﻿using HabitAqui.Data;
+﻿using System.Diagnostics;
 using HabitAqui.Models;
 using HabitAqui.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -7,12 +7,10 @@ namespace HabitAqui.Controllers;
 
 public class LocadorController : Controller
 {
-    private readonly ApplicationDbContext _context;
     private readonly LocadorService _locadorService;
 
-    public LocadorController(ApplicationDbContext context, LocadorService locadorService)
+    public LocadorController(LocadorService locadorService)
     {
-        _context = context;
         _locadorService = locadorService;
     }
 
@@ -40,12 +38,9 @@ public class LocadorController : Controller
     }
 
 
-
-
     [HttpPost]
     public IActionResult Update(Locador locador)
     {
-
         if (!ModelState.IsValid)
         {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
@@ -54,18 +49,13 @@ public class LocadorController : Controller
             return View(locador);
         }
 
-       
-      
 
         // Adicione um log aqui
-        System.Diagnostics.Debug.WriteLine("A ação Update foi alcançada.");
+        Debug.WriteLine("A ação Update foi alcançada.");
 
         _locadorService.UpdateLocador(locador);
         var statusMessage = _locadorService.StatusMessage;
-        if (!string.IsNullOrEmpty(statusMessage))
-        {
-            ViewBag.StatusMessage = statusMessage;
-        }
+        if (!string.IsNullOrEmpty(statusMessage)) ViewBag.StatusMessage = statusMessage;
 
         return RedirectToAction("Detalhes", new { id = locador.Id });
     }

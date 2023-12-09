@@ -3,7 +3,9 @@
 @using Microsoft.AspNetCore.Authorization
 @model GestaoHabitacoesModel
 
+
 @{
+    // TODO: apagar este ficheiro
     ViewData["Title"] = "Habitações";
 }
 
@@ -13,7 +15,7 @@
     <thead>
     <tr>
         <th class="identificador">Nome da Habitação</th>
-        <th class="identificador">Funcionário responsável</th>
+        @*<th class="identificador">Funcionário responsável</th>*@
         <th class="identificador">Locador</th>
         <th class="identificador">Avaliação</th>
         <th class="identificador"></th> <!-- Coluna vazia para os botões -->
@@ -32,7 +34,7 @@
         {
             <tr>
                 <td>@hab.DetalhesHabitacao.Nome</td>
-                <td>@hab.Funcionario.Nome @hab.Funcionario.Apelido</td>
+                @*<td>@hab.Funcionario.Nome @hab.Funcionario.Apelido</td>*@
                 <td>@Model.GetLocadorName(hab)</td>
                 <td>@hab.MediaAvaliacoes.ToString("F2")</td>
                 <td>

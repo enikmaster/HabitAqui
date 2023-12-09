@@ -1,25 +1,25 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using HabitAqui.Data
 @inject SignInManager<DetalhesUtilizador> SignInManager
 @inject UserManager<DetalhesUtilizador> UserManager
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
-        // TODO: alterar o username para o nome do utilizador
-        //através do usermanager, quero ir buscar o nome do utilizador@*
-        @*  <li>Bem-vindo @UserManager.FindByIdAsync(UserManager.GetUserId()) *@ 
-    <li>Olá @User.Identity?.Name!</li>
         <li class="nav-item">
-            <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Área de Administração</a>
+            <span class="nav-link text-light">Olá @UserManager.GetUserAsync(User)?.Result.Nome @UserManager.GetUserAsync(User)?.Result.Apelido</span>
         </li>
+        @if (User.IsInRole(Roles.Administrador.ToString()))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Área de Administração</a>
+            </li>
+        }
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                 <button type="submit" class="nav-link btn btn-link text-dark">Sair</button>
             </form>
         </li>
-        // TODO: passar esta lógica para outra páginas, para verificar se o user está logado ou não
-        // TODO: var agendamentos = _context.Agendamentos.Include(a => a.Cliente).Include(a => a.Funcionario).Include(a => a.Servico).Where(a => a.Cliente.UserName == User.Identity.Name);
-        //  isto é só um exemplo, não é para fazer aqui
     }
     else
     {

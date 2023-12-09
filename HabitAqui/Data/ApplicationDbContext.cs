@@ -36,5 +36,21 @@ public class ApplicationDbContext : IdentityDbContext<DetalhesUtilizador>
         modelBuilder.Entity<DetalhesHabitacao>()
             .Property(h => h.Area)
             .HasColumnType("decimal(18,2)");
+        modelBuilder.Entity<Habitacao>()
+            .HasOne(h => h.Locador)
+            .WithMany(l => l.Habitacoes)
+            .OnDelete(DeleteBehavior.NoAction);
+        modelBuilder.Entity<Locador>()
+            .HasMany(h => h.Habitacoes)
+            .WithOne(l => l.Locador)
+            .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<Habitacao>()
+            .HasMany(r => r.Reservas)
+            .WithOne(h => h.Habitacao)
+            .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<Reserva>()
+            .HasOne(c => c.Cliente)
+            .WithMany(r => r.Reservas)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }
