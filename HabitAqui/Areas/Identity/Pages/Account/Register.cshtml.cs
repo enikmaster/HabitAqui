@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
+using HabitAqui.Data;
 using HabitAqui.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -74,6 +75,7 @@ public class RegisterModel : PageModel
         if (ModelState.IsValid)
         {
             var user = CreateUser();
+            
             user.Nome = Input.Nome;
             user.Apelido = Input.Apelido;
             user.Nif = Input.Nif;
@@ -94,8 +96,10 @@ public class RegisterModel : PageModel
             {
                 _logger.LogInformation("User created a new account with password.");
 
+                await _userManager.AddToRoleAsync(user, "Cliente");
                 var userId = await _userManager.GetUserIdAsync(user);
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                 var callbackUrl = Url.Page(
                     "/Account/ConfirmEmail",
