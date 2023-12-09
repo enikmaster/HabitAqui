@@ -1,26 +1,143 @@
-@model HabitAqui.Models.Habitacao
+@model Habitacao
 
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>Habitacao</h4>
-<hr />
+<h4>Adicionar Habitação</h4>
+<hr/>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @* formulário para criar uma habitcao *@
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-floating mb-3">
+                        <input
+                            asp-for="DetalhesHabitacao.Nome"
+                            autocomplete="nome"
+                            aria-required="true"
+                            aria-placeholder="Nome da Habitação"
+                            class="form-control"
+                            placeholder="Nome"/>
+                        <label
+                            asp-for="DetalhesHabitacao.Nome"
+                            class="form-label text-dark">
+                        </label>
+                        <span
+                            asp-validation-for="DetalhesHabitacao.Nome"
+                            class="text-danger">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <input
+                            asp-for="DetalhesHabitacao.Localizacao.Morada"
+                            autocomplete="nome"
+                            aria-required="true"
+                            aria-placeholder="Morada"
+                            class="form-control"
+                            placeholder="Nome"/>
+                        <label
+                            asp-for="DetalhesHabitacao.Localizacao.Morada"
+                            class="form-label text-dark">
+                        </label>
+                        <span
+                            asp-validation-for="DetalhesHabitacao.Localizacao.Morada"
+                            class="text-danger">
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <input
+                            asp-for="DetalhesHabitacao.Localizacao.Cidade"
+                            autocomplete="nome"
+                            aria-required="true"
+                            aria-placeholder="Cidade"
+                            class="form-control"
+                            placeholder="Nome"/>
+                        <label
+                            asp-for="DetalhesHabitacao.Localizacao.Cidade"
+                            class="form-label text-dark">
+                        </label>
+                        <span
+                            asp-validation-for="DetalhesHabitacao.Localizacao.Cidade"
+                            class="text-danger">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <input
+                            asp-for="DetalhesHabitacao.Localizacao.CodigoPostal"
+                            autocomplete="nome"
+                            aria-required="true"
+                            aria-placeholder="Código Postal"
+                            class="form-control"
+                            placeholder="Nome"/>
+                        <label
+                            asp-for="DetalhesHabitacao.Localizacao.CodigoPostal"
+                            class="form-label text-dark">
+                        </label>
+                        <span
+                            asp-validation-for="DetalhesHabitacao.Localizacao.CodigoPostal"
+                            class="text-danger">
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <input
+                            asp-for="DetalhesHabitacao.Localizacao.Pais"
+                            autocomplete="nome"
+                            aria-required="true"
+                            aria-placeholder="País"
+                            class="form-control"
+                            placeholder="Nome"/>
+                        <label
+                            asp-for="DetalhesHabitacao.Localizacao.Pais"
+                            class="form-label text-dark">
+                        </label>
+                        <span
+                            asp-validation-for="DetalhesHabitacao.Localizacao.Pais"
+                            class="text-danger">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label asp-for="Categorias"></label>
+                    @if (ViewBag.Categorias != null)
+                    {
+                        foreach (var categoria in ViewBag.Categorias)
+                        {
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                                <label class="form-check-label" for="inlineCheckbox1">1</label>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            <p>Não existem categorias disponíveis!</p>
+                        </div>
+                    }
+                </div>
+            </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Guardar" class="btn btn-lg btn-primary"/>
+                <a class="btn btn-lg btn-danger" asp-action="Index">Cancelar</a>
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-

@@ -20,7 +20,11 @@ public class Program
                     false) //por agora não vamos usar contas confirmadas, depois alterar para true
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
+        // Adiciona os Services de cada controller
         builder.Services.AddScoped<LocadorService>();
+        builder.Services.AddScoped<HabitacaoService>();
+        builder.Services.AddScoped<CategoriaService>();
+
         builder.Services.AddControllersWithViews();
         builder.Services.Configure<IdentityOptions>(options =>
         {

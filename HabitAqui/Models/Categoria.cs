@@ -6,5 +6,6 @@ public class Categoria
 {
     [Key] public int Id { get; set; }
     [Required] public string Nome { get; set; }
+    public bool Active { get; set; }
     public ICollection<HabitacaoCategoria>? Categorias { get; set; }
 }
