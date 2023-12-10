@@ -62,7 +62,7 @@ public class Program
         if (app.Environment.IsDevelopment())
         {
             app.UseMigrationsEndPoint();
-        }
+        }   
         else
         {
             app.UseExceptionHandler("/Home/Error");

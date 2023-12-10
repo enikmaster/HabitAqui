@@ -33,6 +33,14 @@ public static class ManageNavPages
 
     public static string GestaoHabitacoes => "GestaoHabitacoes";
     public static string GestaoLocadores => "GestaoLocadores";
+    public static string GestaoCategorias => "GestaoCategorias";
+
+
+    public static string GestaoCategoriasNavClass(ViewContext viewContext)
+    {
+        return PageNavClass(viewContext, GestaoCategorias);
+    }
+
 
     public static string GestaoLocadoresNavClass(ViewContext viewContext)
     {

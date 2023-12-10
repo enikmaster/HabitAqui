@@ -21,7 +21,7 @@ public class ApplicationDbContext : IdentityDbContext<DetalhesUtilizador>
     public DbSet<Imagem> Imagens { get; set; }
     public DbSet<ImagemHabitacao> ImagensHabitacoes { get; set; }
     public DbSet<ImagemRegistoEntrega> ImagensRegistoEntregas { get; set; }
-    public DbSet<Locador> Locadores { get; set; }
+    public DbSet<Locador> Locadores { get; set; }   
     public DbSet<Localizacao> Localizacoes { get; set; }
     public DbSet<Opcional> Opcionais { get; set; }
     public DbSet<RegistoEntrega> RegistoEntregas { get; set; }
