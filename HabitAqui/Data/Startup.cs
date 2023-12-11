@@ -14,8 +14,26 @@ public enum Roles
 public static class Startup
 {
     public static async Task CriaDadosIniciais(UserManager<DetalhesUtilizador> userManager,
-        RoleManager<IdentityRole> roleManager)
+        RoleManager<IdentityRole> roleManager,
+        ApplicationDbContext context
+    )
     {
+        if (!context.Categorias.Any())
+        {
+            var categoriaMoradia = new Categoria
+            {
+                Nome = "Moradia",
+                Active = true
+            };
+            var categoriaApartamento = new Categoria
+            {
+                Nome = "Apartamento",
+                Active = true
+            };
+            context.Categorias.AddRange(categoriaMoradia, categoriaApartamento);
+            await context.SaveChangesAsync();
+        }
+
         await roleManager.CreateAsync(new IdentityRole(Roles.Administrador.ToString()));
         await roleManager.CreateAsync(new IdentityRole(Roles.Gestor.ToString()));
         await roleManager.CreateAsync(new IdentityRole(Roles.Funcionario.ToString()));
