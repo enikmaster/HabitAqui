@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using HabitAqui.Data;
 using HabitAqui.Models;
-using HabitAqui.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -22,7 +21,6 @@ public class GestaoLocadoresModel : PageModel
 
     private readonly IUserEmailStore<DetalhesUtilizador> _emailStore;
 
-    private readonly LocadorService _locadorService;
     private readonly UserManager<DetalhesUtilizador> _userManager;
     private readonly IUserStore<DetalhesUtilizador> _userStore;
 
@@ -97,7 +95,6 @@ public class GestaoLocadoresModel : PageModel
         user.Nif = Input.Nif;
         user.PhoneNumber = Input.PhoneNumber;
         user.Localizacao = Input.Localizacao;
-
     }
 
     private async Task<DetalhesUtilizador> CreateGestor(string role)
@@ -153,7 +150,6 @@ public class GestaoLocadoresModel : PageModel
 
     public class InputModel
     {
-        public string LocadorSelecionadoId { get; set; } = string.Empty;
         [DisplayName("Nome")] public string Nome { get; set; }
         [DisplayName("Apelido")] public string Apelido { get; set; }
         [DisplayName("Email")] public string Email { get; set; }

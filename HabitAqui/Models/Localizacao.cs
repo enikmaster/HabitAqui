@@ -22,5 +22,5 @@ public class Localizacao
 
     [DataType(DataType.Text)]
     [DisplayName("País")]
-    public string? Pais { get; set; }
+    public string Pais { get; set; }
 }

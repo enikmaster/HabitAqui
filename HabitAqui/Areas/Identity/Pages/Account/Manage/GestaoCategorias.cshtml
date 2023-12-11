@@ -1,58 +1,61 @@
-﻿    @page
-    @model HabitAqui.Areas.Identity.Pages.Account.Manage.GestaoCategoriasModel
+﻿@page
+@model GestaoCategoriasModel
 
-    @{
-        ViewData["Title"] = "Gestão de Categorias";
-    }
+@{
+    ViewData["Title"] = "Gestão de Categorias";
+}
 
-    <link rel="stylesheet" href="~/css/custom-table.css" />
-    <h2>@ViewData["Title"]</h2>
+<link rel="stylesheet" href="~/css/custom-table.css"/>
+<h2>@ViewData["Title"]</h2>
 
-    @{
-        var categoriaIdToTotalHabitacoes = Model.TotalHabitacoesPorCategoria;
+@{
+    var categoriaIdToTotalHabitacoes = Model.TotalHabitacoesPorCategoria;
+}
 
-    }
-
-
-    @if (Model.Categorias.Any()) 
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nome da Categoria</th>
+        <th>Total de Habitações</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (!Model.Categorias.Any())
     {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nome da Categoria</th>
-                    <th>Total de Habitações</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var categoria in Model.Categorias)
-                {
-                    <tr>
-                        <td>@categoria.Id</td>
-                        <td>@categoria.Nome</td>
-                        <td>@(categoriaIdToTotalHabitacoes.ContainsKey(categoria.Id) ? categoriaIdToTotalHabitacoes[categoria.Id] : 0)</td>
-                        <td>
-                            <a class="btn btn-primary btn-sm" asp-page="./EditarCategoria" asp-route-id="@categoria.Id">
-                                <i class="fa-solid fa-pen"></i>
-                            </a>
-                            <a class="btn btn-danger btn-sm" asp-page="./ApagarCategoria" asp-route-id="@categoria.Id" onclick="return confirm('Tem certeza que deseja apagar esta categoria?');">
-                                <i class="fa-solid fa-trash"></i>
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-       
-
-        </table>
-        <a asp-page="./AdicionarCategoria" class="btn btn-success">
-            <i class="fa-regular fa-plus" aria-hidden="true"></i> Adicionar Categoria
-        </a>
+        <tr>
+            <td>Ainda não foram criadas categorias.</td>
+        </tr>
     }
     else
     {
-        <p>Não há categorias para mostrar.</p>
+        @foreach (var categoria in Model.Categorias)
+        {
+            <tr>
+                <td>@categoria.Id</td>
+                <td>@categoria.Nome</td>
+                <td>@(categoriaIdToTotalHabitacoes.ContainsKey(categoria.Id) ? categoriaIdToTotalHabitacoes[categoria.Id] : 0)</td>
+                <td>
+                    <a class="btn btn-primary btn-sm" asp-page="./EditarCategoria" asp-route-id="@categoria.Id">
+                        <i class="fa-solid fa-pen"></i>
+                    </a>
+                    <a class="btn btn-danger btn-sm" asp-page="./ApagarCategoria" asp-route-id="@categoria.Id" onclick="return confirm('Tem certeza que deseja apagar esta categoria?');">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        }
     }
 
-
+    </tbody>
+    <tfoot>
+    <tr>
+        <td>
+            <a asp-page="./AdicionarCategoria" class="btn btn-success">
+                <i class="fa-regular fa-plus" aria-hidden="true"></i> Adicionar Categoria
+            </a>
+        </td>
+    </tr>
+    </tfoot>
+</table>

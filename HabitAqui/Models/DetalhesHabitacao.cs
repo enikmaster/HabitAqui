@@ -9,10 +9,10 @@ public class DetalhesHabitacao
 
     [Required]
     [DisplayName("Nome da Habitação")]
-    public string Nome { get; set; } = string.Empty;
+    public string Nome { get; set; }
 
-    [DisplayName("Descrição")] public string Descricao { get; set; } = string.Empty;
-    [DisplayName("Área total")] public decimal Area { get; set; }
+    [DisplayName("Descrição")] public string? Descricao { get; set; }
+    [DisplayName("Área total")] public decimal? Area { get; set; }
     [DisplayName("Preço por noite")] public decimal PrecoPorNoite { get; set; }
     public Localizacao Localizacao { get; set; }
 }
