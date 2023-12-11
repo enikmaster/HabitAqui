@@ -214,19 +214,15 @@ namespace HabitAqui.Migrations
                     b.Property<int>("DetalhesHabitacaoId")
                         .HasColumnType("int");
 
-                    b.Property<string>("IdLocador")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("LocadorId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DetalhesHabitacaoId");
 
-                    b.HasIndex("IdLocador");
+                    b.HasIndex("LocadorId");
 
                     b.ToTable("Habitacoes");
                 });
@@ -679,7 +675,7 @@ namespace HabitAqui.Migrations
 
                     b.HasOne("HabitAqui.Models.Locador", "Locador")
                         .WithMany("Habitacoes")
-                        .HasForeignKey("IdLocador")
+                        .HasForeignKey("LocadorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
