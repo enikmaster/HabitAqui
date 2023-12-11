@@ -59,7 +59,7 @@
                         <a asp-action="Detalhes" asp-route-id="@habitacao.Id"></a>
                         <div>
                             <div>
-                                <p>@habitacao.DetalhesHabitacao.Localizacao.Cidade, @habitacao.DetalhesHabitacao.Localizacao.Pais</p>
+                                <p>@habitacao.DetalhesHabitacao.Localizacao?.Cidade, @habitacao.DetalhesHabitacao.Localizacao.Pais</p>
                             </div>
                             <div>
                                 @habitacao.MediaAvaliacoes
