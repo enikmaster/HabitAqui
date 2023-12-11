@@ -1,4 +1,7 @@
-﻿@using HabitAqui.Data
+﻿@Model HabitAqui.PaginatedList<HabitAqui.Models.Avaliacao>
+
+@using HabitAqui.Data
+
 @{
     ViewData["Title"] = "Nome da habitação";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -25,6 +28,26 @@
         </div>
     </div>
 </div>
+
+<div class="avaliacoes-container">
+    <h2>Avaliações</h2>
+    @foreach (var avaliacao in Model.Avaliacoes)
+    {
+        <div class="avaliacao">
+            <p><strong>Nota:</strong> @avaliacao.Nota</p>
+            <p><strong>Comentário:</strong> @avaliacao.Comentario</p>
+            <p><strong>Por:</strong> @avaliacao.Cliente.Nome</p>
+        </div>
+    }
+    
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div>
+            <a asp-action="Avaliar" asp-route-id="@Model.Id">Deixar uma avaliação</a>
+        </div>
+    }
+</div>
+
 @if (User.IsInRole(Roles.Funcionario.ToString()) || User.IsInRole(Roles.Gestor.ToString()))
 {
     <div>

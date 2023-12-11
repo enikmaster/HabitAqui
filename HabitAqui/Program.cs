@@ -27,6 +27,7 @@ public class Program
         builder.Services.AddScoped<LocadorService>();
         builder.Services.AddScoped<HabitacaoService>();
         builder.Services.AddScoped<CategoriaService>();
+        builder.Services.AddScoped<ReservaService>();
 
         builder.Services.AddControllersWithViews();
         builder.Services.Configure<IdentityOptions>(options =>

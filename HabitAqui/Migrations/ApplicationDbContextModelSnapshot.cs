@@ -395,6 +395,7 @@ namespace HabitAqui.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ClienteId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("Danos")
@@ -601,13 +602,6 @@ namespace HabitAqui.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("HabitAqui.Models.Cliente", b =>
-                {
-                    b.HasBaseType("HabitAqui.Models.DetalhesUtilizador");
-
-                    b.HasDiscriminator().HasValue("Cliente");
-                });
-
             modelBuilder.Entity("HabitAqui.Models.Locador", b =>
                 {
                     b.HasBaseType("HabitAqui.Models.DetalhesUtilizador");
@@ -624,8 +618,8 @@ namespace HabitAqui.Migrations
 
             modelBuilder.Entity("HabitAqui.Models.Avaliacao", b =>
                 {
-                    b.HasOne("HabitAqui.Models.Cliente", "Cliente")
-                        .WithMany("Avaliacoes")
+                    b.HasOne("HabitAqui.Models.DetalhesUtilizador", "Cliente")
+                        .WithMany()
                         .HasForeignKey("ClienteId");
 
                     b.HasOne("HabitAqui.Models.Habitacao", "Habitacao")
@@ -750,9 +744,11 @@ namespace HabitAqui.Migrations
 
             modelBuilder.Entity("HabitAqui.Models.RegistoEntrega", b =>
                 {
-                    b.HasOne("HabitAqui.Models.Cliente", "Cliente")
-                        .WithMany("RegistoEntregas")
-                        .HasForeignKey("ClienteId");
+                    b.HasOne("HabitAqui.Models.DetalhesUtilizador", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("HabitAqui.Models.DetalhesUtilizador", "Funcionario")
                         .WithMany()
@@ -771,10 +767,10 @@ namespace HabitAqui.Migrations
 
             modelBuilder.Entity("HabitAqui.Models.Reserva", b =>
                 {
-                    b.HasOne("HabitAqui.Models.Cliente", "Cliente")
-                        .WithMany("Reservas")
+                    b.HasOne("HabitAqui.Models.DetalhesUtilizador", "Cliente")
+                        .WithMany()
                         .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("HabitAqui.Models.DetalhesUtilizador", "Funcionario")
@@ -873,15 +869,6 @@ namespace HabitAqui.Migrations
             modelBuilder.Entity("HabitAqui.Models.Reserva", b =>
                 {
                     b.Navigation("RegistoEntregas");
-                });
-
-            modelBuilder.Entity("HabitAqui.Models.Cliente", b =>
-                {
-                    b.Navigation("Avaliacoes");
-
-                    b.Navigation("RegistoEntregas");
-
-                    b.Navigation("Reservas");
                 });
 
             modelBuilder.Entity("HabitAqui.Models.Locador", b =>
