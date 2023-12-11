@@ -1,8 +1,10 @@
 using HabitAqui.Data;
+using HabitAqui.Data.Seeders;
 using HabitAqui.Models;
 using HabitAqui.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 public class Program
 {
@@ -10,6 +12,7 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(connectionString));
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -53,10 +56,22 @@ public class Program
         {
             try
             {
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                dbContext.Database.EnsureCreated();
+                dbContext.Database.ExecuteSqlRaw("SELECT 1");
+
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<DetalhesUtilizador>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-                var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                await Startup.CriaDadosIniciais(userManager, roleManager, context);
+
+                await Startup.CriaDadosIniciais(userManager, roleManager);
+
+                // ==== Database seeding ====
+                var serviceScope = scope.ServiceProvider.GetRequiredService<IServiceScopeFactory>();
+                // call the seeders
+                LandlordSeeder.InitializeAsync(scope.ServiceProvider).Wait();
+                HousingSeeder.InitializeAsync(scope.ServiceProvider).Wait();
+                // ==== END OF THE DATA SEEDING ====
+
             }
             catch (Exception e)
             {

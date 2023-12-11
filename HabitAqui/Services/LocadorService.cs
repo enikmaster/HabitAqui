@@ -27,6 +27,13 @@ public class LocadorService
         return locador;
     }
 
+    public async Task<Locador?> GetLocadorByEmail(string email) {
+        var locador = _context.Locadores
+            .Where(x => x.Email == email)
+            .FirstOrDefault();
+        return locador;
+    }
+
     public Locador UpdateLocador(Locador locador)
     {
         try
