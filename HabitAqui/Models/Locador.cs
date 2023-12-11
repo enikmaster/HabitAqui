@@ -11,6 +11,6 @@ public class Locador : DetalhesUtilizador
 
     public ICollection<Habitacao>? Habitacoes { get; set; } // pode ter 0 ou mais habitacoes
 
-    [DisplayName("Funcionário(s) responsável(eis)")]
+    [DisplayName("Funcionários")]
     public ICollection<DetalhesUtilizador> Administradores { get; set; } // tem de ter pelo menos 1 administrador
 }

@@ -23,7 +23,7 @@ public class LocadorService
             .Include(l => l.Localizacao)
             .Include(h => h.Habitacoes)
             .Include(a => a.Administradores)
-            .FirstOrDefaultAsync(l => l.Id == id);
+            .FirstOrDefaultAsync(l => l.Administradores.Any(a => a.Id == id));
         return locador;
     }
 
@@ -31,12 +31,9 @@ public class LocadorService
     {
         try
         {
-
-            var currentlocador = _context.Locadores.Where(l => l.Id == locador.Id).Include(x => x.Localizacao).FirstOrDefault();
-            if (currentlocador == null)
-            {
-                return null;
-            }
+            var currentlocador = _context.Locadores.Where(l => l.Id == locador.Id).Include(x => x.Localizacao)
+                .FirstOrDefault();
+            if (currentlocador == null) return null;
 
             currentlocador.Nome = locador.Nome;
             currentlocador.Apelido = locador.Apelido;
