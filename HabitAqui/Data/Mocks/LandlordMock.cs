@@ -4,6 +4,7 @@ namespace HabitAqui.Data.Mocks
 {
     public static class LandlordMock
     {
+        public static string locadorEmail = "locador@locador.com";
         public static Locador GenerateLandlordMockExample()
         {
             var funcionarioExemplo = new DetalhesUtilizador()
@@ -28,7 +29,7 @@ namespace HabitAqui.Data.Mocks
             var user = new Locador
             {
                 UserName = "locador@locador.com",
-                Email = "locador@locador.com",
+                Email = locadorEmail,
                 Nome = "Joao",
                 Apelido = "Marques",
                 Nif = "123456789",

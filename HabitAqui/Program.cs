@@ -32,6 +32,7 @@ public class Program
         builder.Services.AddScoped<LocadorService>();
         builder.Services.AddScoped<HabitacaoService>();
         builder.Services.AddScoped<CategoriaService>();
+        builder.Services.AddScoped<ReservaService>();
 
         builder.Services.AddControllersWithViews();
         builder.Services.Configure<IdentityOptions>(options =>
@@ -63,7 +64,7 @@ public class Program
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<DetalhesUtilizador>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-                await Startup.CriaDadosIniciais(userManager, roleManager);
+                await Startup.CriaDadosIniciais(userManager, roleManager, dbContext);
 
                 // ==== Database seeding ====
                 var serviceScope = scope.ServiceProvider.GetRequiredService<IServiceScopeFactory>();

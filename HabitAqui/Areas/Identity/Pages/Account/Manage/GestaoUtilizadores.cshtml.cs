@@ -23,7 +23,8 @@ public class GestaoUtilizadoresModel : PageModel
             Id = u.Id,
             UserName = u.UserName,
             Email = u.Email,
-            Roles = UserManager.GetRolesAsync(u).Result.ToList()
+            Roles = UserManager.GetRolesAsync(u).Result.ToList(),
+            Active = u.Active
         }).ToList();
     }
 
@@ -32,7 +33,7 @@ public class GestaoUtilizadoresModel : PageModel
         public string Id { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
-
+        public Boolean Active { get; set; }
         public IList<string> Roles { get; set; }
         // Adicione mais propriedades conforme necessário
     }

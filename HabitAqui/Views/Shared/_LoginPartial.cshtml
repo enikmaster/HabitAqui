@@ -4,10 +4,15 @@
 @inject UserManager<DetalhesUtilizador> UserManager
 
 <ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
+    @{
+        var isSignedIn = SignInManager.IsSignedIn(User);
+        var authenticatedUser = await UserManager.GetUserAsync(User);
+    }
+    @if (isSignedIn && authenticatedUser != null)
     {
+
         <li class="nav-item">
-            <span class="nav-link text-light">Olá @UserManager.GetUserAsync(User)?.Result.Nome @UserManager.GetUserAsync(User)?.Result.Apelido</span>
+            <span class="nav-link text-light">Olá @authenticatedUser.Nome @authenticatedUser.Apelido</span>
         </li>
         @if (User.IsInRole(Roles.Administrador.ToString()))
         {

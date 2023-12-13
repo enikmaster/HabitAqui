@@ -14,11 +14,15 @@ namespace HabitAqui.Data.Seeders
 
             try
             {
-                var newLocador = LandlordMock.GenerateLandlordMockExample();
-                await userManager.CreateAsync(newLocador);
+                var locadorExiste = await locadorService.GetLocadorByEmail(LandlordMock.locadorEmail);
 
-                await userManager.AddToRoleAsync(newLocador, Roles.Gestor.ToString());
-                await userManager.AddToRoleAsync(newLocador.Administradores.First(), Roles.Funcionario.ToString());
+                if(locadorExiste == null) {
+                    var newLocador = LandlordMock.GenerateLandlordMockExample();
+                    await userManager.CreateAsync(newLocador);
+
+                    await userManager.AddToRoleAsync(newLocador, Roles.Gestor.ToString());
+                    await userManager.AddToRoleAsync(newLocador.Administradores.First(), Roles.Funcionario.ToString());
+                }
             }
             catch (Exception ex)
             {

@@ -1,0 +1,129 @@
+﻿/* Estilo para a tabela */
+.table {
+    background-color: #ffffff; /* Cor de fundo da tabela */
+    color: #333; /* Cor do texto na tabela */
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    border-radius: 15px; /* Curvas suaves na tabela */
+    overflow: hidden; /* Remove a borda quadrada */
+}
+
+    /* Estilo para o cabeçalho da tabela */
+    .table thead th {
+        background-color: #f2f2f2; /* Cor de fundo do cabeçalho */
+        color: #333; /* Cor do texto no cabeçalho */
+        padding: 10px;
+        text-align: left;
+        border: none; /* Remova a borda do cabeçalho */
+    }
+
+    /* Estilo para as linhas pares da tabela */
+    .table tbody tr:nth-child(even) {
+        background-color: #f2f2f2; /* Cor de fundo das linhas pares */
+    }
+
+    /* Estilo para as células da tabela */
+    .table tbody td {
+        padding: 10px;
+        border: none; /* Remova a borda das células */
+    }
+
+/* Estilo para os botões */
+.btn {
+    background-color: #333; /* Cor de fundo dos botões */
+    color: #ffffff; /* Cor do texto dos botões */
+    border: none;
+    border-radius: 5px; /* Curvas suaves nos botões */
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Transição suave de cor ao passar o mouse */
+}
+
+    /* Estilo para os botões ao passar o mouse */
+    .btn:hover {
+        background-color: #555; /* Cor de fundo dos botões ao passar o mouse */
+    }
+
+/* Estilo para ícones */
+.icon {
+    font-size: 20px;
+    margin-right: 5px; /* Espaçamento à direita dos ícones */
+}
+
+/* Fonte legível */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Estilo para o título */
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+/* Espaçamento entre as linhas da tabela */
+.table tbody tr {
+    border-bottom: 1px solid #ccc;
+}
+
+/* Estilo para o texto "Avaliações da Habitação" */
+.avaliacoes-titulo {
+    color: #fff; /* Cor do texto branco */
+    font-weight: bold; /* Texto em negrito */
+}
+
+/* Classe para botão com altura reduzida */
+.botao-reduzido {
+    padding: 5px 15px; /* Ajuste a altura conforme necessário */
+}
+
+/* Estilo do botão "Detalhes" */
+.botao-detalhes {
+    background-color: yellow; /* Cor de fundo amarelo */
+    color: black; /* Cor do texto preto */
+}
+
+/* Estilo do botão "Avaliações" */
+.botao-avaliacoes {
+    background-color: green; /* Cor de fundo verde */
+    color: white; /* Cor do texto branco */
+}
+
+/*Detalhes Reserva*/
+/* Estilo para a seção de Detalhes da Reserva */
+/* Estilo para a seção de Detalhes da Reserva */
+/* Estilo para a seção de Detalhes da Reserva */
+.detalhes-reserva {
+    background-color: #f2f2f2; /* Cor de fundo da seção */
+    border-radius: 15px; /* Borda arredondada */
+    padding: 15px; /* Espaçamento interno */
+    margin-bottom: 20px; /* Espaçamento inferior */
+}
+
+    .detalhes-reserva h4 {
+        color: #333; /* Cor do título */
+        font-weight: bold; /* Negrito no título */
+        margin-top: 0; /* Remover margem superior do título */
+    }
+
+    .detalhes-reserva dl {
+        margin-top: 10px; /* Espaçamento superior da lista */
+    }
+
+    .detalhes-reserva dt {
+        font-weight: bold; /* Negrito nas etiquetas */
+        color: #333; /* Cor das etiquetas */
+    }
+
+    .detalhes-reserva dd {
+        margin-left: 0; /* Remover margem à esquerda das descrições */
+        margin-bottom: 5px; /* Espaçamento inferior entre descrições */
+        color: #333; /* Cor do texto */
+        font-weight: normal; /* Remover negrito no texto */
+    }

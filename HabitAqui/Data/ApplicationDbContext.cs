@@ -13,7 +13,6 @@ public class ApplicationDbContext : IdentityDbContext<DetalhesUtilizador>
 
     public DbSet<Avaliacao> Avaliacoes { set; get; }
     public DbSet<Categoria> Categorias { get; set; }
-    public DbSet<Cliente> Clientes { get; set; }
     public DbSet<DetalhesHabitacao> DetalhesHabitacoes { get; set; }
     public DbSet<DetalhesUtilizador> DetalhesUtilizadores { get; set; }
     public DbSet<Habitacao> Habitacoes { get; set; }
@@ -48,9 +47,12 @@ public class ApplicationDbContext : IdentityDbContext<DetalhesUtilizador>
             .HasMany(r => r.Reservas)
             .WithOne(h => h.Habitacao)
             .OnDelete(DeleteBehavior.Restrict);
-        modelBuilder.Entity<Reserva>()
-            .HasOne(c => c.Cliente)
-            .WithMany(r => r.Reservas)
-            .OnDelete(DeleteBehavior.NoAction);
+
+        
+    //    modelBuilder.Entity<Reserva>()
+    //        .HasOne(c => c.Cliente)
+    //        .WithMany(r => r.Reservas)
+    //        .OnDelete(DeleteBehavior.NoAction);
+
     }
 }

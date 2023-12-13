@@ -20,10 +20,30 @@ public class HabitacaoService
             .Include(h => h.Categorias)
             .Include(h => h.Imagens)
             .Include(h => h.Avaliacoes)
+                .ThenInclude( h => h.Cliente)
             .Include(h => h.Reservas)
             .FirstOrDefaultAsync(h => h.Id == id);
         return habitacao ?? null;
     }
+
+    public async Task<Habitacao?> GetHabitacaoReservasPaginadas(int? id, int page, int pageSize)
+    {
+        int skip = (page - 1) * pageSize;
+
+        var habitacao = await _context.Habitacoes
+            .Include(h => h.DetalhesHabitacao)
+            .Include(h => h.Categorias)
+            .Include(h => h.Imagens)
+            .Include(h => h.Avaliacoes
+                .OrderBy(a => a.Id)
+                .Skip(skip)
+                .Take(pageSize))
+            .ThenInclude(a => a.Cliente)
+            .Include(h => h.Reservas)
+            .FirstOrDefaultAsync(h => h.Id == id);
+        return habitacao ?? null;
+    }
+
 
     public async Task<List<Habitacao>> GetAllActiveHabitacoes()
     {
@@ -52,5 +72,19 @@ public class HabitacaoService
     {
         _context.Add(habitacao);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<Avaliacao>> GetAvaliacoesDaHabitacao(int habitacaoId)
+    {
+        var habitacao = await _context.Habitacoes
+            .Include(h => h.Avaliacoes)
+            .FirstOrDefaultAsync(h => h.Id == habitacaoId);
+
+        if (habitacao != null)
+        {
+            return habitacao.Avaliacoes.ToList();
+        }
+
+        return new List<Avaliacao>();
     }
 }

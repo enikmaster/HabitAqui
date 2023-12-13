@@ -21,4 +21,13 @@ public class CategoriaService
             .Where(c => c.Active == true)
             .ToListAsync();
     }
+
+
+    public async Task<Categoria> CreateCategoria(Categoria categoria)
+    {
+        _context.Categorias.Add(categoria);
+        await _context.SaveChangesAsync();
+        return categoria;
+    }
+
 }

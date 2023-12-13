@@ -1,0 +1,74 @@
+﻿@using HabitAqui.ViewModels;
+@model PaginatedViewModel<HabitAqui.Models.Habitacao>
+
+<link rel="stylesheet" href="~/css/Prettier.css" />
+
+
+@{
+    ViewData["Title"] = "Avaliações da Habitação";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if(Model.Value != null && Model.Value.Avaliacoes != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Nota</th>
+                <th>Comentário</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var avaliacao in Model.Value.Avaliacoes)
+            {
+                <tr>
+                    <td>@avaliacao.Cliente.Nome</td>
+                    <td>@avaliacao.Nota</td>
+                    <td>@avaliacao.Comentario</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if(Model.Value.Avaliacoes.Count() > 0 && Model.page <= 1)
+    {
+        <form method="GET" asp-action="Avaliacoes" asp-controller="Habitacao" asp-route-id="@Model.Id">
+            <input type="hidden" name="page" value="@(Model.page+1)" /> 
+            <button class="btn btn-primary">
+                Proxíma Página
+            </button>
+        </form>
+    }else if(Model.page > 1 && Model.Value.Avaliacoes.Count() == 0)
+    {
+        <form method="GET" asp-action="Avaliacoes" asp-controller="Habitacao" asp-route-id="@Model.Id">
+            <input type="hidden" name="page" value="@(Model.page-1)" />
+            <button class="btn btn-primary">
+               Página Anterior
+            </button>
+        </form>
+    }
+    else
+    {
+        <form method="GET" asp-action="Avaliacoes" asp-controller="Habitacao" asp-route-id="@Model.Id">
+            <input type="hidden" name="page" value="@(Model.page-1)" />
+            <button class="btn btn-primary">
+                Página Anterior
+            </button>
+        </form>
+        <form method="GET" asp-action="Avaliacoes" asp-controller="Habitacao" asp-route-id="@Model.Id">
+            <input type="hidden" name="page" value="@(Model.page+1)" />
+            <button class="btn btn-primary">
+                Proxíma Página
+            </button>
+        </form>
+
+    }
+
+
+}
+else
+{
+    <p>Não existem registos de avaliações para a habitação</p>
+}
