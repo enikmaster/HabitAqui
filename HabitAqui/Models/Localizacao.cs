@@ -20,7 +20,7 @@ public class Localizacao
     [DisplayName("Cidade")]
     public string Cidade { get; set; }
 
-    [DataType(DataType.Text)]
+    [DataType(DataType.Text)]       
     [DisplayName("País")]
     public string Pais { get; set; }
 }

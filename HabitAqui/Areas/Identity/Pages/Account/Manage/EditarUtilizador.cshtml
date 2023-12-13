@@ -1,0 +1,84 @@
+﻿@page
+@model HabitAqui.Areas.Identity.Pages.Account.Manage.EditarUtilizadorModel
+<link rel="stylesheet" href="~/css/Prettier.css" />
+
+@{
+    ViewData["Title"] = "Editar Utilizador";
+}
+
+<h2>Editar Utilizador</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="DetalhesUtilizador.Id" />
+
+
+    <div class="form-group">
+        <label asp-for="DetalhesUtilizador.Nome">Nome</label>
+        <input asp-for="DetalhesUtilizador.Nome" class="form-control" />
+        <span asp-validation-for="DetalhesUtilizador.Nome" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DetalhesUtilizador.Apelido">Apelido</label>
+        <input asp-for="DetalhesUtilizador.Apelido" class="form-control" />
+        <span asp-validation-for="DetalhesUtilizador.Apelido" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DetalhesUtilizador.Nif">NIF</label>
+        <input asp-for="DetalhesUtilizador.Nif" class="form-control" />
+        <span asp-validation-for="DetalhesUtilizador.Nif" class="text-danger"></span>
+    </div>
+
+ <div class="form-group">
+        <label asp-for="DetalhesUtilizador.PhoneNumber">Número de Telefone</label>
+        <input asp-for="DetalhesUtilizador.PhoneNumber" class="form-control" />
+        <span asp-validation-for="DetalhesUtilizador.PhoneNumber" class="text-danger"></span>
+    </div>
+ 
+    <div class="form-group">
+        <label asp-for="DetalhesUtilizador.Email">Email</label>
+        <input asp-for="DetalhesUtilizador.Email" class="form-control" disabled />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DetalhesUtilizador.Active">Ativo</label>
+        <input asp-for="DetalhesUtilizador.Active" type="checkbox" />
+    </div>
+
+    <h3>Localização</h3>
+
+    <div class="form-group">
+        <label asp-for="DetalhesUtilizador.Localizacao.Morada">Morada</label>
+        <input asp-for="DetalhesUtilizador.Localizacao.Morada" class="form-control" />
+        <span asp-validation-for="DetalhesUtilizador.Localizacao.Morada" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DetalhesUtilizador.Localizacao.CodigoPostal">Código Postal</label>
+        <input asp-for="DetalhesUtilizador.Localizacao.CodigoPostal" class="form-control" />
+        <span asp-validation-for="DetalhesUtilizador.Localizacao.CodigoPostal" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DetalhesUtilizador.Localizacao.Cidade">Cidade</label>
+        <input asp-for="DetalhesUtilizador.Localizacao.Cidade" class="form-control" />
+        <span asp-validation-for="DetalhesUtilizador.Localizacao.Cidade" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DetalhesUtilizador.Localizacao.Pais">País</label>
+        <input asp-for="DetalhesUtilizador.Localizacao.Pais" class="form-control" />
+        <span asp-validation-for="DetalhesUtilizador.Localizacao.Pais" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Guardar" class="btn btn-primary" />
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
