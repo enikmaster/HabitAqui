@@ -19,8 +19,8 @@ public class HabitacaoService
             .Include(h => h.DetalhesHabitacao)
             .Include(h => h.Categorias)
             .Include(h => h.Imagens)
-            .Include(h => h.Avaliacoes)
-                .ThenInclude( h => h.Cliente)
+            .Include(h => h.Avaliacoes)!
+            .ThenInclude(h => h.Cliente)
             .Include(h => h.Reservas)
             .FirstOrDefaultAsync(h => h.Id == id);
         return habitacao ?? null;
@@ -28,13 +28,13 @@ public class HabitacaoService
 
     public async Task<Habitacao?> GetHabitacaoReservasPaginadas(int? id, int page, int pageSize)
     {
-        int skip = (page - 1) * pageSize;
+        var skip = (page - 1) * pageSize;
 
         var habitacao = await _context.Habitacoes
             .Include(h => h.DetalhesHabitacao)
             .Include(h => h.Categorias)
             .Include(h => h.Imagens)
-            .Include(h => h.Avaliacoes
+            .Include(h => h.Avaliacoes!
                 .OrderBy(a => a.Id)
                 .Skip(skip)
                 .Take(pageSize))
@@ -49,7 +49,7 @@ public class HabitacaoService
     {
         return await _context.Habitacoes
             .Include(h => h.DetalhesHabitacao)
-            .ThenInclude( x => x.Localizacao)
+            .ThenInclude(x => x.Localizacao)
             .Include(h => h.Categorias)
             .Include(h => h.Imagens)
             .Include(h => h.Avaliacoes)
@@ -61,7 +61,9 @@ public class HabitacaoService
     public async Task<List<Habitacao>> GetAllHabitacoesLocador(string userId)
     {
         var locador = await _context.Locadores
-            .Include(l => l.Habitacoes)
+            .Include(l => l.Habitacoes)!
+            .ThenInclude(d => d.DetalhesHabitacao)
+            .ThenInclude(l => l.Localizacao)
             .FirstOrDefaultAsync(l => l.Administradores.Any(a => a.Id == userId));
         return locador == null
             ? await GetAllActiveHabitacoes()
@@ -80,10 +82,7 @@ public class HabitacaoService
             .Include(h => h.Avaliacoes)
             .FirstOrDefaultAsync(h => h.Id == habitacaoId);
 
-        if (habitacao != null)
-        {
-            return habitacao.Avaliacoes.ToList();
-        }
+        if (habitacao != null) return habitacao.Avaliacoes.ToList();
 
         return new List<Avaliacao>();
     }

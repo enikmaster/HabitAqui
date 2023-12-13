@@ -59,7 +59,7 @@
                         <a asp-action="Detalhes" asp-route-id="@habitacao.Id"></a>
                         <div>
                             <div>
-                                <p>@habitacao.DetalhesHabitacao.Localizacao?.Cidade, @habitacao.DetalhesHabitacao.Localizacao.Pais</p>
+                                <p>@habitacao.DetalhesHabitacao.Localizacao?.Cidade, @habitacao.DetalhesHabitacao.Localizacao?.Pais</p>
                             </div>
                             <div>
                                 @habitacao.MediaAvaliacoes
@@ -82,24 +82,3 @@
     }
     @* modelo de card para os objetos *@
 </div>
-
-
-<table class="table">
-    <thead>
-    <tr>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Detalhes" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
