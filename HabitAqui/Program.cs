@@ -64,7 +64,7 @@ public class Program
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<DetalhesUtilizador>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-                await Startup.CriaDadosIniciais(userManager, roleManager);
+                await Startup.CriaDadosIniciais(userManager, roleManager, dbContext);
 
                 // ==== Database seeding ====
                 var serviceScope = scope.ServiceProvider.GetRequiredService<IServiceScopeFactory>();

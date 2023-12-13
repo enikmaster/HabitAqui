@@ -4,6 +4,7 @@ using HabitAqui.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SQLitePCL;
+using System.Security.Cryptography.Xml;
 
 namespace HabitAqui.Data.Seeders
 {
@@ -60,11 +61,32 @@ namespace HabitAqui.Data.Seeders
                                         Cliente = user,
                                         Habitacao = habitacao,
                                         DataInicio = DateTime.Now,
-                                        DataFim = DateTime.Now.AddDays(7) // Exemplo, reserva de uma semana
-                                        
-                                    };
+                                        DataFim = DateTime.Now.AddDays(7),
+                                        Estado = EstadoReserva.Aceite
+
+                                   };
 
                                     await reservaService.CreateReserva(novaReserva);
+
+                                    var novoRegistoEntrega = new RegistoEntrega
+                                    {
+                                        DataEntrega = DateTime.Now,
+                                        Danos = false,
+                                        TipoTransacao = TipoTransacao.Entrega,
+                                        Funcionario = funcionario,
+                                        Observacoes = "nada"
+                                    };
+                                    
+                                    novaReserva.RegistoEntregas = new List<RegistoEntrega>();
+                                    novaReserva.RegistoEntregas.Add(novoRegistoEntrega);
+                                    var updatedReserva = await reservaService.UpdateReserva(novaReserva, novaReserva.Id);
+
+                                    if(updatedReserva != null)
+                                    {
+                                        Console.WriteLine("Registo de entrega criado com sucesso parcial");
+                                        // atualizou
+                                    }
+
                                 }
                                 else
                                 {

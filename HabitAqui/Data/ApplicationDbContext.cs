@@ -47,9 +47,12 @@ public class ApplicationDbContext : IdentityDbContext<DetalhesUtilizador>
             .HasMany(r => r.Reservas)
             .WithOne(h => h.Habitacao)
             .OnDelete(DeleteBehavior.Restrict);
+
+        
     //    modelBuilder.Entity<Reserva>()
     //        .HasOne(c => c.Cliente)
     //        .WithMany(r => r.Reservas)
     //        .OnDelete(DeleteBehavior.NoAction);
+
     }
 }

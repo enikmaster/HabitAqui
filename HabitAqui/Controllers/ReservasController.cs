@@ -1,7 +1,9 @@
 ﻿using HabitAqui.Data;
 using HabitAqui.Models;
+using HabitAqui.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace HabitAqui.Controllers
 {
@@ -21,10 +23,27 @@ namespace HabitAqui.Controllers
                 .Include(r => r.Cliente)
                 .Include(r => r.Habitacao)
                 .Include(r => r.RegistoEntregas)
+                .Include(r => r.Habitacao.DetalhesHabitacao) // Inclua os detalhes da habitação
                 .Where(r => r.RegistoEntregas.Any(re => re.TipoTransacao == TipoTransacao.Entrega))
                 .ToListAsync();
 
             return View("Arrendamentos", arrendamentosAtivos);
+        }
+
+        public IActionResult Historico()
+        {
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // Lógica para obter os arrendamentos históricos aqui
+            var historicoArrendamentos = _context.Reservas
+                .Include(r => r.Funcionario)
+                .Include(r => r.Cliente)
+                .Include(r => r.Habitacao)
+                .Where(r => r.DataFim > DateTime.Now && r.Cliente.Id == userId)
+                .ToList();
+
+            return View("HistoricoArrendamento", historicoArrendamentos);
         }
 
 
@@ -54,6 +73,8 @@ namespace HabitAqui.Controllers
                 .Include(r => r.Funcionario)
                 .Include(r => r.Cliente)
                 .Include(r => r.Habitacao)
+                .Include(r => r.RegistoEntregas)
+                .Include(r => r.Habitacao.DetalhesHabitacao) // Inclua os detalhes da habitação
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (reserva == null)
@@ -63,5 +84,9 @@ namespace HabitAqui.Controllers
 
             return View(reserva);
         }
+
+       
+
+
     }
 }

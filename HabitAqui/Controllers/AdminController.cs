@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
+using System.Threading.Tasks; // Adicione o using para Task
 using HabitAqui.Models;
 using HabitAqui.Areas.Identity.Pages.Account.Manage;
 
 namespace HabitAqui.Controllers
 {
-    [Area("Manage")]
-
+    [Route("Admin")]
     public class AdminController : Controller
     {
         private readonly UserManager<DetalhesUtilizador> _userManager;
@@ -25,23 +25,23 @@ namespace HabitAqui.Controllers
 
         public IActionResult ListaUtilizadores()
         {
-            var utilizadores = _userManager.Users.Select(u => new IdentityUser
+            var utilizadores = _userManager.Users.Select(u => new DetalhesUtilizador // Use DetalhesUtilizador em vez de IdentityUser
             {
                 Id = u.Id,
                 UserName = u.UserName,
                 Email = u.Email,
                 PhoneNumber = u.PhoneNumber,
-                // Adicione outras propriedades do IdentityUser conforme necessário
+                Active = u.Active // Adicione Active
+                // Adicione outras propriedades do DetalhesUtilizador conforme necessário
             }).ToList();
 
             return View(utilizadores);
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/ToggleUserStatus/{id}")]
-        public async Task<IActionResult> ToggleUserStatus(string id, string returnUrl)
+        public async Task<IActionResult> ToggleUserStatus(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
 
@@ -57,13 +57,11 @@ namespace HabitAqui.Controllers
 
             if (updateResult.Succeeded)
             {
-                // Redirecione de volta para a página de onde veio (usando o returnUrl)
-                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                {
-                    return Redirect(returnUrl);
-                }
-                // Caso contrário, redirecione para a ação "ListaUtilizadores"
-                return RedirectToAction("ListaUtilizadores");
+                // Obtenha o cabeçalho "Referer" para saber a página anterior
+                var referer = Request.Headers["Referer"].ToString();
+
+                // Redirecione de volta para a página anterior
+                return Redirect(referer);
             }
             else
             {
@@ -72,8 +70,5 @@ namespace HabitAqui.Controllers
                 return View("Error");
             }
         }
-
-    
     }
-
 }

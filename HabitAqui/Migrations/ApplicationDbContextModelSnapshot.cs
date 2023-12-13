@@ -394,10 +394,6 @@ namespace HabitAqui.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ClienteId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<bool>("Danos")
                         .HasColumnType("bit");
 
@@ -419,8 +415,6 @@ namespace HabitAqui.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClienteId");
 
                     b.HasIndex("FuncionarioId");
 
@@ -446,6 +440,9 @@ namespace HabitAqui.Migrations
 
                     b.Property<DateTime>("DataInicio")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Estado")
+                        .HasColumnType("int");
 
                     b.Property<string>("FuncionarioId")
                         .IsRequired()
@@ -744,12 +741,6 @@ namespace HabitAqui.Migrations
 
             modelBuilder.Entity("HabitAqui.Models.RegistoEntrega", b =>
                 {
-                    b.HasOne("HabitAqui.Models.DetalhesUtilizador", "Cliente")
-                        .WithMany()
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("HabitAqui.Models.DetalhesUtilizador", "Funcionario")
                         .WithMany()
                         .HasForeignKey("FuncionarioId")
@@ -759,8 +750,6 @@ namespace HabitAqui.Migrations
                     b.HasOne("HabitAqui.Models.Reserva", null)
                         .WithMany("RegistoEntregas")
                         .HasForeignKey("ReservaId");
-
-                    b.Navigation("Cliente");
 
                     b.Navigation("Funcionario");
                 });

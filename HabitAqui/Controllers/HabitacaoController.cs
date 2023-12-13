@@ -3,7 +3,9 @@ using HabitAqui.Data;
 using HabitAqui.Dtos;
 using HabitAqui.Models;
 using HabitAqui.Services;
+using HabitAqui.ViewModels;
 using HabitAqui.ViewModels.Avaliacao;
+using Humanizer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -108,7 +110,7 @@ public class HabitacaoController : Controller
                 Nome = habitacaoDto.Nome,
                 Descricao = habitacaoDto.Descricao,
                 PrecoPorNoite = habitacaoDto.PrecoPorNoite,
-                Area = habitacaoDto.Area,
+                Area = habitacaoDto?.Area ?? 0,
                 Localizacao = new Localizacao
                 {
                     Morada = habitacaoDto.Morada,
@@ -205,6 +207,22 @@ public class HabitacaoController : Controller
     }
 
 
+    private bool VerificarCondicõesParaAvaliacao(Habitacao habitacao, DetalhesUtilizador utilizador)
+    {
+
+        bool utilizadorJaAvaliouHabitacao =
+        _context.Avaliacoes.Any(a => a.HabitacaoId == habitacao.Id && a.Cliente.Id == utilizador.Id);
+
+
+
+        bool teveArrendamentoAnterior =
+            habitacao.Reservas.Any(r =>
+                r.Cliente == utilizador &&
+                (r.Estado == EstadoReserva.Aceite || (r.RegistoEntregas != null && r.RegistoEntregas.Any(re => re.TipoTransacao == TipoTransacao.Devolucao))));
+
+        return !utilizadorJaAvaliouHabitacao && teveArrendamentoAnterior;
+    }
+
     // GET: Habitacao/Avaliar/5
     public async Task<IActionResult> Avaliar(int? id)
     {
@@ -212,6 +230,16 @@ public class HabitacaoController : Controller
 
         var habitacao = await _habitacaoService.GetHabitacao(id.Value);
         if (habitacao == null) return NotFound();
+
+        var currentUser = await _userManager.GetUserAsync(User);
+        if (currentUser == null) return BadRequest();
+
+        bool utilizadorPodeAvaliar = VerificarCondicõesParaAvaliacao(habitacao, currentUser);
+
+        if (!utilizadorPodeAvaliar)
+        {
+            return BadRequest("O utilizador não pode avaliar esta habitação com base nas condições especificadas.");
+        }
 
         var avaliacao = new Avaliacao { HabitacaoId = habitacao.Id };
         return View("Avaliacao", avaliacao); // Assegura que o nome da view corresponde ao arquivo da view
@@ -225,8 +253,19 @@ public class HabitacaoController : Controller
         // Se o ModelState for válido, salva a avaliação
         if (ModelState.IsValid)
         {
+
+            var reserva = _context.Reservas.FirstOrDefault(r => r.Id == id);
+
+            if (reserva == null || (reserva.Estado != EstadoReserva.Aceite))
+            {
+                return BadRequest("A reserva não está disponivel para avaliação");
+            }
+
+
+
+
             var habitacao = await _habitacaoService.GetHabitacao(avaliacao.HabitacaoId);
-            
+
             // habitacao nao existe ?
             if (habitacao == null)
             {
@@ -268,9 +307,25 @@ public class HabitacaoController : Controller
         return View("Avaliacao", avaliacao);
     }
 
-   
+    public async Task<IActionResult> Avaliacoes([FromRoute] int id, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+    {
+        var habitacao = await _habitacaoService.GetHabitacaoReservasPaginadas(id, page, pageSize);
 
+        if (habitacao == null)
+        {
+            return NotFound();
+        }
 
+        PaginatedViewModel<Habitacao> resultados = new PaginatedViewModel<Habitacao>()
+        {
+            page = page,
+            pageSize = pageSize,
+            Value = habitacao,
+            Id = id
+        };
+
+        return View(resultados);
+    }
 }
 
 
