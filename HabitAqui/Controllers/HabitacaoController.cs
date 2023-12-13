@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using HabitAqui.Data;
+using HabitAqui.Dtos;
 using HabitAqui.Models;
 using HabitAqui.Services;
 using HabitAqui.ViewModels.Avaliacao;
@@ -15,18 +16,19 @@ public class HabitacaoController : Controller
     private readonly CategoriaService _categoriaService;
     private readonly ApplicationDbContext _context;
     private readonly HabitacaoService _habitacaoService;
-    private readonly UserManager<DetalhesHabitacao> detalhesHabitacao;
+    private readonly LocadorService _locadorService;
     private readonly UserManager<DetalhesUtilizador> _userManager;
 
     public HabitacaoController(ApplicationDbContext context,
-       HabitacaoService habitacaoService,
-       CategoriaService categoriaService,
-       UserManager<DetalhesUtilizador> userManager)
-
+        HabitacaoService habitacaoService,
+        CategoriaService categoriaService,
+        LocadorService locadorService,
+        UserManager<DetalhesUtilizador> userManager)
     {
         _context = context;
         _habitacaoService = habitacaoService;
         _categoriaService = categoriaService;
+        _locadorService = locadorService;
         _userManager = userManager;
     }
     // TODO: Index - feito
@@ -76,10 +78,17 @@ public class HabitacaoController : Controller
     }
 
     // GET: Habitacao/Create
+    [HttpGet]
     public async Task<IActionResult> Create()
     {
         var categorias = await _categoriaService.GetAllActive();
         ViewBag.Categorias = categorias.Any() ? categorias : null;
+        /*var userId = _userManager.GetUserId(User);
+        var locador = await _locadorService.GetLocador(userId);
+        var habitacao = new Habitacao
+        {
+            Locador = locador
+        };*/
         return View();
     }
 
@@ -88,8 +97,27 @@ public class HabitacaoController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Nome")] Habitacao habitacao)
+    public async Task<IActionResult> Create(HabitacaoDto habitacaoDto)
     {
+        var habitacao = new Habitacao
+        {
+            Active = true,
+            Locador = await _locadorService.GetLocador(_userManager.GetUserId(User)),
+            DetalhesHabitacao = new DetalhesHabitacao
+            {
+                Nome = habitacaoDto.Nome,
+                Descricao = habitacaoDto.Descricao,
+                PrecoPorNoite = habitacaoDto.PrecoPorNoite,
+                Area = habitacaoDto.Area,
+                Localizacao = new Localizacao
+                {
+                    Morada = habitacaoDto.Morada,
+                    CodigoPostal = habitacaoDto.CodigoPostal,
+                    Cidade = habitacaoDto.Cidade,
+                    Pais = habitacaoDto.Pais
+                }
+            }
+        };
         try
         {
             if (ModelState.IsValid)
@@ -107,7 +135,7 @@ public class HabitacaoController : Controller
                                          "consulte o administrador do sistema.");
         }
 
-        return View(habitacao);
+        return View(habitacaoDto);
     }
 
     // GET: Habitacao/Edit/5

@@ -16,9 +16,14 @@ public class Program
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(connectionString));
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+        /*builder.Services.AddIdentity<DetalhesUtilizador, IdentityRole>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = true;
+                options.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();*/
         builder.Services
-            .AddDefaultIdentity<
-                DetalhesUtilizador>(options =>
+            .AddDefaultIdentity<DetalhesUtilizador>(options =>
                 options.SignIn.RequireConfirmedAccount =
                     false) //por agora não vamos usar contas confirmadas, depois alterar para true
             .AddRoles<IdentityRole>()
@@ -58,8 +63,8 @@ public class Program
 
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<DetalhesUtilizador>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-                await Startup.CriaDadosIniciais(userManager, roleManager);
 
+                await Startup.CriaDadosIniciais(userManager, roleManager);
 
                 // ==== Database seeding ====
                 var serviceScope = scope.ServiceProvider.GetRequiredService<IServiceScopeFactory>();
@@ -67,6 +72,7 @@ public class Program
                 LandlordSeeder.InitializeAsync(scope.ServiceProvider).Wait();
                 HousingSeeder.InitializeAsync(scope.ServiceProvider).Wait();
                 // ==== END OF THE DATA SEEDING ====
+
             }
             catch (Exception e)
             {
@@ -78,7 +84,7 @@ public class Program
         if (app.Environment.IsDevelopment())
         {
             app.UseMigrationsEndPoint();
-        }   
+        }
         else
         {
             app.UseExceptionHandler("/Home/Error");

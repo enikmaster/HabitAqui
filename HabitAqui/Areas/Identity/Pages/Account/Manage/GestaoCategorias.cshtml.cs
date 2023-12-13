@@ -1,49 +1,42 @@
 using HabitAqui.Data;
 using HabitAqui.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace HabitAqui.Areas.Identity.Pages.Account.Manage
+namespace HabitAqui.Areas.Identity.Pages.Account.Manage;
+
+public class GestaoCategoriasModel : PageModel
 {
-    public class GestaoCategoriasModel : PageModel
+    private readonly ApplicationDbContext _context;
+
+    public GestaoCategoriasModel(ApplicationDbContext context)
     {
+        _context = context;
+    }
 
-        private readonly ApplicationDbContext _context;
+    public List<Categoria> Categorias { get; set; }
 
-        public GestaoCategoriasModel(ApplicationDbContext context)
+    public Dictionary<int, int> TotalHabitacoesPorCategoria { get; set; }
+
+    public void OnGet()
+    {
+        Categorias = _context.Categorias.ToList();
+
+        // Inicializar o dicion√°rio
+        TotalHabitacoesPorCategoria = new Dictionary<int, int>();
+
+        // Para cada categoria, obter o total de habita√ß√µes e armazenar
+        foreach (var categoria in Categorias)
         {
-            _context = context;
+            var totalHabitacoes = _context.Habitacoes
+                .Count(h => h.Categorias.Any(c => c.Id == categoria.Id));
+            TotalHabitacoesPorCategoria[categoria.Id] = totalHabitacoes;
         }
+    }
 
-        public List<Categoria> Categorias { get; set; }
-
-        public Dictionary<int, int> TotalHabitacoesPorCategoria { get; set; }
-
-        public void OnGet()
-        {
-            Categorias = _context.Categorias.ToList();
-
-            // Inicializar o dicion·rio
-            TotalHabitacoesPorCategoria = new Dictionary<int, int>();
-
-            // Para cada categoria, obter o total de habitaÁıes e armazenar
-            foreach (var categoria in Categorias)
-            {
-                int totalHabitacoes = _context.Habitacoes
-                    .Count(h => h.Categorias.Any(c => c.Id == categoria.Id));
-                TotalHabitacoesPorCategoria[categoria.Id] = totalHabitacoes;
-            }
-        }
-
-        public int GetTotalHabitacoesComCategoria(int categoriaId)
-        {
-            // Verifique se a categoriaId existe no dicion·rio TotalHabitacoesPorCategoria
-            if (TotalHabitacoesPorCategoria.ContainsKey(categoriaId))
-            {
-                return TotalHabitacoesPorCategoria[categoriaId];
-            }
-            return 0;
-        }
-
+    public int GetTotalHabitacoesComCategoria(int categoriaId)
+    {
+        // Verifique se a categoriaId existe no dicion√°rio TotalHabitacoesPorCategoria
+        if (TotalHabitacoesPorCategoria.ContainsKey(categoriaId)) return TotalHabitacoesPorCategoria[categoriaId];
+        return 0;
     }
 }
