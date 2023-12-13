@@ -3,13 +3,11 @@
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Authorization
 @model GestaoUtilizadoresModel
-@using HabitAqui.Models
-@using Microsoft.AspNetCore.Identity
 
 
 @{
     ViewData["Title"] = "Utilizadores";
-    var users = Model.Users; 
+    var users = Model.Users;
 }
 
 <link rel="stylesheet" href="~/css/custom-table.css"/>
@@ -28,45 +26,43 @@
     </tr>
     </thead>
     <tbody>
-        @foreach (var user in Model.Users)
-        {
-            <tr>
-                <td>@Html.DisplayFor(model => user.UserName)</td>
-                <td>@Html.DisplayFor(model => user.Email)</td>
-                <td>
-                    @foreach (var role in user.Roles)
-                    {
-                        <span class="@($"{role.ToLower()}-color")">@role</span>
-                        <br />
-                    }
-                </td>
-                <td>
-@*                     TODO: Fazer o edit dos utilizadores
- *@                    <a asp-action="Edit" asp-route-id="@user.Id">
+    @foreach (var user in Model.Users)
+    {
+        <tr>
+            <td>@Html.DisplayFor(model => user.UserName)</td>
+            <td>@Html.DisplayFor(model => user.Email)</td>
+            <td>
+                @foreach (var role in user.Roles)
+                {
+                    <span class="@($"{role.ToLower()}-color")">@role</span>
+                    <br/>
+                }
+            </td>
+            <td>
+                @*  TODO: Fazer o edit dos utilizadores
+                     <a asp-action="Edit" asp-route-id="@user.Id">
                         <i class="fa fa-pencil"></i>
-                    </a>
-                </td>
-                <td>
-                    <form method="post" asp-controller="Admin" asp-action="ToggleUserStatus" asp-route-id="@user.Id">
-                        @if (user.Active)
-                        {
-                            <button type="submit" class="btn btn-danger">
-                                <i class="fa fa-times"></i> Desativar
-                            </button>
-                        }
-                        else
-                        {
-                            <button type="submit" class="btn btn-success">
-                                <i class="fa fa-check"></i> Ativar
-                            </button>
-                        }
-                    </form> 
-
-                 
+                    </a>*@
+            </td>
+            <td>
+                <form method="post" asp-controller="Admin" asp-action="ToggleUserStatus" asp-route-id="@user.Id">
+                    @if (user.Active)
+                    {
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fa fa-times"></i> Desativar
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa fa-check"></i> Ativar
+                        </button>
+                    }
+                </form>
 
 
-                </td>
-            </tr>
-        }
+            </td>
+        </tr>
+    }
     </tbody>
 </table>

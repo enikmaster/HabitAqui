@@ -8,178 +8,178 @@
 <h4>Adicionar Habitação</h4>
 <hr/>
 <div class="row mb-5">
-    <div class="col-md-12">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-floating mb-3">
-                        <input
-                            asp-for="Nome"
-                            autocomplete="nome"
-                            aria-required="true"
-                            aria-placeholder="Nome da Habitação"
-                            class="form-control"
-                            placeholder="Nome"/>
-                        <label
-                            asp-for="Nome"
-                            class="form-label text-dark">
-                        </label>
-                        <span
-                            asp-validation-for="Nome"
-                            class="text-danger">
-                        </span>
-                    </div>
+<div class="col-md-12">
+    <form asp-action="Create" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-floating mb-3">
+                    <input
+                        asp-for="Nome"
+                        autocomplete="nome"
+                        aria-required="true"
+                        aria-placeholder="Nome da Habitação"
+                        class="form-control"
+                        placeholder="Nome"/>
+                    <label
+                        asp-for="Nome"
+                        class="form-label text-dark">
+                    </label>
+                    <span
+                        asp-validation-for="Nome"
+                        class="text-danger">
+                    </span>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-floating mb-3">
-                        <input
-                            asp-for="Morada"
-                            autocomplete="morada"
-                            aria-required="true"
-                            aria-placeholder="Morada"
-                            class="form-control"
-                            placeholder="Morada"/>
-                        <label
-                            asp-for="Morada"
-                            class="form-label text-dark">
-                        </label>
-                        <span
-                            asp-validation-for="Morada"
-                            class="text-danger">
-                        </span>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-floating mb-3">
-                        <input
-                            asp-for="Cidade"
-                            autocomplete="cidade"
-                            aria-required="true"
-                            aria-placeholder="Cidade"
-                            class="form-control"
-                            placeholder="Cidade"/>
-                        <label
-                            asp-for="Cidade"
-                            class="form-label text-dark">
-                        </label>
-                        <span
-                            asp-validation-for="Cidade"
-                            class="text-danger">
-                        </span>
-                    </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-floating mb-3">
+                    <input
+                        asp-for="Morada"
+                        autocomplete="morada"
+                        aria-required="true"
+                        aria-placeholder="Morada"
+                        class="form-control"
+                        placeholder="Morada"/>
+                    <label
+                        asp-for="Morada"
+                        class="form-label text-dark">
+                    </label>
+                    <span
+                        asp-validation-for="Morada"
+                        class="text-danger">
+                    </span>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-floating mb-3">
-                        <input
-                            asp-for="CodigoPostal"
-                            autocomplete="codigoPostal"
-                            aria-required="true"
-                            aria-placeholder="Código Postal"
-                            class="form-control"
-                            placeholder="Código Postal"/>
-                        <label
-                            asp-for="CodigoPostal"
-                            class="form-label text-dark">
-                        </label>
-                        <span
-                            asp-validation-for="CodigoPostal"
-                            class="text-danger">
-                        </span>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-floating mb-3">
-                        <input
-                            asp-for="Pais"
-                            autocomplete="pais"
-                            aria-required="true"
-                            aria-placeholder="País"
-                            class="form-control"
-                            placeholder="País"/>
-                        <label
-                            asp-for="Pais"
-                            class="form-label text-dark">
-                        </label>
-                        <span
-                            asp-validation-for="Pais"
-                            class="text-danger">
-                        </span>
-                    </div>
+            <div class="col-md-6">
+                <div class="form-floating mb-3">
+                    <input
+                        asp-for="Cidade"
+                        autocomplete="cidade"
+                        aria-required="true"
+                        aria-placeholder="Cidade"
+                        class="form-control"
+                        placeholder="Cidade"/>
+                    <label
+                        asp-for="Cidade"
+                        class="form-label text-dark">
+                    </label>
+                    <span
+                        asp-validation-for="Cidade"
+                        class="text-danger">
+                    </span>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <label class="mb-2" asp-for="CategoriasId"></label>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-floating mb-3">
+                    <input
+                        asp-for="CodigoPostal"
+                        autocomplete="codigoPostal"
+                        aria-required="true"
+                        aria-placeholder="Código Postal"
+                        class="form-control"
+                        placeholder="Código Postal"/>
+                    <label
+                        asp-for="CodigoPostal"
+                        class="form-label text-dark">
+                    </label>
+                    <span
+                        asp-validation-for="CodigoPostal"
+                        class="text-danger">
+                    </span>
                 </div>
             </div>
-            <div class="row mb-2">
-                <div class="col-md-12">
-                    @if (ViewBag.Categorias != null)
+            <div class="col-md-6">
+                <div class="form-floating mb-3">
+                    <input
+                        asp-for="Pais"
+                        autocomplete="pais"
+                        aria-required="true"
+                        aria-placeholder="País"
+                        class="form-control"
+                        placeholder="País"/>
+                    <label
+                        asp-for="Pais"
+                        class="form-label text-dark">
+                    </label>
+                    <span
+                        asp-validation-for="Pais"
+                        class="text-danger">
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="mb-2" asp-for="CategoriasId"></label>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-12">
+                @if (ViewBag.Categorias != null)
+                {
+                    foreach (var categoria in ViewBag.Categorias as List<Categoria>)
                     {
-                        foreach (var categoria in ViewBag.Categorias as List<Categoria>)
-                        {
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="categoria_@categoria.Id" name="CategoriasId" value="@categoria.Id"/>
-                                <label class="form-check-label" for="categoria_@categoria.Id">@categoria.Nome</label>
-                            </div>
-                        }
-                    }
-                    else
-                    {
-                        <div class="alert alert-danger" role="alert">
-                            <p>Não existem categorias disponíveis!</p>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="categoria_@categoria.Id" name="CategoriasId" value="@categoria.Id"/>
+                            <label class="form-check-label" for="categoria_@categoria.Id">@categoria.Nome</label>
                         </div>
                     }
+                }
+                else
+                {
+                    <div class="alert alert-danger" role="alert">
+                        <p>Não existem categorias disponíveis!</p>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-floating mb-3">
+                    <input
+                        asp-for="Area"
+                        autocomplete="area"
+                        aria-required="false"
+                        aria-placeholder="Área"
+                        class="form-control"
+                        placeholder="Área"/>
+                    <label
+                        asp-for="Area"
+                        class="form-label text-dark">
+                    </label>
+                    <span
+                        asp-validation-for="Area"
+                        class="text-danger">
+                    </span>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-floating mb-3">
-                        <input
-                            asp-for="Area"
-                            autocomplete="area"
-                            aria-required="false"
-                            aria-placeholder="Área"
-                            class="form-control"
-                            placeholder="Área"/>
-                        <label
-                            asp-for="Area"
-                            class="form-label text-dark">
-                        </label>
-                        <span
-                            asp-validation-for="Area"
-                            class="text-danger">
-                        </span>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-floating mb-3">
-                        <input
-                            asp-for="PrecoPorNoite"
-                            autocomplete="precoPorNoite"
-                            aria-required="true"
-                            aria-placeholder="Preço por noite"
-                            class="form-control"
-                            placeholder="Preço por noite"/>
-                        <label
-                            asp-for="PrecoPorNoite"
-                            class="form-label text-dark">
-                        </label>
-                        <span
-                            asp-validation-for="PrecoPorNoite"
-                            class="text-danger">
-                        </span>
-                    </div>
+            <div class="col-md-6">
+                <div class="form-floating mb-3">
+                    <input
+                        asp-for="PrecoPorNoite"
+                        autocomplete="precoPorNoite"
+                        aria-required="true"
+                        aria-placeholder="Preço por noite"
+                        class="form-control"
+                        placeholder="Preço por noite"/>
+                    <label
+                        asp-for="PrecoPorNoite"
+                        class="form-label text-dark">
+                    </label>
+                    <span
+                        asp-validation-for="PrecoPorNoite"
+                        class="text-danger">
+                    </span>
                 </div>
             </div>
-            <div class="row mb-2">
-                <div class="cold-md-12">
-                    <textarea 
+        </div>
+        <div class="row mb-2">
+            <div class="cold-md-12">
+                <textarea 
                         asp-for="Descricao"
                         autocomplete="descricao"
                         aria-required="false"
@@ -188,34 +188,35 @@
                         placeholder="Descrição"
                         rows="8">
                     </textarea>
-                    <span
-                        asp-validation-for="Descricao"
-                        class="text-danger">
-                    </span>
-                </div>
+                <span
+                    asp-validation-for="Descricao"
+                    class="text-danger">
+                </span>
             </div>
-            <div class="row mb-3">
-                <div class="col-md-3">
-                    <label
-                        asp-for="Imagens"
-                        class="form-label">
-                        Adicionar imagens
-                    </label>
-                    <input
-                        asp-for="Imagens"
-                        aria-required="false"
-                        type="file"
-                        class="form-control"/>
-                    <span
-                        asp-validation-for="Imagens"
-                        class="text-danger">
-                    </span>
-                </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <label
+                    asp-for="Imagens"
+                    class="form-label">
+                    Adicionar imagens
+                </label>
+                <input
+                    asp-for="Imagens"
+                    aria-required="false"
+                    type="file"
+                    multiple="multiple"
+                    class="form-control"/>
+                <span
+                    asp-validation-for="Imagens"
+                    class="text-danger">
+                </span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Guardar" class="btn btn-lg btn-primary"/>
-                <a class="btn btn-lg btn-danger" asp-action="Index">Cancelar</a>
-            </div>
-        </form>
-    </div>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Guardar" class="btn btn-lg btn-primary"/>
+            <a class="btn btn-lg btn-danger" asp-action="Index">Cancelar</a>
+        </div>
+    </form>
+</div>
 </div>

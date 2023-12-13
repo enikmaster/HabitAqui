@@ -5,7 +5,6 @@ using HabitAqui.Models;
 using HabitAqui.Services;
 using HabitAqui.ViewModels;
 using HabitAqui.ViewModels.Avaliacao;
-using Humanizer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -33,48 +32,31 @@ public class HabitacaoController : Controller
         _locadorService = locadorService;
         _userManager = userManager;
     }
-    // TODO: Index - feito
-    // TODO: Create
+    // DONE: Index
+    // DONE: Create
     // TODO: Update/Edit
     // TODO: Delete
 
     // GET: Habitacao
     public async Task<IActionResult> Index()
     {
-        if (User.IsInRole(Roles.Funcionario.ToString()) || User.IsInRole(Roles.Gestor.ToString()))
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            return View(await _habitacaoService.GetAllHabitacoesLocador(userId));
-            /*var locador = await _context.Locadores
-                .Include(l => l.Habitacoes)
-                .FirstOrDefaultAsync(l => l.Administradores.Any(a => a.Id == userId));
-            return locador == null
-                ? View(await _context.Habitacoes.Where(h => h.Active == true).ToListAsync())
-                : View(locador.Habitacoes);*/
-            /*return View(await _context.Habitacoes
-                .Where(h => h.Locador.Id == locador.Id).ToListAsync());*/
-        }
-
-        return View(await _habitacaoService.GetAllActiveHabitacoes());
+        if (!User.IsInRole(Roles.Funcionario.ToString()) && !User.IsInRole(Roles.Gestor.ToString()))
+            return View(await _habitacaoService.GetAllActiveHabitacoes());
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        return View(await _habitacaoService.GetAllHabitacoesLocador(userId));
     }
 
     // GET: Habitacao/Details/5
     public async Task<IActionResult> Detalhes(int? id)
     {
-        if (id == null)
-        {
-            return NotFound();
-        }
+        if (id == null) return NotFound();
 
         var habitacao = await _context.Habitacoes
-            .Include(h => h.Avaliacoes) // Carrega as avaliações relacionadas
-                .ThenInclude(a => a.Cliente) // Inclui informações do cliente que fez a avaliação
+            .Include(h => h.Avaliacoes)! // Carrega as avaliações relacionadas
+            .ThenInclude(a => a.Cliente) // Inclui informações do cliente que fez a avaliação
             .FirstOrDefaultAsync(m => m.Id == id);
 
-        if (habitacao == null)
-        {
-            return NotFound();
-        }
+        if (habitacao == null) return NotFound();
 
         return View(habitacao);
     }
@@ -84,49 +66,69 @@ public class HabitacaoController : Controller
     public async Task<IActionResult> Create()
     {
         var categorias = await _categoriaService.GetAllActive();
-        ViewBag.Categorias = categorias.Any() ? categorias : null;
-        /*var userId = _userManager.GetUserId(User);
-        var locador = await _locadorService.GetLocador(userId);
-        var habitacao = new Habitacao
-        {
-            Locador = locador
-        };*/
+        ViewBag.Categorias = (categorias.Any() ? categorias : null)!;
         return View();
     }
 
     // POST: Habitacao/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(HabitacaoDto habitacaoDto)
+    public async Task<IActionResult> Create(HabitacaoDto habitacaoDto,
+        [FromForm(Name = "Imagens")] List<IFormFile> imagens)
     {
-        var habitacao = new Habitacao
-        {
-            Active = true,
-            Locador = await _locadorService.GetLocador(_userManager.GetUserId(User)),
-            DetalhesHabitacao = new DetalhesHabitacao
-            {
-                Nome = habitacaoDto.Nome,
-                Descricao = habitacaoDto.Descricao,
-                PrecoPorNoite = habitacaoDto.PrecoPorNoite,
-                Area = habitacaoDto?.Area ?? 0,
-                Localizacao = new Localizacao
-                {
-                    Morada = habitacaoDto.Morada,
-                    CodigoPostal = habitacaoDto.CodigoPostal,
-                    Cidade = habitacaoDto.Cidade,
-                    Pais = habitacaoDto.Pais
-                }
-            }
-        };
         try
         {
             if (ModelState.IsValid)
             {
+                var locador = await _locadorService.GetLocador(_userManager.GetUserId(User));
+                var habitacao = new Habitacao
+                {
+                    Active = true,
+                    LocadorId = locador.Id,
+                    DetalhesHabitacao = new DetalhesHabitacao
+                    {
+                        Nome = habitacaoDto.Nome,
+                        Descricao = habitacaoDto.Descricao,
+                        PrecoPorNoite = habitacaoDto.PrecoPorNoite,
+                        Area = habitacaoDto.Area,
+                        Localizacao = new Localizacao
+                        {
+                            Morada = habitacaoDto.Morada,
+                            CodigoPostal = habitacaoDto.CodigoPostal,
+                            Cidade = habitacaoDto.Cidade,
+                            Pais = habitacaoDto.Pais
+                        }
+                    },
+                    Imagens = new List<Imagem>()
+                };
                 await _habitacaoService.CreateHabitacao(habitacao);
-                //_context.Add(habitacao);
-                //await _context.SaveChangesAsync();
+                foreach (var imagem in imagens)
+                {
+                    if (imagem.ContentType != "image/jpeg" && imagem.ContentType != "image/png")
+                    {
+                        ModelState.AddModelError("Imagens", "Apenas são permitidos ficheiros JPG ou PNG.");
+                        return View(habitacaoDto);
+                    }
+
+                    var uniqueFileName = Guid.NewGuid() + "." + imagem.ContentType.Split('/')[1];
+                    var imagePath = Path.Combine(".\\wwwroot", "imgs", "habitacoes", uniqueFileName);
+
+                    await using (var stream = new FileStream(imagePath, FileMode.Create))
+                    {
+                        await imagem.CopyToAsync(stream);
+                    }
+
+                    habitacaoDto.Imagens.Add(uniqueFileName);
+
+                    var novaImagem = new Imagem
+                    {
+                        Path = uniqueFileName,
+                        HabitacaoId = habitacao.Id
+                    };
+                    _context.Imagens.Add(novaImagem);
+                    await _context.SaveChangesAsync();
+                }
+
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -209,16 +211,16 @@ public class HabitacaoController : Controller
 
     private bool VerificarCondicõesParaAvaliacao(Habitacao habitacao, DetalhesUtilizador utilizador)
     {
-
-        bool utilizadorJaAvaliouHabitacao =
-        _context.Avaliacoes.Any(a => a.HabitacaoId == habitacao.Id && a.Cliente.Id == utilizador.Id);
-
+        var utilizadorJaAvaliouHabitacao =
+            _context.Avaliacoes.Any(a => a.HabitacaoId == habitacao.Id && a.Cliente.Id == utilizador.Id);
 
 
-        bool teveArrendamentoAnterior =
-            habitacao.Reservas.Any(r =>
+        var teveArrendamentoAnterior =
+            habitacao.Reservas != null && habitacao.Reservas.Any(r =>
                 r.Cliente == utilizador &&
-                (r.Estado == EstadoReserva.Aceite || (r.RegistoEntregas != null && r.RegistoEntregas.Any(re => re.TipoTransacao == TipoTransacao.Devolucao))));
+                (r.Estado == EstadoReserva.Aceite || (r.RegistoEntregas != null &&
+                                                      r.RegistoEntregas.Any(re =>
+                                                          re.TipoTransacao == TipoTransacao.Devolucao))));
 
         return !utilizadorJaAvaliouHabitacao && teveArrendamentoAnterior;
     }
@@ -234,12 +236,10 @@ public class HabitacaoController : Controller
         var currentUser = await _userManager.GetUserAsync(User);
         if (currentUser == null) return BadRequest();
 
-        bool utilizadorPodeAvaliar = VerificarCondicõesParaAvaliacao(habitacao, currentUser);
+        var utilizadorPodeAvaliar = VerificarCondicõesParaAvaliacao(habitacao, currentUser);
 
         if (!utilizadorPodeAvaliar)
-        {
             return BadRequest("O utilizador não pode avaliar esta habitação com base nas condições especificadas.");
-        }
 
         var avaliacao = new Avaliacao { HabitacaoId = habitacao.Id };
         return View("Avaliacao", avaliacao); // Assegura que o nome da view corresponde ao arquivo da view
@@ -253,24 +253,15 @@ public class HabitacaoController : Controller
         // Se o ModelState for válido, salva a avaliação
         if (ModelState.IsValid)
         {
-
             var reserva = _context.Reservas.FirstOrDefault(r => r.Id == id);
 
-            if (reserva == null || (reserva.Estado != EstadoReserva.Aceite))
-            {
+            if (reserva == null || reserva.Estado != EstadoReserva.Aceite)
                 return BadRequest("A reserva não está disponivel para avaliação");
-            }
-
-
-
 
             var habitacao = await _habitacaoService.GetHabitacao(avaliacao.HabitacaoId);
 
             // habitacao nao existe ?
-            if (habitacao == null)
-            {
-                return BadRequest();
-            }
+            if (habitacao == null) return BadRequest();
 
             // TODO: verificar se  ->>>> o lease dele já tem avaliação ? então bad request
             var currentUser = await _userManager.GetUserAsync(User);
@@ -278,12 +269,12 @@ public class HabitacaoController : Controller
             if (currentUser == null)
                 return BadRequest();
 
-            var novaAvalicaoObj = new Avaliacao()
+            var novaAvalicaoObj = new Avaliacao
             {
                 Cliente = currentUser,
                 Comentario = avaliacao.Comentario,
                 HabitacaoId = habitacao.Id,
-                Nota = avaliacao.Nota,
+                Nota = avaliacao.Nota
             };
 
             // criar avaliacao
@@ -297,26 +288,22 @@ public class HabitacaoController : Controller
         if (!ModelState.IsValid)
         {
             var erros = ModelState.Values.SelectMany(v => v.Errors);
-            foreach (var erro in erros)
-            {
-                Console.WriteLine(erro.ErrorMessage); // Logar os erros
-            }
+            foreach (var erro in erros) Console.WriteLine(erro.ErrorMessage); // Logar os erros
         }
 
         // Recarregar a view de avaliação
-        return View("Avaliacao", avaliacao);
+        //return View("Avaliacao", avaliacao); TODO: verificar esta situação
+        return View("Avaliacao");
     }
 
-    public async Task<IActionResult> Avaliacoes([FromRoute] int id, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+    public async Task<IActionResult> Avaliacoes([FromRoute] int id, [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 10)
     {
         var habitacao = await _habitacaoService.GetHabitacaoReservasPaginadas(id, page, pageSize);
 
-        if (habitacao == null)
-        {
-            return NotFound();
-        }
+        if (habitacao == null) return NotFound();
 
-        PaginatedViewModel<Habitacao> resultados = new PaginatedViewModel<Habitacao>()
+        var resultados = new PaginatedViewModel<Habitacao>
         {
             page = page,
             pageSize = pageSize,
@@ -327,5 +314,3 @@ public class HabitacaoController : Controller
         return View(resultados);
     }
 }
-
-
