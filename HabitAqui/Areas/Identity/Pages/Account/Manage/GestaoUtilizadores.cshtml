@@ -46,6 +46,7 @@
             </td>
             <td>
                 <form method="post" asp-controller="Admin" asp-action="ToggleUserStatus" asp-route-id="@user.Id">
+                    
                     @if (user.Active)
                     {
                         <button type="submit" class="btn btn-danger">
