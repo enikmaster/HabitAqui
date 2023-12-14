@@ -14,7 +14,7 @@ else
                 <th>Nome da Habitação</th>
                 <th>Nota</th>
                 <th>Comentário</th>
-                <th>Editar</th>
+                @*<th></th>*@
             </tr>
         </thead>
         <tbody>
@@ -24,11 +24,11 @@ else
                     <td>@avaliacao.Habitacao.DetalhesHabitacao.Nome</td>
                     <td>@avaliacao.Nota</td>
                     <td>@avaliacao.Comentario</td>
-                    <td>
+                    @*<td>
                         <a asp-controller="Habitacao" asp-action="EditarAvaliacoes" asp-route-id="@avaliacao.Id">
                             <i class="fas fa-pencil-alt"></i> 
                         </a>
-                    </td>
+                    </td>*@
                 </tr>
             }
         </tbody>

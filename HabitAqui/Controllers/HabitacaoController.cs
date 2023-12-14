@@ -19,18 +19,21 @@ public class HabitacaoController : Controller
     private readonly HabitacaoService _habitacaoService;
     private readonly LocadorService _locadorService;
     private readonly UserManager<DetalhesUtilizador> _userManager;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public HabitacaoController(ApplicationDbContext context,
         HabitacaoService habitacaoService,
         CategoriaService categoriaService,
         LocadorService locadorService,
-        UserManager<DetalhesUtilizador> userManager)
+        UserManager<DetalhesUtilizador> userManager,
+        IWebHostEnvironment webHostEnvironment)
     {
         _context = context;
         _habitacaoService = habitacaoService;
         _categoriaService = categoriaService;
         _locadorService = locadorService;
         _userManager = userManager;
+        _webHostEnvironment = webHostEnvironment;
     }
     // DONE: Index
     // DONE: Create
@@ -52,6 +55,9 @@ public class HabitacaoController : Controller
         if (id == null) return NotFound();
 
         var habitacao = await _context.Habitacoes
+            .Include(i => i.Imagens)
+            .Include(d => d.DetalhesHabitacao)
+            .ThenInclude(l => l.Localizacao)
             .Include(h => h.Avaliacoes)! // Carrega as avaliações relacionadas
             .ThenInclude(a => a.Cliente) // Inclui informações do cliente que fez a avaliação
             .FirstOrDefaultAsync(m => m.Id == id);
@@ -102,6 +108,7 @@ public class HabitacaoController : Controller
                     Imagens = new List<Imagem>()
                 };
                 await _habitacaoService.CreateHabitacao(habitacao);
+                if (imagens.Count <= 0) return RedirectToAction(nameof(Index));
                 foreach (var imagem in imagens)
                 {
                     if (imagem.ContentType != "image/jpeg" && imagem.ContentType != "image/png")
@@ -111,7 +118,13 @@ public class HabitacaoController : Controller
                     }
 
                     var uniqueFileName = Guid.NewGuid() + "." + imagem.ContentType.Split('/')[1];
-                    var imagePath = Path.Combine(".\\wwwroot", "imgs", "habitacoes", uniqueFileName);
+                    var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "imgs", "habitacoes",
+                        habitacao.Id.ToString(),
+                        uniqueFileName);
+                    var imageDirectory = Path.GetDirectoryName(imagePath);
+                    if (imageDirectory != null)
+                        if (!Directory.Exists(imageDirectory))
+                            Directory.CreateDirectory(imageDirectory);
 
                     await using (var stream = new FileStream(imagePath, FileMode.Create))
                     {
@@ -153,8 +166,6 @@ public class HabitacaoController : Controller
     }
 
     // POST: Habitacao/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, [Bind("Id")] Habitacao habitacao)
@@ -203,17 +214,16 @@ public class HabitacaoController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    private bool HabitacaoExists(int id)
+    /*private bool HabitacaoExists(int id)
     {
         return (_context.Habitacoes?.Any(e => e.Id == id)).GetValueOrDefault();
-    }
+    }*/
 
 
     private bool VerificarCondicõesParaAvaliacao(Habitacao habitacao, DetalhesUtilizador utilizador)
     {
         var utilizadorJaAvaliouHabitacao =
             _context.Avaliacoes.Any(a => a.HabitacaoId == habitacao.Id && a.Cliente.Id == utilizador.Id);
-
 
         var teveArrendamentoAnterior =
             habitacao.Reservas != null && habitacao.Reservas.Any(r =>
@@ -229,20 +239,14 @@ public class HabitacaoController : Controller
     public async Task<IActionResult> Avaliar(int? id)
     {
         if (id == null) return NotFound();
-
         var habitacao = await _habitacaoService.GetHabitacao(id.Value);
         if (habitacao == null) return NotFound();
-
         var currentUser = await _userManager.GetUserAsync(User);
         if (currentUser == null) return BadRequest();
-
         var utilizadorPodeAvaliar = VerificarCondicõesParaAvaliacao(habitacao, currentUser);
-
-        if (!utilizadorPodeAvaliar)
-            return BadRequest("O utilizador não pode avaliar esta habitação com base nas condições especificadas.");
-
+        if (!utilizadorPodeAvaliar) return BadRequest("O utilizador não pode avaliar esta habitação com base nas condições especificadas.");
         var avaliacao = new Avaliacao { HabitacaoId = habitacao.Id };
-        return View("Avaliacao", avaliacao); // Assegura que o nome da view corresponde ao arquivo da view
+        return View("Avaliacao", avaliacao);
     }
 
     [HttpPost]
@@ -250,25 +254,17 @@ public class HabitacaoController : Controller
     [Authorize] // TODO: ESPECIFICAR A ROLE CLIENTE <-  Roles="Cliente"
     public async Task<IActionResult> Avaliar(int id, NovaAvaliacao avaliacao)
     {
-        // Se o ModelState for válido, salva a avaliação
         if (ModelState.IsValid)
         {
             var reserva = _context.Reservas.FirstOrDefault(r => r.Id == id);
-
             if (reserva == null || reserva.Estado != EstadoReserva.Aceite)
                 return BadRequest("A reserva não está disponivel para avaliação");
-
             var habitacao = await _habitacaoService.GetHabitacao(avaliacao.HabitacaoId);
-
-            // habitacao nao existe ?
             if (habitacao == null) return BadRequest();
 
             // TODO: verificar se  ->>>> o lease dele já tem avaliação ? então bad request
             var currentUser = await _userManager.GetUserAsync(User);
-
-            if (currentUser == null)
-                return BadRequest();
-
+            if (currentUser == null) return BadRequest();
             var novaAvalicaoObj = new Avaliacao
             {
                 Cliente = currentUser,
@@ -277,21 +273,17 @@ public class HabitacaoController : Controller
                 Nota = avaliacao.Nota
             };
 
-            // criar avaliacao
             var novaAvalicao = _context.Avaliacoes.Add(novaAvalicaoObj);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Detalhes), new { id = avaliacao.HabitacaoId });
         }
 
-        // Se o ModelState não for válido, loga os erros e recarrega a view
         if (!ModelState.IsValid)
         {
             var erros = ModelState.Values.SelectMany(v => v.Errors);
             foreach (var erro in erros) Console.WriteLine(erro.ErrorMessage); // Logar os erros
         }
-
-        // Recarregar a view de avaliação
         //return View("Avaliacao", avaliacao); TODO: verificar esta situação
         return View("Avaliacao");
     }
@@ -300,9 +292,7 @@ public class HabitacaoController : Controller
         [FromQuery] int pageSize = 10)
     {
         var habitacao = await _habitacaoService.GetHabitacaoReservasPaginadas(id, page, pageSize);
-
         if (habitacao == null) return NotFound();
-
         var resultados = new PaginatedViewModel<Habitacao>
         {
             page = page,
@@ -310,51 +300,35 @@ public class HabitacaoController : Controller
             Value = habitacao,
             Id = id
         };
-
         return View(resultados);
     }
-
-
-
 
     // GET: Habitacao/MinhasAvaliacoes
     [Authorize]
     public async Task<IActionResult> MinhasAvaliacoes()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
         var minhasAvaliacoes = await _context.Avaliacoes
             .Include(a => a.Habitacao)
             .ThenInclude(h => h.DetalhesHabitacao)
             .Where(a => a.Cliente.Id == userId) // Altere de a.Cliente para a.Cliente.Id
             .ToListAsync();
-
         return View(minhasAvaliacoes);
     }
 
 
     // GET: Habitacao/EditarAvaliacoes/5
-    public async Task<IActionResult> EditarAvaliacoes(int? id)
+    /*public async Task<IActionResult> EditarAvaliacoes(int? id)
     {
-        if (id == null)
-        {
-            return NotFound();
-        }
-
-        // Verifique se a avaliação pertence ao usuário logado
+        if (id == null) return NotFound();
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var avaliacao = await _context.Avaliacoes
             .Include(a => a.Habitacao)
             .ThenInclude(h => h.DetalhesHabitacao)
             .FirstOrDefaultAsync(a => a.Id == id && a.Cliente.Id == userId);
-
-        if (avaliacao == null)
-        {
-            return NotFound();
-        }
-
-        return View(avaliacao); // Passe a avaliacao para a view
-    }
+        if (avaliacao == null) return NotFound();
+        return View(avaliacao);
+    }*/
 
 
     private bool AvaliacaoExists(int id)
@@ -363,32 +337,22 @@ public class HabitacaoController : Controller
     }
 
     // POST: Habitacao/EditarAvaliacao/5
-    [HttpPost]
+    /*[HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> EditarAvaliacao(int id, Avaliacao avaliacao)
     {
-        if (id != avaliacao.Id)
-        {
-            return NotFound();
-        }
-
+        if (id != avaliacao.Id) return NotFound();
         if (ModelState.IsValid)
         {
             try
             {
-                // Busque a avaliação existente no banco de dados
                 var avaliacaoExistente = await _context.Avaliacoes.FindAsync(avaliacao.Id);
-
                 if (avaliacaoExistente == null)
                 {
                     return NotFound();
                 }
-
-                // Atualize os campos da avaliação existente com os dados do modelo enviado pelo formulário
                 avaliacaoExistente.Nota = avaliacao.Nota;
                 avaliacaoExistente.Comentario = avaliacao.Comentario;
-
-                // Salve as alterações no banco de dados
                 _context.Update(avaliacaoExistente);
                 await _context.SaveChangesAsync();
             }
@@ -403,14 +367,8 @@ public class HabitacaoController : Controller
                     throw;
                 }
             }
-
             return RedirectToAction(nameof(MinhasAvaliacoes));
         }
-
         return View(avaliacao);
-    }
-
-
-
-
+    }*/
 }

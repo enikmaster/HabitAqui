@@ -1,5 +1,4 @@
 ﻿@using HabitAqui.Data
-
 @{
     ViewData["Title"] = "Nome da habitação";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,21 +6,38 @@
 <link rel="stylesheet" href="/css/detalhes-habitacao.css"/>
 
 <div class="text-left">
-    <h1 class="display-4">@ViewData["Title"]</h1>
+    <h1 class="display-4">@Model.DetalhesHabitacao.Nome</h1>
 </div>
-@* TODO: Resolver a questão das imagens *@
 <div class="galeria-container">
     <div class="outside-flex">
-        <div class="flex-left col-6 mx-2">
+        @{
+            var a = 0;
+            foreach (var imagem in Model.Imagens)
+            {
+                if (a == 0)
+                {
+                    <div class="flex-left col-6 mx-2">
+                        <img alt="imagem da casa" src="/imgs/habitacoes/@Model.Id/@imagem.Path">
+                    </div>
+                }
 
-            <img alt="imagem da casa" src="/imgs/habitacoes/habitacao001.jpg">
-        </div>
+                ++a;
+            }
+        }
         <div class="flex-right col-6 mx-2">
             <div class="inner-flex-right">
-                <img alt="imagem da casa" src="/imgs/habitacoes/habitacao002.jpg">
-                <img alt="imagem da casa" src="/imgs/habitacoes/habitacao003.jpg">
-                <img alt="imagem da casa" src="/imgs/habitacoes/habitacao004.jpg">
-                <img alt="imagem da casa" src="/imgs/habitacoes/habitacao005.jpg">
+                @{
+                    var i = 0;
+                    foreach (var imagem in Model.Imagens)
+                    {
+                        if (i != 0)
+                        {
+                            <img alt="imagem da casa" src="/imgs/habitacoes/@Model.Id/@imagem.Path">
+                        }
+
+                        ++i;
+                    }
+                }
             </div>
         </div>
     </div>
@@ -32,12 +48,18 @@
     @foreach (var avaliacao in Model.Avaliacoes)
     {
         <div class="avaliacao">
-            <p><strong>Nota:</strong> @avaliacao.Nota</p>
-            <p><strong>Comentário:</strong> @avaliacao.Comentario</p>
-            <p><strong>Por:</strong> @avaliacao.Cliente.Nome</p>
+            <p>
+                <strong>Nota:</strong> @avaliacao.Nota
+            </p>
+            <p>
+                <strong>Comentário:</strong> @avaliacao.Comentario
+            </p>
+            <p>
+                <strong>Por:</strong> @avaliacao.Cliente.Nome
+            </p>
         </div>
     }
-    
+
     @if (User.Identity.IsAuthenticated)
     {
         <div>
