@@ -80,11 +80,10 @@ namespace HabitAqui.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<decimal>("Area")
+                    b.Property<decimal?>("Area")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Descricao")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("LocalizacaoId")
@@ -258,24 +257,8 @@ namespace HabitAqui.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime?>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<byte[]>("Data")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Extension")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FileType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("HabitacaoId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Path")
                         .IsRequired()
@@ -283,30 +266,9 @@ namespace HabitAqui.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Imagens");
-                });
-
-            modelBuilder.Entity("HabitAqui.Models.ImagemHabitacao", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("HabitacaoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ImagemId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
                     b.HasIndex("HabitacaoId");
 
-                    b.HasIndex("ImagemId");
-
-                    b.ToTable("ImagensHabitacoes");
+                    b.ToTable("Imagens");
                 });
 
             modelBuilder.Entity("HabitAqui.Models.ImagemRegistoEntrega", b =>
@@ -353,6 +315,7 @@ namespace HabitAqui.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Pais")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -694,23 +657,13 @@ namespace HabitAqui.Migrations
                     b.Navigation("Habitacao");
                 });
 
-            modelBuilder.Entity("HabitAqui.Models.ImagemHabitacao", b =>
+            modelBuilder.Entity("HabitAqui.Models.Imagem", b =>
                 {
                     b.HasOne("HabitAqui.Models.Habitacao", "Habitacao")
                         .WithMany("Imagens")
-                        .HasForeignKey("HabitacaoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HabitAqui.Models.Imagem", "Imagem")
-                        .WithMany()
-                        .HasForeignKey("ImagemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("HabitacaoId");
 
                     b.Navigation("Habitacao");
-
-                    b.Navigation("Imagem");
                 });
 
             modelBuilder.Entity("HabitAqui.Models.ImagemRegistoEntrega", b =>
@@ -759,13 +712,13 @@ namespace HabitAqui.Migrations
                     b.HasOne("HabitAqui.Models.DetalhesUtilizador", "Cliente")
                         .WithMany()
                         .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("HabitAqui.Models.DetalhesUtilizador", "Funcionario")
                         .WithMany()
                         .HasForeignKey("FuncionarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("HabitAqui.Models.Habitacao", "Habitacao")

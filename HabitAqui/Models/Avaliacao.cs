@@ -10,4 +10,4 @@ public class Avaliacao
     public Habitacao Habitacao { get; set; }
     [Required] public int Nota { get; set; }
     public string Comentario { get; set; }
-}
+} 

@@ -20,8 +20,11 @@
         <th class="identificador">Email</th>
         <th class="identificador" onclick="sortTable(2)">Funções</th>
         <td>
-            <span class="identificador" data-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" onclick="editUser('@User.FindFirstValue(ClaimTypes.NameIdentifier)')">Editar</span>
-        </td>
+@*              <span class="identificador" data-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" onclick="editUser('@User.FindFirstValue(ClaimTypes.NameIdentifier)')">Editar</span>
+ *@
+                
+
+</td>
         <th class="identificador">Ativar/Desativar</th>
     </tr>
     </thead>
@@ -39,13 +42,14 @@
                 }
             </td>
             <td>
-                @*  TODO: Fazer o edit dos utilizadores
-                     <a asp-action="Edit" asp-route-id="@user.Id">
-                        <i class="fa fa-pencil"></i>
-                    </a>*@
+
+                    <a class="btn btn-primary btn-sm" asp-page="./EditarUtilizador" asp-route-userId="@user.Id">
+                        <i class="fa-solid fa-pen"></i>
+                    </a>
             </td>
             <td>
                 <form method="post" asp-controller="Admin" asp-action="ToggleUserStatus" asp-route-id="@user.Id">
+                    
                     @if (user.Active)
                     {
                         <button type="submit" class="btn btn-danger">

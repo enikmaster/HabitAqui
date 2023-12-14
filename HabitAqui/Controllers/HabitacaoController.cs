@@ -81,7 +81,7 @@ public class HabitacaoController : Controller
             if (ModelState.IsValid)
             {
                 var locador = await _locadorService.GetLocador(_userManager.GetUserId(User));
-                var habitacao = new Habitacao
+                    var habitacao = new Habitacao
                 {
                     Active = true,
                     LocadorId = locador.Id,
@@ -313,4 +313,104 @@ public class HabitacaoController : Controller
 
         return View(resultados);
     }
+
+
+
+
+    // GET: Habitacao/MinhasAvaliacoes
+    [Authorize]
+    public async Task<IActionResult> MinhasAvaliacoes()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var minhasAvaliacoes = await _context.Avaliacoes
+            .Include(a => a.Habitacao)
+            .ThenInclude(h => h.DetalhesHabitacao)
+            .Where(a => a.Cliente.Id == userId) // Altere de a.Cliente para a.Cliente.Id
+            .ToListAsync();
+
+        return View(minhasAvaliacoes);
+    }
+
+
+    // GET: Habitacao/EditarAvaliacoes/5
+    public async Task<IActionResult> EditarAvaliacoes(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        // Verifique se a avaliação pertence ao usuário logado
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var avaliacao = await _context.Avaliacoes
+            .Include(a => a.Habitacao)
+            .ThenInclude(h => h.DetalhesHabitacao)
+            .FirstOrDefaultAsync(a => a.Id == id && a.Cliente.Id == userId);
+
+        if (avaliacao == null)
+        {
+            return NotFound();
+        }
+
+        return View(avaliacao); // Passe a avaliacao para a view
+    }
+
+
+    private bool AvaliacaoExists(int id)
+    {
+        return _context.Avaliacoes.Any(e => e.Id == id);
+    }
+
+    // POST: Habitacao/EditarAvaliacao/5
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> EditarAvaliacao(int id, Avaliacao avaliacao)
+    {
+        if (id != avaliacao.Id)
+        {
+            return NotFound();
+        }
+
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                // Busque a avaliação existente no banco de dados
+                var avaliacaoExistente = await _context.Avaliacoes.FindAsync(avaliacao.Id);
+
+                if (avaliacaoExistente == null)
+                {
+                    return NotFound();
+                }
+
+                // Atualize os campos da avaliação existente com os dados do modelo enviado pelo formulário
+                avaliacaoExistente.Nota = avaliacao.Nota;
+                avaliacaoExistente.Comentario = avaliacao.Comentario;
+
+                // Salve as alterações no banco de dados
+                _context.Update(avaliacaoExistente);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AvaliacaoExists(avaliacao.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return RedirectToAction(nameof(MinhasAvaliacoes));
+        }
+
+        return View(avaliacao);
+    }
+
+
+
+
 }

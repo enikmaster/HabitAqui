@@ -1,0 +1,53 @@
+﻿@model List<Avaliacao>
+
+<h2>Minhas Avaliações</h2>
+
+@if (Model.Count == 0)
+{
+    <p>Você ainda não fez nenhuma avaliação.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome da Habitação</th>
+                <th>Nota</th>
+                <th>Comentário</th>
+                <th>Editar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var avaliacao in Model)
+            {
+                <tr>
+                    <td>@avaliacao.Habitacao.DetalhesHabitacao.Nome</td>
+                    <td>@avaliacao.Nota</td>
+                    <td>@avaliacao.Comentario</td>
+                    <td>
+                        <a asp-controller="Habitacao" asp-action="EditarAvaliacoes" asp-route-id="@avaliacao.Id">
+                            <i class="fas fa-pencil-alt"></i> 
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+
+
+
+
+@* <td>
+    <form method="post" asp-controller="Habitacao" asp-action="EditarAvaliacoes">
+        <input type="hidden" name="id" value="@avaliacao.Id" />
+        <input type="hidden" name="habitacaoId" value="@avaliacao.Habitacao.Id" />
+        <button type="submit" class="btn btn-link">
+            <i class="fas fa-pencil-alt"></i>
+        </button>
+    </form>
+
+</td> *@
