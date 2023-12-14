@@ -61,7 +61,9 @@ public class HabitacaoService
     public async Task<List<Habitacao>> GetAllHabitacoesLocador(string userId)
     {
         var locador = await _context.Locadores
-            .Include(l => l.Habitacoes)!
+            .Include(h => h.Habitacoes)!
+            .ThenInclude(i => i.Imagens)
+            .Include(h => h.Habitacoes)!
             .ThenInclude(d => d.DetalhesHabitacao)
             .ThenInclude(l => l.Localizacao)
             .FirstOrDefaultAsync(l => l.Administradores.Any(a => a.Id == userId));
