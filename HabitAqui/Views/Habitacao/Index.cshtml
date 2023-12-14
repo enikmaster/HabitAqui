@@ -55,7 +55,11 @@
 <div class="container-flex">
     @if (!Model.Any())
     {
-        <h3>Ainda não existem habitações criadas.</h3>
+        <div class="container text-center mt-4">
+            <div class="row" style="text-align: center">
+                <h3>Não há imóveis que obedeçam ao seu critério de procura!</h3>
+            </div>
+        </div>
     }
     else
     {
@@ -73,6 +77,7 @@
                         <div>
                             <div>
                                 <p>@habitacao.DetalhesHabitacao.Localizacao?.Cidade, @habitacao.DetalhesHabitacao.Localizacao?.Pais</p>
+                                
                             </div>
                             <div>
                                 @habitacao.MediaAvaliacoes

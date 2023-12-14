@@ -52,37 +52,18 @@ public class HabitacaoController : Controller
 
     public async Task<IActionResult> Search(string search)
     {
-        IQueryable<Habitacao> query = _context.Habitacoes
-            .Where(h => h.Active)
+        var query = _context.Habitacoes
+            .Where(h => h.Active && (string.IsNullOrEmpty(search) || EF.Functions.Like(h.DetalhesHabitacao.Nome, $"%{search}%")))
             .Include(h => h.DetalhesHabitacao)
-            .ThenInclude(h => h.Localizacao)
+                .ThenInclude(h => h.Localizacao)
             .Include(h => h.Avaliacoes)
             .Include(h => h.Categorias)
             .Include(h => h.Locador)
             .Include(h => h.Reservas)
-            .Include(l => l.Imagens);
+            .Include(h => h.Imagens)
+            .AsNoTracking(); 
 
-        if (!string.IsNullOrEmpty(search))
-        {
-            query = query.Where(h => EF.Functions.Like(h.DetalhesHabitacao.Nome, $"%{search}%"));
-        }
-
-        List<Habitacao> result = await query.ToListAsync();
-
-        // If no results and search term was provided, load all habitacoes
-        if (result.Count == 0)
-        {
-            result = await _context.Habitacoes
-                                  .Where(h => h.Active)
-                                  .Include(h => h.DetalhesHabitacao)
-                                  .ThenInclude(h => h.Localizacao)
-                                  .Include(h => h.Avaliacoes)
-                                  .Include(h => h.Categorias)
-                                  .Include(h => h.Locador)
-                                  .Include(h => h.Reservas)
-                                  .Include(l => l.Imagens)
-                                  .ToListAsync();
-        }
+        var result = await query.ToListAsync();
 
         return View(result);
     }

@@ -21,11 +21,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Migrations\" />
+        <Content Remove="wwwroot\css\styles.scss" />
     </ItemGroup>
 
     <ItemGroup>
-        <Content Remove="wwwroot\css\styles.scss" />
+      <Folder Include="Migrations\" />
     </ItemGroup>
 
 </Project>
