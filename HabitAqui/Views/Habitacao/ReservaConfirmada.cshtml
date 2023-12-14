@@ -1,0 +1,16 @@
+﻿@model HabitAqui.ViewModels.Reservas.EfetuarReserva
+
+@{
+    ViewData["Title"] = "Confirmação da Reserva";
+}
+
+<h1>Confirmação da Reserva</h1>
+
+<div class="alert alert-success">
+    <strong>Reserva confirmada!</strong>
+    A reserva está aguardando aprovação pelo proprietário da habitação.
+</div>
+
+<div class="form-actions">
+    <a asp-action="Index" asp-controller="Home" class="btn btn-secondary">Voltar</a>
+</div>
