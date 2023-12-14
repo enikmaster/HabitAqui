@@ -6,29 +6,42 @@ public static class HousingMock
 {
     public static Habitacao GenerateOneHabitacaoMock(string locadorId)
     {
-        return new Habitacao
-        {
-            LocadorId = locadorId,
-            DetalhesHabitacao = new DetalhesHabitacao
+            var habitacao = new Habitacao
             {
-                Area = 150,
-                Descricao = "Habitação com 150m2",
-                Nome = "Habitação Santa Clara",
-                Localizacao = new Localizacao
+                LocadorId = locadorId,
+                DetalhesHabitacao = new DetalhesHabitacao
                 {
-                    Cidade = "Coimbra",
-                    CodigoPostal = "3030-300",
-                    Morada = "Rua do Brasil 330",
-                    Pais = "Portugal"
+                    Area = 150,
+                    Descricao = "Habitação com 150m2",
+                    Nome = "Habitação Santa Clara",
+                    Localizacao = new Localizacao
+                    {
+                        Cidade = "Coimbra",
+                        CodigoPostal = "3030-300",
+                        Morada = "Rua do Brasil 330",
+                        Pais = "Portugal"
+                    },
+                    PrecoPorNoite = 80
                 },
-                PrecoPorNoite = 80
-            },
-            Active = true,
-            Avaliacoes = null,
-            Reservas = null,
-            Categorias = null,
-            Imagens = new List<Imagem>()
-        };
+                Active = true,
+                Avaliacoes = null,
+                Reservas = null,
+                Categorias = null,
+                Imagens = new List<Imagem>()
+            };
+
+//
+        string basePath = $"imgs/habitacoes/{habitacao.Id}/";
+
+        // Adding mock images to the habitacao with the Habitacao ID in the path
+        habitacao.Imagens.Add(new Imagem { Path = "habitacao001.jpg" });
+        habitacao.Imagens.Add(new Imagem { Path = "habitacao002.jpg" });
+        habitacao.Imagens.Add(new Imagem { Path = "habitacao003.jpg" });
+        habitacao.Imagens.Add(new Imagem { Path = "habitacao004.jpg" });
+        habitacao.Imagens.Add(new Imagem { Path = "habitacao005.jpg" });
+        // Add more images as needed
+
+        return habitacao;
     }
 
     public static HabitacaoCategoria GenerateHabitacaoCategoria(Habitacao habitacao, Categoria categoria)

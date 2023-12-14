@@ -41,12 +41,50 @@ public class HabitacaoController : Controller
     // TODO: Delete
 
     // GET: Habitacao
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index() //passar para aqui argumento da categoria
     {
         if (!User.IsInRole(Roles.Funcionario.ToString()) && !User.IsInRole(Roles.Gestor.ToString()))
             return View(await _habitacaoService.GetAllActiveHabitacoes());
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         return View(await _habitacaoService.GetAllHabitacoesLocador(userId));
+    }
+
+
+    public async Task<IActionResult> Search(string search)
+    {
+        IQueryable<Habitacao> query = _context.Habitacoes
+            .Where(h => h.Active)
+            .Include(h => h.DetalhesHabitacao)
+            .ThenInclude(h => h.Localizacao)
+            .Include(h => h.Avaliacoes)
+            .Include(h => h.Categorias)
+            .Include(h => h.Locador)
+            .Include(h => h.Reservas)
+            .Include(l => l.Imagens);
+
+        if (!string.IsNullOrEmpty(search))
+        {
+            query = query.Where(h => EF.Functions.Like(h.DetalhesHabitacao.Nome, $"%{search}%"));
+        }
+
+        List<Habitacao> result = await query.ToListAsync();
+
+        // If no results and search term was provided, load all habitacoes
+        if (result.Count == 0)
+        {
+            result = await _context.Habitacoes
+                                  .Where(h => h.Active)
+                                  .Include(h => h.DetalhesHabitacao)
+                                  .ThenInclude(h => h.Localizacao)
+                                  .Include(h => h.Avaliacoes)
+                                  .Include(h => h.Categorias)
+                                  .Include(h => h.Locador)
+                                  .Include(h => h.Reservas)
+                                  .Include(l => l.Imagens)
+                                  .ToListAsync();
+        }
+
+        return View(result);
     }
 
     // GET: Habitacao/Details/5
