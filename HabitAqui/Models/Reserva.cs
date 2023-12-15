@@ -24,5 +24,5 @@ public class Reserva
     [Required] public DateTime DataFim { get; set; }
 
     public ICollection<RegistoEntrega>?
-        RegistoEntregas { get; set; } //podemos ter uma reserva (pendente/rejeitada) sem ter registo de entrega
+        RegistoEntregas { get; set; } 
 }

@@ -13,4 +13,6 @@ public class Locador : DetalhesUtilizador
 
     [DisplayName("Funcionários")]
     public ICollection<DetalhesUtilizador> Administradores { get; set; } // tem de ter pelo menos 1 administrador
+
+
 }

@@ -1,0 +1,50 @@
+﻿@model HabitAqui.ViewModels.Reservas.EfetuarReserva
+@{
+    ViewData["Title"] = "Efetuar Reserva";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+
+
+<h1>Efetuar Reserva</h1>
+
+<h2>Detalhes da Habitação:</h2>
+    <div>
+        <strong>@Model.NomeHabitacao</strong><br />
+        <span>@Model.DescricaoHabitacao</span><br />
+        <span>Preço por Noite: @Model.PrecoPorNoiteHabitacao</span>
+    </div>
+</div>
+<form asp-action="ConfirmarReserva" asp-controller="Reservas" method="post">
+    <div class="form-group">
+        <input type="hidden" asp-for="HabitacaoId" value="@Model.HabitacaoId" />
+        <label asp-for="DataInicio">Data de Check-In:</label>
+        <input asp-for="DataInicio" class="form-control" type="date" />
+        <span asp-validation-for="DataInicio" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DataFim">Data de Check-Out:</label>
+        <input asp-for="DataFim" class="form-control" type="date" />
+        <span asp-validation-for="DataFim" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="AnotacoesCliente">Anotações do cliente</label>
+        <input asp-for="AnotacoesCliente" class="form-control" type="text" />
+    </div>
+    <input type="hidden" name="DataInicio" value="@Model.DataInicio" />
+    <input type="hidden" name="DataFim" value="@Model.DataFim" />
+    <input type="hidden" name="NumeroNoite" value="@Model.NumeroNoites" />
+    <input type="hidden" name="precoTotal" value="@Model.precoTotal" />
+    <input type="hidden" name="PrecoPorNoiteHabitacao" value="@Model.PrecoPorNoiteHabitacao" />
+    <input type="hidden" name="DescricaoHabitacao" value="@Model.DescricaoHabitacao" />
+    <input type="hidden" name="NomeHabitacao" value="@Model.NomeHabitacao" />
+    <input type="hidden" name="AnotacoesCliente" value="@Model.AnotacoesCliente" />
+    <input type="hidden" name="HabitacaoId" value="@Model.HabitacaoId" />
+
+
+  
+
+    <button type="submit" class="btn btn-primary">Reservar</button>
+</form>
+
+<a asp-action="Index" asp-controller="Home">Voltar à Página Inicial</a>

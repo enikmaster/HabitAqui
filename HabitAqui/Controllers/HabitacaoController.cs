@@ -122,7 +122,7 @@ public class HabitacaoController : Controller
             if (ModelState.IsValid)
             {
                 var locador = await _locadorService.GetLocador(_userManager.GetUserId(User));
-                    var habitacao = new Habitacao
+                var habitacao = new Habitacao
                 {
                     Active = true,
                     LocadorId = locador.Id,
@@ -361,10 +361,11 @@ public class HabitacaoController : Controller
             .Include(a => a.Habitacao)
             .ThenInclude(h => h.DetalhesHabitacao)
             .FirstOrDefaultAsync(a => a.Id == id && a.Cliente.Id == userId);
-        if (avaliacao == null) return NotFound();
-        return View(avaliacao);
-    }*/
 
+        if (avaliacao == null) return NotFound();
+
+        return View(new AvaliacaoEditar { Id = avaliacao.Id, Nota = avaliacao.Nota, Comentario = avaliacao.Comentario }); // Passe a avaliacao para a view
+    }*/
 
     private bool AvaliacaoExists(int id)
     {
@@ -374,20 +375,27 @@ public class HabitacaoController : Controller
     // POST: Habitacao/EditarAvaliacao/5
     /*[HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditarAvaliacao(int id, Avaliacao avaliacao)
+    public async Task<IActionResult> EditarAvaliacao(int id, AvaliacaoEditar avaliacao)
     {
         if (id != avaliacao.Id) return NotFound();
         if (ModelState.IsValid)
         {
             try
             {
-                var avaliacaoExistente = await _context.Avaliacoes.FindAsync(avaliacao.Id);
+
+                // Busque a avaliação existente no banco de dados
+                var avaliacaoExistente = await _context.Avaliacoes
+                    .Include(a => a.Habitacao) // Inclua a propriedade Habitacao
+                    .FirstOrDefaultAsync(a => a.Id == avaliacao.Id);
+
+
                 if (avaliacaoExistente == null)
                 {
                     return NotFound();
                 }
                 avaliacaoExistente.Nota = avaliacao.Nota;
                 avaliacaoExistente.Comentario = avaliacao.Comentario;
+
                 _context.Update(avaliacaoExistente);
                 await _context.SaveChangesAsync();
             }
@@ -405,5 +413,8 @@ public class HabitacaoController : Controller
             return RedirectToAction(nameof(MinhasAvaliacoes));
         }
         return View(avaliacao);
+
+      }
     }*/
 }
+
