@@ -50,10 +50,15 @@ public class HabitacaoController : Controller
     }
 
 
-    public async Task<IActionResult> Search(string search)
+    public async Task<IActionResult> Search(string search, int page = 1, int pageSize = 10) 
     {
+        ViewData["TitleSearch"] = "Resultados da sua pesquisa: " + search; 
+
         var query = _context.Habitacoes
-            .Where(h => h.Active && (string.IsNullOrEmpty(search) || EF.Functions.Like(h.DetalhesHabitacao.Nome, $"%{search}%")))
+            .Where(h => h.Active && (string.IsNullOrEmpty(search)
+                || EF.Functions.Like(h.Locador.Nome, $"%{search}%") //falta consertar isto
+                || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.Cidade, $"%{search}%")
+                || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.CodigoPostal, $"%{search}%")))
             .Include(h => h.DetalhesHabitacao)
                 .ThenInclude(h => h.Localizacao)
             .Include(h => h.Avaliacoes)
@@ -61,12 +66,23 @@ public class HabitacaoController : Controller
             .Include(h => h.Locador)
             .Include(h => h.Reservas)
             .Include(h => h.Imagens)
-            .AsNoTracking(); 
+            .AsNoTracking();
 
-        var result = await query.ToListAsync();
+        int totalRecords = await query.CountAsync();
+        var results = await query
+            .OrderBy(h => h.Id) // Ensure there's a proper ordering, as paging requires a stable order
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
 
-        return View(result);
+        ViewBag.TotalRecords = totalRecords; 
+        ViewBag.TotalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+        ViewBag.CurrentPage = page;
+        ViewBag.Search = search; // Pass the search term back to the view
+
+        return View(results);
     }
+
 
     // GET: Habitacao/Details/5
     public async Task<IActionResult> Detalhes(int? id)
