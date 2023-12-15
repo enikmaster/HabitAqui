@@ -4,7 +4,7 @@ namespace HabitAqui.Dtos.Reservas;
 
 public class ReservaDto
 {
-    public ReservaDto() // para que serve isto?
+    public ReservaDto()
     {
         DataInicio = DateTime.Now;
         DataFim = DateTime.Now.AddDays(1);
@@ -23,18 +23,17 @@ public class ReservaDto
     [DataType(DataType.Date)]
     public DateTime DataFim { get; set; }
 
-    public int FuncionarioId { get; set; } // TODO: explicar como funciona a reserva de uma habitação
+    public int FuncionarioId { get; set; }
     public int HabitacaoId { get; set; }
 
-    [Display(Name = "Nome da Habitação")]
-    public string NomeHabitacao { get; set; } // para que serve o nome da Habitação aqui?
+    [Display(Name = "Nome da Habitação")] public string NomeHabitacao { get; set; }
 
     [Display(Name = "Descrição da Habitação")]
-    public string DescricaoHabitacao { get; set; } // para que serve a descrição da Habitação aqui?
+    public string DescricaoHabitacao { get; set; }
 
     [Display(Name = "Preço por Noite")]
     [DataType(DataType.Currency)]
-    public decimal PrecoPorNoiteHabitacao { get; set; } // para que serve o preço por noite da Habitação aqui?
+    public decimal PrecoPorNoiteHabitacao { get; set; }
 
     public int NumeroNoites { get; set; }
 

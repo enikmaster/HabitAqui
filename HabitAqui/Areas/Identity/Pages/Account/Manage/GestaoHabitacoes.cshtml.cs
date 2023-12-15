@@ -1,6 +1,7 @@
 ﻿using HabitAqui.Data;
 using HabitAqui.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace HabitAqui.Areas.Identity.Pages.Account.Manage;
 
@@ -18,7 +19,9 @@ public class GestaoHabitacoesModel : PageModel
 
     public void OnGet()
     {
-        Habitacoes = _context.Habitacoes.ToList();
+        Habitacoes = _context.Habitacoes
+            .Include(d => d.DetalhesHabitacao)
+            .ToList();
         Locadores = _context.Locadores.ToList();
     }
 
