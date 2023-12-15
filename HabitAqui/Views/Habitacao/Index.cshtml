@@ -10,7 +10,6 @@
 
 <div>
     <h1 class="display-4 text-center">@ViewData["Title"]</h1>
-
     <div class="container">
         <div class="row justify-content-center my-2">
             <div class="col-sm-8 col-md-6 col-lg-4">
@@ -25,8 +24,6 @@
             </div>
         </div>
     </div>
-
-
 </div>
 @* TODO: for each categoria escrever implementar a categoria*@
 <div class="container-categorias">
@@ -58,8 +55,8 @@
     @if (!Model.Any())
     {
         <div class="container text-center mt-4">
-            <div class="row" style="text-align: center">
-                <h3>Não há imóveis que obedeçam ao seu critério de procura!</h3>
+            <div class="row text-center">
+                <h3>Ainda não há habitações para mostrar.</h3>
             </div>
         </div>
     }
@@ -91,10 +88,10 @@
                             <div>
                                 <a asp-controller="Reservas" asp-action="Reservar" asp-route-id="@habitacao.Id">Efetuar Reserva</a>
                             </div>
-
                         </div>
                     </div>
                 </div>
-            }
+            </div>
+        }
     }
 </div>

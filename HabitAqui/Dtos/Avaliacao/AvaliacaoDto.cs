@@ -1,9 +1,9 @@
 ﻿using HabitAqui.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace HabitAqui.ViewModels.Avaliacao
+namespace HabitAqui.Dtos.Avaliacao
 {
-    public class NovaAvaliacao
+    public class AvaliacaoDto
     {
         public int HabitacaoId { get; set; }
 

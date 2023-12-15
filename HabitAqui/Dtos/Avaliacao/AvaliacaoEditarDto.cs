@@ -1,6 +1,6 @@
-﻿namespace HabitAqui.ViewModels.Avaliacao
+﻿namespace HabitAqui.Dtos.Avaliacao
 {
-    public class AvaliacaoEditar
+    public class AvaliacaoEditarDto
     {
         public int Id { get; set; }  
         public int Nota { get; set; }

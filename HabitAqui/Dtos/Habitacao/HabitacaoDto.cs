@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace HabitAqui.Dtos;
+namespace HabitAqui.Dtos.Habitacao;
 
 public class HabitacaoDto
 {

@@ -1,9 +1,9 @@
 ﻿using HabitAqui.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HabitAqui.ViewModels.Reservas
+namespace HabitAqui.Dtos.Reservas
 {
-    public class EntregaHabitacao
+    public class EntregaDto
     {
         public string FuncionarioId { get; set; }
         public DateTime DataEntrega {  get; set; }
