@@ -10,6 +10,21 @@
 
 <div>
     <h1 class="display-4 text-center">@ViewData["Title"]</h1>
+    <div class="container">
+        <div class="row justify-content-center my-2">
+            <div class="col-sm-8 col-md-6 col-lg-4">
+                <form class="form-inline" asp-controller="Habitacao" asp-action="Search" method="get">
+                    <div class="input-group w-100">
+                        <input type="search" class="form-control" placeholder="Cidade, Código-Postal, Locador" aria-label="Search" name="search">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
 @* TODO: for each categoria escrever implementar a categoria*@
 <div class="container-categorias">
@@ -40,7 +55,11 @@
 <div class="container-flex">
     @if (!Model.Any())
     {
-        <h3>Ainda não existem habitações criadas.</h3>
+        <div class="container text-center mt-4">
+            <div class="row" style="text-align: center">
+                <h3>Não há imóveis que obedeçam ao seu critério de procura!</h3>
+            </div>
+        </div>
     }
     else
     {
@@ -58,6 +77,7 @@
                         <div>
                             <div>
                                 <p>@habitacao.DetalhesHabitacao.Localizacao?.Cidade, @habitacao.DetalhesHabitacao.Localizacao?.Pais</p>
+                                
                             </div>
                             <div>
                                 @habitacao.MediaAvaliacoes

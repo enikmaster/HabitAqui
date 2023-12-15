@@ -41,13 +41,48 @@ public class HabitacaoController : Controller
     // TODO: Delete
 
     // GET: Habitacao
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index() //passar para aqui argumento da categoria
     {
         if (!User.IsInRole(Roles.Funcionario.ToString()) && !User.IsInRole(Roles.Gestor.ToString()))
             return View(await _habitacaoService.GetAllActiveHabitacoes());
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         return View(await _habitacaoService.GetAllHabitacoesLocador(userId));
     }
+
+
+    public async Task<IActionResult> Search(string search, int page = 1, int pageSize = 10) 
+    {
+        ViewData["TitleSearch"] = "Resultados da sua pesquisa: " + search; 
+
+        var query = _context.Habitacoes
+            .Where(h => h.Active && (string.IsNullOrEmpty(search)
+                || EF.Functions.Like(h.Locador.Nome, $"%{search}%")
+                || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.Cidade, $"%{search}%")
+                || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.CodigoPostal, $"%{search}%"))) //falta ver por categoria
+            .Include(h => h.DetalhesHabitacao)
+                .ThenInclude(h => h.Localizacao)
+            .Include(h => h.Avaliacoes)
+            .Include(h => h.Categorias)
+            .Include(h => h.Locador)
+            .Include(h => h.Reservas)
+            .Include(h => h.Imagens)
+            .AsNoTracking();
+
+        int totalRecords = await query.CountAsync();
+        var results = await query
+            .OrderBy(h => h.Id) // Ensure there's a proper ordering, as paging requires a stable order
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        ViewBag.TotalRecords = totalRecords; 
+        ViewBag.TotalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+        ViewBag.CurrentPage = page;
+        ViewBag.Search = search; // Pass the search term back to the view
+
+        return View(results);
+    }
+
 
     // GET: Habitacao/Details/5
     public async Task<IActionResult> Detalhes(int? id)
