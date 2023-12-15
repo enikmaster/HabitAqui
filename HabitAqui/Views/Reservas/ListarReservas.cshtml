@@ -8,26 +8,26 @@
 
 <table class="table">
     <thead>
-        <tr>
-            <th>Id</th>
-            <th>Estado</th>
-            <th>Habitação</th>
-            <th>Data início</th>
-            <th>Data fim</th>
-            <th>Registo Entrega</th>
-        </tr>
+    <tr>
+        <th>Id</th>
+        <th>Estado</th>
+        <th>HabitaÃ§Ã£o</th>
+        <th>Data inÃ­cio</th>
+        <th>Data fim</th>
+        <th>Registo Entrega</th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var reserva in Model)
-        {
-            <tr>
-                <td>@reserva.Id</td>
-                <td>@reserva.Estado</td>
-                <td>@reserva.Habitacao.DetalhesHabitacao.Nome</td>
-                <td>@reserva.DataInicio</td>
-                <td>@reserva.DataFim</td>
-                <td>@reserva.RegistoEntregas</td>
-            </tr>
-        }
+    @foreach (var reserva in Model)
+    {
+        <tr>
+            <td>@reserva.Id</td>
+            <td>@reserva.Estado</td>
+            <td>@reserva.Habitacao.DetalhesHabitacao.Nome</td>
+            <td>@reserva.DataInicio</td>
+            <td>@reserva.DataFim</td>
+            <td>@reserva.RegistoEntregas</td>
+        </tr>
+    }
     </tbody>
 </table>

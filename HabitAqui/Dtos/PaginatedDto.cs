@@ -1,6 +1,6 @@
-﻿namespace HabitAqui.ViewModels
+﻿namespace HabitAqui.Dtos
 {
-    public class PaginatedViewModel<T>
+    public class PaginatedDto<T>
     {
         public T Value { get; set; }
         public int page { get; set; }

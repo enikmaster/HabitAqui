@@ -1,10 +1,10 @@
 ﻿using System.Security.Claims;
 using HabitAqui.Data;
 using HabitAqui.Dtos;
+using HabitAqui.Dtos.Avaliacao;
+using HabitAqui.Dtos.Habitacao;
 using HabitAqui.Models;
 using HabitAqui.Services;
-using HabitAqui.ViewModels;
-using HabitAqui.ViewModels.Avaliacao;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -50,17 +50,18 @@ public class HabitacaoController : Controller
     }
 
 
-    public async Task<IActionResult> Search(string search, int page = 1, int pageSize = 10) 
+    public async Task<IActionResult> Search(string search, int page = 1, int pageSize = 10)
     {
-        ViewData["TitleSearch"] = "Resultados da sua pesquisa: " + search; 
+        ViewData["TitleSearch"] = "Resultados da sua pesquisa: " + search;
 
         var query = _context.Habitacoes
             .Where(h => h.Active && (string.IsNullOrEmpty(search)
-                || EF.Functions.Like(h.Locador.Nome, $"%{search}%")
-                || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.Cidade, $"%{search}%")
-                || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.CodigoPostal, $"%{search}%"))) //falta ver por categoria
+                                     || EF.Functions.Like(h.Locador.Nome, $"%{search}%")
+                                     || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.Cidade, $"%{search}%")
+                                     || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.CodigoPostal,
+                                         $"%{search}%"))) //falta ver por categoria
             .Include(h => h.DetalhesHabitacao)
-                .ThenInclude(h => h.Localizacao)
+            .ThenInclude(h => h.Localizacao)
             .Include(h => h.Avaliacoes)
             .Include(h => h.Categorias)
             .Include(h => h.Locador)
@@ -68,14 +69,14 @@ public class HabitacaoController : Controller
             .Include(h => h.Imagens)
             .AsNoTracking();
 
-        int totalRecords = await query.CountAsync();
+        var totalRecords = await query.CountAsync();
         var results = await query
             .OrderBy(h => h.Id) // Ensure there's a proper ordering, as paging requires a stable order
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
 
-        ViewBag.TotalRecords = totalRecords; 
+        ViewBag.TotalRecords = totalRecords;
         ViewBag.TotalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
         ViewBag.CurrentPage = page;
         ViewBag.Search = search; // Pass the search term back to the view
@@ -279,7 +280,8 @@ public class HabitacaoController : Controller
         var currentUser = await _userManager.GetUserAsync(User);
         if (currentUser == null) return BadRequest();
         var utilizadorPodeAvaliar = VerificarCondicõesParaAvaliacao(habitacao, currentUser);
-        if (!utilizadorPodeAvaliar) return BadRequest("O utilizador não pode avaliar esta habitação com base nas condições especificadas.");
+        if (!utilizadorPodeAvaliar)
+            return BadRequest("O utilizador não pode avaliar esta habitação com base nas condições especificadas.");
         var avaliacao = new Avaliacao { HabitacaoId = habitacao.Id };
         return View("Avaliacao", avaliacao);
     }
@@ -287,14 +289,14 @@ public class HabitacaoController : Controller
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize] // TODO: ESPECIFICAR A ROLE CLIENTE <-  Roles="Cliente"
-    public async Task<IActionResult> Avaliar(int id, NovaAvaliacao avaliacao)
+    public async Task<IActionResult> Avaliar(int id, AvaliacaoDto avaliacaoDto)
     {
         if (ModelState.IsValid)
         {
             var reserva = _context.Reservas.FirstOrDefault(r => r.Id == id);
             if (reserva == null || reserva.Estado != EstadoReserva.Aceite)
                 return BadRequest("A reserva não está disponivel para avaliação");
-            var habitacao = await _habitacaoService.GetHabitacao(avaliacao.HabitacaoId);
+            var habitacao = await _habitacaoService.GetHabitacao(avaliacaoDto.HabitacaoId);
             if (habitacao == null) return BadRequest();
 
             // TODO: verificar se  ->>>> o lease dele já tem avaliação ? então bad request
@@ -303,15 +305,15 @@ public class HabitacaoController : Controller
             var novaAvalicaoObj = new Avaliacao
             {
                 Cliente = currentUser,
-                Comentario = avaliacao.Comentario,
+                Comentario = avaliacaoDto.Comentario,
                 HabitacaoId = habitacao.Id,
-                Nota = avaliacao.Nota
+                Nota = avaliacaoDto.Nota
             };
 
             var novaAvalicao = _context.Avaliacoes.Add(novaAvalicaoObj);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Detalhes), new { id = avaliacao.HabitacaoId });
+            return RedirectToAction(nameof(Detalhes), new { id = avaliacaoDto.HabitacaoId });
         }
 
         if (!ModelState.IsValid)
@@ -319,6 +321,7 @@ public class HabitacaoController : Controller
             var erros = ModelState.Values.SelectMany(v => v.Errors);
             foreach (var erro in erros) Console.WriteLine(erro.ErrorMessage); // Logar os erros
         }
+
         //return View("Avaliacao", avaliacao); TODO: verificar esta situação
         return View("Avaliacao");
     }
@@ -328,7 +331,7 @@ public class HabitacaoController : Controller
     {
         var habitacao = await _habitacaoService.GetHabitacaoReservasPaginadas(id, page, pageSize);
         if (habitacao == null) return NotFound();
-        var resultados = new PaginatedViewModel<Habitacao>
+        var resultados = new PaginatedDto<Habitacao>
         {
             page = page,
             pageSize = pageSize,
@@ -417,4 +420,3 @@ public class HabitacaoController : Controller
       }
     }*/
 }
-
