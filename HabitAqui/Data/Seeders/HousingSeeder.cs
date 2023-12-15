@@ -36,11 +36,14 @@ namespace HabitAqui.Data.Seeders
                         await categoriaService.CreateCategoria(newCategory);
 
                         var newHousing = HousingMock.GenerateOneHabitacaoMock(locador.Id);
-                        var newHousingCategoryRelation = HousingMock.GenerateHabitacaoCategoria(newHousing, newCategory);
+                        foreach (var habitacao in newHousing)
+                        {
+                            var newHousingCategoryRelation = HousingMock.GenerateHabitacaoCategoria(habitacao, newCategory);
 
-                        newHousing.Categorias = new List<HabitacaoCategoria>() { newHousingCategoryRelation };
+                            habitacao.Categorias = new List<HabitacaoCategoria>() { newHousingCategoryRelation };
 
-                        await housingService.CreateHabitacao(newHousing);
+                            await housingService.CreateHabitacao(habitacao);
+                        }
 
                         // Utiliza o email do cliente existente
                         const string clienteEmail = "cliente@isec.pt";

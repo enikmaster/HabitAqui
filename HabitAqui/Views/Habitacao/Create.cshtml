@@ -203,10 +203,11 @@
                 </label>
                 <input
                     asp-for="Imagens"
-                    aria-required="false"
+                    aria-required="true"
                     type="file"
                     multiple="multiple"
-                    class="form-control"/>
+                    class="form-control"
+                    accept="image/png, image/jpeg"/>
                 <span
                     asp-validation-for="Imagens"
                     class="text-danger">

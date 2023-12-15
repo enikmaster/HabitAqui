@@ -1,0 +1,77 @@
+﻿@using HabitAqui.Data
+@model IEnumerable<Habitacao>
+
+@{
+   // ViewData["TitleSearch"] = "Habitações";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="/css/card-habitacao.css"/>
+
+<div class="text-lg-start">
+    <h1 class="text-center">@ViewData["TitleSearch"]</h1>
+</div>
+
+<div class="container mt-4">
+    @if (!Model.Any())
+    {
+        <div class="text-center">
+            <h3>Não há imóveis que obedeçam ao seu critério de procura!</h3>
+        </div>
+    }
+    else
+    {
+        <div class="text-center mb-3">
+            <h4>@ViewBag.TotalRecords Resultado(s) encontrado(s)</h4>
+        </div>
+        <table class="table table-dark table-hover">
+            <!-- Table Header -->
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Nome</th>
+                    <th>Localização</th>
+                    <th>Avaliação</th>
+                    <th>Disponibilidade</th>
+                    <th>Preço por Noite</th>
+                </tr>
+            </thead>
+            <!-- Table Body -->
+            <tbody>
+                @foreach (var habitacao in Model)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="Detalhes" asp-route-id="@habitacao.Id">
+                            <img src="/imgs/habitacoes/@habitacao.Id/@habitacao.Imagens!.First().Path" alt="Imagem da Habitação" class="img-fluid" style="max-width: 100px;">
+                            </a>
+                        </td>
+                        <td>@habitacao.DetalhesHabitacao.Nome</td>
+                        <td>@habitacao.DetalhesHabitacao.Localizacao?.Cidade, @habitacao.DetalhesHabitacao.Localizacao?.Pais</td>
+                        <td>@habitacao.MediaAvaliacoes <span class="icon-star">★</span></td>
+                        <td>
+                            @* Display availability here *@
+                        </td>
+                        <td>€ @habitacao.DetalhesHabitacao.PrecoPorNoite</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- Pagination Controls -->
+        <div class="d-flex justify-content-center">
+            <nav aria-label="Search results pages">
+                <ul class="pagination">
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Search", new { search = ViewBag.Search, page = i })">
+                                @i
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    }
+</div>
