@@ -24,7 +24,7 @@ public class ReservasController : Controller
             .Include(r => r.Cliente)
             .Include(r => r.Habitacao)
             .Include(r => r.RegistoEntregas)
-            .Include(r => r.Habitacao.DetalhesHabitacao) // Inclua os detalhes da habitação
+            .Include(r => r.Habitacao.DetalhesHabitacao)
             .Where(r => r.RegistoEntregas.Any(re => re.TipoTransacao == TipoTransacao.Entrega))
             .ToListAsync();
 
@@ -35,7 +35,6 @@ public class ReservasController : Controller
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        // Lógica para obter os arrendamentos históricos aqui
         var historicoArrendamentos = _context.Reservas
             .Include(r => r.Funcionario)
             .Include(r => r.Cliente)
@@ -91,6 +90,24 @@ public class ReservasController : Controller
             .ToList();
         return View(reservasFuncionario);
     }
+
+    public IActionResult ListarReservasCliente()
+    {
+
+        //reservas aceites
+        //registoEntrega != devolucao   
+        var reservasCliente = _context.Reservas
+            .Include(r => r.Habitacao)
+            .Include(r => r.Habitacao.DetalhesHabitacao)
+            .Include(r => r.RegistoEntregas)
+            .Where(r => r.RegistoEntregas.Any(re => re.TipoTransacao != TipoTransacao.Devolucao) && r.Estado == EstadoReserva.Aceite)
+            .ToList();
+
+
+
+        return View("RegistoCliente", reservasCliente);
+    }
+
 
     // GET: Reservas/Reservar
     //[Authorize]
