@@ -1,8 +1,6 @@
 ﻿@page
 @attribute [Authorize(Roles = "Administrador")]
 @using Microsoft.AspNetCore.Authorization
-@using HabitAqui.Models
-@using HabitAqui.Data
 @model GestaoLocadoresModel
 
 @{
@@ -13,41 +11,41 @@
 
 <h2>@ViewData["Title"]</h2>
 <partial name="_StatusMessage" for="StatusMessage"/>
-<table class="table table-dark table-hover">
+<table class="table table-hover">
     <thead>
-        <tr>
-            <th class="identificador text-white">
-                <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
-                   asp-route-sortOrder="@Model.NomeSort">
-                    @Html.DisplayNameFor(model => model.Input.Nome)
-                </a>
-            </th>
-            <th class="identificador text-white">
-                <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
-                   asp-route-sortOrder="@Model.EstadoSubscricaoSort">
-                    Estado da Subscrição
-                </a>
-            </th>
-            <th class="identificador text-white">
-                <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
-                   asp-route-sortOrder="@Model.EstadoSort">
-                    Estado
-                </a>
-            </th>
-            <th class="identificador text-white">
-                <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
-                   asp-route-sortOrder="@Model.TotalHabitacoesSort">
-                    Total de Habitações
-                </a>
-            </th>
-            <th class="identificador text-white">
-                <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
-                   asp-route-sortOrder="@Model.AdministradoresSort">
-                    @Html.DisplayNameFor(model => model.Input.Administradores)
-                </a>
-            </th>
-            <th class="identificador text-white"></th> <!-- Coluna vazia para os botões -->
-        </tr>
+    <tr>
+        <th class="identificador text-white">
+            <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
+               asp-route-sortOrder="@Model.NomeSort">
+                @Html.DisplayNameFor(model => model.Input.Nome)
+            </a>
+        </th>
+        <th class="identificador text-white">
+            <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
+               asp-route-sortOrder="@Model.EstadoSubscricaoSort">
+                Estado da Subscrição
+            </a>
+        </th>
+        <th class="identificador text-white">
+            <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
+               asp-route-sortOrder="@Model.EstadoSort">
+                Estado
+            </a>
+        </th>
+        <th class="identificador text-white">
+            <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
+               asp-route-sortOrder="@Model.TotalHabitacoesSort">
+                Total de Habitações
+            </a>
+        </th>
+        <th class="identificador text-white">
+            <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
+               asp-route-sortOrder="@Model.AdministradoresSort">
+                @Html.DisplayNameFor(model => model.Input.Administradores)
+            </a>
+        </th>
+        <th class="identificador text-white"></th> <!-- Coluna vazia para os botões -->
+    </tr>
     </thead>
 
     <tbody>
@@ -96,24 +94,18 @@
     }
 
     </tbody>
-    <tfoot class="table-dark">
-        <tr class="table-dark">
-    <td colspan="12">
-        <a class="btn btn-success"
-           data-bs-toggle="modal"
-           data-bs-target="#adicionarLocadorModal">
-            <i class="fa-regular fa-plus" aria-hidden="true"></i>
-        </a>
-    </td>
+    <tfoot>
+    <tr>
+        <td colspan="12">
+            <a class="btn btn-success"
+               data-bs-toggle="modal"
+               data-bs-target="#adicionarLocadorModal">
+                <i class="fa-regular fa-plus" aria-hidden="true"></i> Adicionar Locador
+            </a>
+        </td>
+    </tr>
     </tfoot>
 </table>
-
-@* 
-TODO: Adicionar paginação do tutorial ou pedir ao Joka para fazer
-https://learn.microsoft.com/en-us/aspnet/core/data/ef-mvc/sort-filter-page?view=aspnetcore-7.0
-*@
-
-@* TODO: fazer uma modal para editar os dados *@
 <!-- Modal -->
 <div class="modal fade" id="adicionarLocadorModal" tabindex="-1" aria-labelledby="adicionarLocadorModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered">
@@ -216,7 +208,7 @@ https://learn.microsoft.com/en-us/aspnet/core/data/ef-mvc/sort-filter-page?view=
         </div>
     </div>
 </div>
-<div class="d-flex justify-content-center">
+<div class="d-flex justify-content-center mb-5">
     <nav aria-label="User pages">
         <ul class="pagination">
             @for (var i = 1; i <= Model.TotalPages; i++)

@@ -91,17 +91,18 @@ public class HabitacaoController : Controller
         ViewData["TitleSearch"] = "Resultados da sua pesquisa: " + search;
         // Sort parameters
         ViewData["CurrentSort"] = sortOrder;
-        ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+        ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
         ViewData["PriceSortParm"] = sortOrder == "price_asc" ? "price_desc" : "price_asc";
         ViewData["RatingSortParm"] = sortOrder == "rating_asc" ? "rating_desc" : "rating_asc";
 
         var query = _context.Habitacoes
-            .Where(h => h.Active && (string.IsNullOrEmpty(search)
-                                     || EF.Functions.Like(h.Locador.Nome, $"%{search}%")
-                                     || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.Cidade, $"%{search}%")
-                                     || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.CodigoPostal, $"%{search}%"))
-                                     || h.Categorias.Any(c => EF.Functions.Like(c.Categoria.Nome, $"%{search}%"))
-                                     || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.Pais, $"%{search}%"))
+            .Where(h => (h.Active && (string.IsNullOrEmpty(search)
+                                      || EF.Functions.Like(h.Locador.Nome, $"%{search}%")
+                                      || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.Cidade, $"%{search}%")
+                                      || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.CodigoPostal,
+                                          $"%{search}%")))
+                        || h.Categorias.Any(c => EF.Functions.Like(c.Categoria.Nome, $"%{search}%"))
+                        || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.Pais, $"%{search}%"))
             .Include(h => h.DetalhesHabitacao)
             .ThenInclude(h => h.Localizacao)
             .Include(h => h.Avaliacoes)
@@ -123,7 +124,8 @@ public class HabitacaoController : Controller
                 query = query.OrderByDescending(h => h.DetalhesHabitacao.PrecoPorNoite);
                 break;
             case "rating_asc":
-                query = query.OrderBy(h => h.Avaliacoes.Average(a => (double?)a.Nota) ?? 0); // Assumes 'Rating' is a column in 'Avaliacoes'
+                query = query.OrderBy(h =>
+                    h.Avaliacoes.Average(a => (double?)a.Nota) ?? 0); // Assumes 'Rating' is a column in 'Avaliacoes'
                 break;
             case "rating_desc":
                 query = query.OrderByDescending(h => h.Avaliacoes.Average(a => (double?)a.Nota) ?? 0);
@@ -132,6 +134,7 @@ public class HabitacaoController : Controller
                 query = query.OrderBy(h => h.DetalhesHabitacao.Nome);
                 break;
         }
+
         var totalRecords = await query.CountAsync();
         var results = await query
             .Skip((page - 1) * pageSize)
@@ -258,8 +261,7 @@ public class HabitacaoController : Controller
     public async Task<IActionResult> Edit(int? id)
     {
         if (id == null || _context.Habitacoes == null) return NotFound();
-
-        var habitacao = await _context.Habitacoes.FindAsync(id);
+        var habitacao = await _habitacaoService.GetHabitacao(id);
         if (habitacao == null) return NotFound();
         return View(habitacao);
     }

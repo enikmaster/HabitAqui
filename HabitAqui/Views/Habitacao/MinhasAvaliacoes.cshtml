@@ -1,5 +1,5 @@
 ﻿@model List<Avaliacao>
-<link rel="stylesheet" href="~/css/Prettier.css" />
+@*<link rel="stylesheet" href="~/css/Prettier.css" />*@
 
 <h2>Minhas Avaliações</h2>
 
@@ -11,35 +11,30 @@ else
 {
     <table class="table">
         <thead>
-            <tr>
-                <th>Nome da Habitação</th>
-                <th>Nota</th>
-                <th>Comentário</th>
-                @*<th></th>*@
-            </tr>
+        <tr>
+            <th>Nome da Habitação</th>
+            <th>Nota</th>
+            <th>Comentário</th>
+            @*<th></th>*@
+        </tr>
         </thead>
         <tbody>
-            @foreach (var avaliacao in Model)
-            {
-                <tr>
-                    <td>@avaliacao.Habitacao.DetalhesHabitacao.Nome</td>
-                    <td>@avaliacao.Nota</td>
-                    <td>@avaliacao.Comentario</td>
-                    @*<td>
+        @foreach (var avaliacao in Model)
+        {
+            <tr>
+                <td>@avaliacao.Habitacao.DetalhesHabitacao.Nome</td>
+                <td>@avaliacao.Nota</td>
+                <td>@avaliacao.Comentario</td>
+                @*<td>
                         <a asp-controller="Habitacao" asp-action="EditarAvaliacoes" asp-route-id="@avaliacao.Id">
                             <i class="fas fa-pencil-alt"></i> 
                         </a>
                     </td>*@
-                </tr>
-            }
+            </tr>
+        }
         </tbody>
     </table>
 }
-
-
-
-
-
 
 
 @* <td>
