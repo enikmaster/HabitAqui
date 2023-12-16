@@ -13,21 +13,43 @@
 
 <h2>@ViewData["Title"]</h2>
 <partial name="_StatusMessage" for="StatusMessage"/>
-<table class="table table-striped">
+<table class="table table-dark table-hover">
     <thead>
-    <tr>
-        <th class="identificador">
-            @Html.DisplayNameFor(model => model.Input.Nome)
-        </th>
-        <th class="identificador">Estado da Subscrição</th>
-        <th class="identificador">Estado</th>
-        <th class="identificador">Total de Habitações</th>
-        <th class="identificador">
-            @Html.DisplayNameFor(model => model.Input.Administradores)
-        </th>
-        <th class="identificador"></th> <!-- Coluna vazia para os botões -->
-    </tr>
+        <tr>
+            <th class="identificador text-white">
+                <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
+                   asp-route-sortOrder="@Model.NomeSort">
+                    @Html.DisplayNameFor(model => model.Input.Nome)
+                </a>
+            </th>
+            <th class="identificador text-white">
+                <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
+                   asp-route-sortOrder="@Model.EstadoSubscricaoSort">
+                    Estado da Subscrição
+                </a>
+            </th>
+            <th class="identificador text-white">
+                <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
+                   asp-route-sortOrder="@Model.EstadoSort">
+                    Estado
+                </a>
+            </th>
+            <th class="identificador text-white">
+                <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
+                   asp-route-sortOrder="@Model.TotalHabitacoesSort">
+                    Total de Habitações
+                </a>
+            </th>
+            <th class="identificador text-white">
+                <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
+                   asp-route-sortOrder="@Model.AdministradoresSort">
+                    @Html.DisplayNameFor(model => model.Input.Administradores)
+                </a>
+            </th>
+            <th class="identificador text-white"></th> <!-- Coluna vazia para os botões -->
+        </tr>
     </thead>
+
     <tbody>
     @if (Model != null && Model.Locadores != null)
     {
@@ -74,9 +96,9 @@
     }
 
     </tbody>
-    <tfoot>
-    <tr>
-    <td colspan="5">
+    <tfoot class="table-dark">
+        <tr class="table-dark">
+    <td colspan="12">
         <a class="btn btn-success"
            data-bs-toggle="modal"
            data-bs-target="#adicionarLocadorModal">
@@ -85,6 +107,7 @@
     </td>
     </tfoot>
 </table>
+
 @* 
 TODO: Adicionar paginação do tutorial ou pedir ao Joka para fazer
 https://learn.microsoft.com/en-us/aspnet/core/data/ef-mvc/sort-filter-page?view=aspnetcore-7.0
@@ -192,6 +215,20 @@ https://learn.microsoft.com/en-us/aspnet/core/data/ef-mvc/sort-filter-page?view=
 
         </div>
     </div>
+</div>
+<div class="d-flex justify-content-center">
+    <nav aria-label="User pages">
+        <ul class="pagination">
+            @for (var i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                    <a class="page-link" asp-page="./GestaoLocadores" asp-route-sortOrder="@Model.CurrentPage" asp-route-pageNumber="@i">
+                        @i
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
 </div>
 
 @section Scripts {
