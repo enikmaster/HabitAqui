@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
+
 namespace HabitAqui.Controllers;
 
 public class HabitacaoController : Controller
@@ -52,13 +52,12 @@ public class HabitacaoController : Controller
 
         // If the user is not in a specific role, filter the active Habitacoes
         if (!User.IsInRole(Roles.Funcionario.ToString()) && !User.IsInRole(Roles.Gestor.ToString()))
-        {
             query = await _habitacaoService.GetAllActiveHabitacoes(); // Assuming there is an IsActive property
-        }
+
 
         // Apply the pagination logic
-        var totalRecords =  query.Count;
-        var results =  query
+        var totalRecords = query.Count;
+        var results = query
             .OrderBy(h => h.Id) // Or order by another appropriate property
             .Skip((page - 1) * pageSize)
             .Take(pageSize);
@@ -67,7 +66,8 @@ public class HabitacaoController : Controller
         ViewBag.TotalRecords = totalRecords;
         ViewBag.TotalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
         ViewBag.CurrentPage = page;
-        ViewBag.PageSize = pageSize; // You can also pass this to the view if you want to allow changing the page size dynamically
+        ViewBag.PageSize =
+            pageSize; // You can also pass this to the view if you want to allow changing the page size dynamically
 
         return View(results);
     }
@@ -194,9 +194,27 @@ public class HabitacaoController : Controller
                             Pais = habitacaoDto.Pais
                         }
                     },
-                    Imagens = new List<Imagem>()
+                    Imagens = new List<Imagem>(),
+                    Categorias = new List<HabitacaoCategoria>()
                 };
                 await _habitacaoService.CreateHabitacao(habitacao);
+                if (habitacaoDto.CategoriasId != null)
+                    foreach (var categoriaId in habitacaoDto.CategoriasId)
+                    {
+                        var categoria = await _categoriaService.GetCategoria(categoriaId);
+                        if (categoria != null)
+                        {
+                            var habitacaoCategoria = new HabitacaoCategoria
+                            {
+                                HabitacaoId = habitacao.Id,
+                                CategoriaId = categoria.Id
+                            };
+                            _context.HabitacoesCategorias.Add(habitacaoCategoria);
+                            //await _context.SaveChangesAsync();
+                            habitacao.Categorias.Add(habitacaoCategoria);
+                        }
+                    }
+
                 if (imagens.Count <= 0) return RedirectToAction(nameof(Index));
                 foreach (var imagem in imagens)
                 {
@@ -247,28 +265,44 @@ public class HabitacaoController : Controller
     // GET: Habitacao/Edit/5
     public async Task<IActionResult> Edit(int? id)
     {
+        var editarHabitacaoDto = new EditarHabitacaoDto();
         if (id == null || _context.Habitacoes == null) return NotFound();
         var habitacao = await _habitacaoService.GetHabitacao(id);
         if (habitacao == null) return NotFound();
-        return View(habitacao);
+        editarHabitacaoDto.Id = habitacao.Id;
+        editarHabitacaoDto.Nome = habitacao.DetalhesHabitacao.Nome;
+        editarHabitacaoDto.Descricao = habitacao.DetalhesHabitacao.Descricao;
+        editarHabitacaoDto.PrecoPorNoite = habitacao.DetalhesHabitacao.PrecoPorNoite;
+        editarHabitacaoDto.Area = habitacao.DetalhesHabitacao.Area;
+        editarHabitacaoDto.Morada = habitacao.DetalhesHabitacao.Localizacao.Morada;
+        editarHabitacaoDto.CodigoPostal = habitacao.DetalhesHabitacao.Localizacao.CodigoPostal;
+        editarHabitacaoDto.Cidade = habitacao.DetalhesHabitacao.Localizacao.Cidade;
+        editarHabitacaoDto.Pais = habitacao.DetalhesHabitacao.Localizacao.Pais;
+        editarHabitacaoDto.Imagens = habitacao.Imagens.Select(p => p.Path).ToList();
+        editarHabitacaoDto.ImagensId = habitacao.Imagens.Select(i => i.Id).ToList();
+        editarHabitacaoDto.CategoriasId = habitacao.Categorias.Select(c => c.CategoriaId).ToList();
+
+        var categorias = await _categoriaService.GetAllActive();
+        ViewBag.Categorias = (categorias.Any() ? categorias : null)!;
+        return View(editarHabitacaoDto);
     }
 
     // POST: Habitacao/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id")] Habitacao habitacao)
+    public async Task<IActionResult> Edit(int id, [Bind("Id")] EditarHabitacaoDto habitacaoDto)
     {
-        if (id != habitacao.Id) return NotFound();
+        if (id != habitacaoDto.Id) return NotFound();
 
-        if (!ModelState.IsValid) return View(habitacao);
+        if (!ModelState.IsValid) return View(habitacaoDto);
         try
         {
-            _context.Update(habitacao);
+            _context.Update(habitacaoDto);
             await _context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
-            if ((_context.Habitacoes?.Any(e => e.Id == habitacao.Id)).GetValueOrDefault())
+            if ((_context.Habitacoes?.Any(e => e.Id == habitacaoDto.Id)).GetValueOrDefault())
                 return NotFound();
             throw;
         }
@@ -332,14 +366,15 @@ public class HabitacaoController : Controller
         var currentUser = await _userManager.GetUserAsync(User);
         if (currentUser == null) return BadRequest();
         var utilizadorPodeAvaliar = VerificarCondicõesParaAvaliacao(habitacao, currentUser);
-        if (!utilizadorPodeAvaliar) {
+        if (!utilizadorPodeAvaliar)
+        {
             //return BadRequest("O utilizador não pode avaliar esta habitação com base nas condições especificadas.");
-            ViewBag.ErroAvaliacao = "O utilizador não pode avaliar esta habitação com base nas condições especificadas.";
+            ViewBag.ErroAvaliacao =
+                "O utilizador não pode avaliar esta habitação com base nas condições especificadas.";
             return View("ErroAvaliacao");
-
-
         }
-                //return BadRequest("O utilizador não pode avaliar esta habitação com base nas condições especificadas.");
+
+        //return BadRequest("O utilizador não pode avaliar esta habitação com base nas condições especificadas.");
         var avaliacao = new Avaliacao { HabitacaoId = habitacao.Id };
         return View("Avaliacao", avaliacao);
     }

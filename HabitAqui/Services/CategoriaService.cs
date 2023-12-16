@@ -7,14 +7,17 @@ namespace HabitAqui.Services;
 public class CategoriaService
 {
     private readonly ApplicationDbContext _context;
+
     public CategoriaService(ApplicationDbContext context)
     {
         _context = context;
     }
+
     public async Task<List<Categoria>> GetAll()
     {
         return await _context.Categorias.ToListAsync();
     }
+
     public async Task<List<Categoria>> GetAllActive()
     {
         return await _context.Categorias
@@ -30,4 +33,10 @@ public class CategoriaService
         return categoria;
     }
 
+    public async Task<Categoria> GetCategoria(int categoriaId)
+    {
+        var categoria = await _context.Categorias
+            .FirstOrDefaultAsync(c => c.Id == categoriaId);
+        return categoria ?? null;
+    }
 }
