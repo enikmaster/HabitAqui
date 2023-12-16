@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using System.Linq;
 namespace HabitAqui.Controllers;
 
 public class HabitacaoController : Controller
@@ -41,15 +41,37 @@ public class HabitacaoController : Controller
     // TODO: Delete
 
     // GET: Habitacao
-    public async Task<IActionResult> Index(int page = 1, int pageSize = 10) //passar para aqui argumento da categoria
+    public async Task<IActionResult> Index(int page = 1, int pageSize = 10)
     {
+        // Fetch the categories for filtering or display purposes
         var categories = await _context.Categorias.Select(c => c.Nome).ToListAsync();
         ViewBag.Categories = categories;
+
+        // Define the base query for Habitacoes
+        var query = new List<Habitacao>();
+
+        // If the user is not in a specific role, filter the active Habitacoes
         if (!User.IsInRole(Roles.Funcionario.ToString()) && !User.IsInRole(Roles.Gestor.ToString()))
-            return View(await _habitacaoService.GetAllActiveHabitacoes());
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        return View(await _habitacaoService.GetAllHabitacoesLocador(userId));
+        {
+            query = await _habitacaoService.GetAllActiveHabitacoes(); // Assuming there is an IsActive property
+        }
+
+        // Apply the pagination logic
+        var totalRecords =  query.Count;
+        var results =  query
+            .OrderBy(h => h.Id) // Or order by another appropriate property
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize);
+
+        // Pass the pagination metadata to the view via ViewBag
+        ViewBag.TotalRecords = totalRecords;
+        ViewBag.TotalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+        ViewBag.CurrentPage = page;
+        ViewBag.PageSize = pageSize; // You can also pass this to the view if you want to allow changing the page size dynamically
+
+        return View(results);
     }
+
 
     public async Task<IActionResult> Search(string search, string sortOrder, int page = 1, int pageSize = 10)
     {
