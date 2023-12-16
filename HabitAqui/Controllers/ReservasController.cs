@@ -92,7 +92,6 @@ public class ReservasController : Controller
         return View(reservasFuncionario);
     }
 
-
     // GET: Reservas/Reservar
     //[Authorize]
     public async Task<IActionResult> Reservar(int? id)
@@ -112,10 +111,8 @@ public class ReservasController : Controller
             DescricaoHabitacao = habitacao.DetalhesHabitacao.Descricao,
             PrecoPorNoiteHabitacao = habitacao.DetalhesHabitacao.PrecoPorNoite
         };
-
         return View("EfetuarReserva", viewModel);
     }
-
 
     [HttpPost]
     [ValidateAntiForgeryToken]
