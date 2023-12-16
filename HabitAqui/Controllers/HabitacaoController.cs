@@ -58,8 +58,9 @@ public class HabitacaoController : Controller
             .Where(h => h.Active && (string.IsNullOrEmpty(search)
                                      || EF.Functions.Like(h.Locador.Nome, $"%{search}%")
                                      || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.Cidade, $"%{search}%")
-                                     || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.CodigoPostal,
-                                         $"%{search}%"))) //falta ver por categoria
+                                     || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.CodigoPostal, $"%{search}%"))
+                                     || h.Categorias.Any(c => EF.Functions.Like(c.Categoria.Nome, $"%{search}%"))
+                                     || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.Pais, $"%{search}%"))
             .Include(h => h.DetalhesHabitacao)
             .ThenInclude(h => h.Localizacao)
             .Include(h => h.Avaliacoes)
