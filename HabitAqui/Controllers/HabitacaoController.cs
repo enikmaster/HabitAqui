@@ -43,6 +43,8 @@ public class HabitacaoController : Controller
     // GET: Habitacao
     public async Task<IActionResult> Index() //passar para aqui argumento da categoria
     {
+        var categories = await _context.Categorias.Select(c => c.Nome).ToListAsync();
+        ViewBag.Categories = categories;
         if (!User.IsInRole(Roles.Funcionario.ToString()) && !User.IsInRole(Roles.Gestor.ToString()))
             return View(await _habitacaoService.GetAllActiveHabitacoes());
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -50,9 +52,48 @@ public class HabitacaoController : Controller
     }
 
 
-    public async Task<IActionResult> Search(string search, int page = 1, int pageSize = 10)
+    //public async Task<IActionResult> Search(string search, int page = 1, int pageSize = 10)
+    //{
+    //    ViewData["TitleSearch"] = "Resultados da sua pesquisa: " + search;
+
+    //    var query = _context.Habitacoes
+    //        .Where(h => h.Active && (string.IsNullOrEmpty(search)
+    //                                 || EF.Functions.Like(h.Locador.Nome, $"%{search}%")
+    //                                 || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.Cidade, $"%{search}%")
+    //                                 || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.CodigoPostal, $"%{search}%"))
+    //                                 || h.Categorias.Any(c => EF.Functions.Like(c.Categoria.Nome, $"%{search}%"))
+    //                                 || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.Pais, $"%{search}%"))
+    //        .Include(h => h.DetalhesHabitacao)
+    //        .ThenInclude(h => h.Localizacao)
+    //        .Include(h => h.Avaliacoes)
+    //        .Include(h => h.Categorias)
+    //        .Include(h => h.Locador)
+    //        .Include(h => h.Reservas)
+    //        .Include(h => h.Imagens)
+    //        .AsNoTracking();
+
+    //    var totalRecords = await query.CountAsync();
+    //    var results = await query
+    //        .OrderBy(h => h.Id) // Ensure there's a proper ordering, as paging requires a stable order
+    //        .Skip((page - 1) * pageSize)
+    //        .Take(pageSize)
+    //        .ToListAsync();
+
+    //    ViewBag.TotalRecords = totalRecords;
+    //    ViewBag.TotalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+    //    ViewBag.CurrentPage = page;
+    //    ViewBag.Search = search; // Pass the search term back to the view
+
+    //    return View(results);
+    //}
+    public async Task<IActionResult> Search(string search, string sortOrder, int page = 1, int pageSize = 10)
     {
         ViewData["TitleSearch"] = "Resultados da sua pesquisa: " + search;
+        // Sort parameters
+        ViewData["CurrentSort"] = sortOrder;
+        ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+        ViewData["PriceSortParm"] = sortOrder == "price_asc" ? "price_desc" : "price_asc";
+        ViewData["RatingSortParm"] = sortOrder == "rating_asc" ? "rating_desc" : "rating_asc";
 
         var query = _context.Habitacoes
             .Where(h => h.Active && (string.IsNullOrEmpty(search)
@@ -70,9 +111,29 @@ public class HabitacaoController : Controller
             .Include(h => h.Imagens)
             .AsNoTracking();
 
+        switch (sortOrder)
+        {
+            case "name_desc":
+                query = query.OrderByDescending(h => h.DetalhesHabitacao.Nome);
+                break;
+            case "price_asc":
+                query = query.OrderBy(h => h.DetalhesHabitacao.PrecoPorNoite);
+                break;
+            case "price_desc":
+                query = query.OrderByDescending(h => h.DetalhesHabitacao.PrecoPorNoite);
+                break;
+            case "rating_asc":
+                query = query.OrderBy(h => h.Avaliacoes.Average(a => (double?)a.Nota) ?? 0); // Assumes 'Rating' is a column in 'Avaliacoes'
+                break;
+            case "rating_desc":
+                query = query.OrderByDescending(h => h.Avaliacoes.Average(a => (double?)a.Nota) ?? 0);
+                break;
+            default: // Default to name ascending if no sort order is specified
+                query = query.OrderBy(h => h.DetalhesHabitacao.Nome);
+                break;
+        }
         var totalRecords = await query.CountAsync();
         var results = await query
-            .OrderBy(h => h.Id) // Ensure there's a proper ordering, as paging requires a stable order
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
@@ -81,6 +142,7 @@ public class HabitacaoController : Controller
         ViewBag.TotalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
         ViewBag.CurrentPage = page;
         ViewBag.Search = search; // Pass the search term back to the view
+        ViewBag.CurrentSort = sortOrder; // Pass the current sort order back to the view
 
         return View(results);
     }
