@@ -90,3 +90,18 @@
         }
     }
 </div>
+
+<div class="d-flex justify-content-center">
+    <nav aria-label="Search results pages">
+        <ul class="pagination">
+            @for (var i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Search", new { search = ViewBag.Search, page = i })">
+                        @i
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>

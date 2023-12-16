@@ -18,30 +18,35 @@
             <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
                asp-route-sortOrder="@Model.NomeSort">
                 @Html.DisplayNameFor(model => model.Input.Nome)
+                    <i class="bi-chevron-expand"></i>
             </a>
         </th>
         <th class="identificador text-white">
             <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
                asp-route-sortOrder="@Model.EstadoSubscricaoSort">
                 Estado da Subscrição
+                    <i class="bi-chevron-expand"></i>
             </a>
         </th>
         <th class="identificador text-white">
             <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
                asp-route-sortOrder="@Model.EstadoSort">
                 Estado
+                    <i class="bi-chevron-expand"></i>
             </a>
         </th>
         <th class="identificador text-white">
             <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
                asp-route-sortOrder="@Model.TotalHabitacoesSort">
                 Total de Habitações
+                    <i class="bi-chevron-expand"></i>
             </a>
         </th>
         <th class="identificador text-white">
             <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
                asp-route-sortOrder="@Model.AdministradoresSort">
                 @Html.DisplayNameFor(model => model.Input.Administradores)
+                    <i class="bi-chevron-expand"></i>
             </a>
         </th>
         <th class="identificador text-white"></th> <!-- Coluna vazia para os botões -->

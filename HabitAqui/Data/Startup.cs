@@ -18,21 +18,7 @@ public static class Startup
         ApplicationDbContext context
     )
     {
-        if (!context.Categorias.Any())
-        {
-            var categoriaMoradia = new Categoria
-            {
-                Nome = "Moradia",
-                Active = true
-            };
-            var categoriaApartamento = new Categoria
-            {
-                Nome = "Apartamento",
-                Active = true
-            };
-            context.Categorias.AddRange(categoriaMoradia, categoriaApartamento);
-            await context.SaveChangesAsync();
-        }
+        
 
         await roleManager.CreateAsync(new IdentityRole(Roles.Administrador.ToString()));
         await roleManager.CreateAsync(new IdentityRole(Roles.Gestor.ToString()));

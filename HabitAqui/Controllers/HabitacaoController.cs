@@ -41,7 +41,7 @@ public class HabitacaoController : Controller
     // TODO: Delete
 
     // GET: Habitacao
-    public async Task<IActionResult> Index() //passar para aqui argumento da categoria
+    public async Task<IActionResult> Index(int page = 1, int pageSize = 10) //passar para aqui argumento da categoria
     {
         var categories = await _context.Categorias.Select(c => c.Nome).ToListAsync();
         ViewBag.Categories = categories;
@@ -51,41 +51,6 @@ public class HabitacaoController : Controller
         return View(await _habitacaoService.GetAllHabitacoesLocador(userId));
     }
 
-
-    //public async Task<IActionResult> Search(string search, int page = 1, int pageSize = 10)
-    //{
-    //    ViewData["TitleSearch"] = "Resultados da sua pesquisa: " + search;
-
-    //    var query = _context.Habitacoes
-    //        .Where(h => h.Active && (string.IsNullOrEmpty(search)
-    //                                 || EF.Functions.Like(h.Locador.Nome, $"%{search}%")
-    //                                 || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.Cidade, $"%{search}%")
-    //                                 || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.CodigoPostal, $"%{search}%"))
-    //                                 || h.Categorias.Any(c => EF.Functions.Like(c.Categoria.Nome, $"%{search}%"))
-    //                                 || EF.Functions.Like(h.DetalhesHabitacao.Localizacao.Pais, $"%{search}%"))
-    //        .Include(h => h.DetalhesHabitacao)
-    //        .ThenInclude(h => h.Localizacao)
-    //        .Include(h => h.Avaliacoes)
-    //        .Include(h => h.Categorias)
-    //        .Include(h => h.Locador)
-    //        .Include(h => h.Reservas)
-    //        .Include(h => h.Imagens)
-    //        .AsNoTracking();
-
-    //    var totalRecords = await query.CountAsync();
-    //    var results = await query
-    //        .OrderBy(h => h.Id) // Ensure there's a proper ordering, as paging requires a stable order
-    //        .Skip((page - 1) * pageSize)
-    //        .Take(pageSize)
-    //        .ToListAsync();
-
-    //    ViewBag.TotalRecords = totalRecords;
-    //    ViewBag.TotalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
-    //    ViewBag.CurrentPage = page;
-    //    ViewBag.Search = search; // Pass the search term back to the view
-
-    //    return View(results);
-    //}
     public async Task<IActionResult> Search(string search, string sortOrder, int page = 1, int pageSize = 10)
     {
         ViewData["TitleSearch"] = "Resultados da sua pesquisa: " + search;
