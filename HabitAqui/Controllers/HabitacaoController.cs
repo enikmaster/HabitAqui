@@ -166,7 +166,24 @@ public class HabitacaoController : Controller
 
         if (habitacao == null) return NotFound();
 
-        return View(habitacao);
+
+        var reservas = _context.Reservas
+            .Where(r => r.Habitacao.Id == id)
+            .OrderByDescending(r => r.DataFim) 
+            .ToList();
+
+        DateTime? proximaDataDisponivel = null;
+
+        if (reservas.Any())
+        {
+            var dataCheckOutMaisRecente = reservas.First().DataFim;
+            proximaDataDisponivel = dataCheckOutMaisRecente.AddDays(1);
+        }
+        ViewBag.ProximaDataDisponivel = proximaDataDisponivel;
+
+
+
+        return View(habitacao); 
     }
 
     // GET: Habitacao/Create
