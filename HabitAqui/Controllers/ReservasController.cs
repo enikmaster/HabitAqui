@@ -109,7 +109,7 @@ public class ReservasController : Controller
             HabitacaoId = habitacao.Id,
             NomeHabitacao = habitacao.DetalhesHabitacao.Nome,
             DescricaoHabitacao = habitacao.DetalhesHabitacao.Descricao,
-            PrecoPorNoiteHabitacao = habitacao.DetalhesHabitacao.PrecoPorNoite
+            PrecoPorNoiteHabitacao = habitacao.DetalhesHabitacao.PrecoPorNoite  
         };
         return View("EfetuarReserva", viewModel);
     }
@@ -123,6 +123,7 @@ public class ReservasController : Controller
             var dataInicio = reservaDto.DataInicio;
             var dataFim = reservaDto.DataFim;
             var AnotacoesCliente = reservaDto.AnotacoesCliente;
+            
 
             var numeroNoites = (int)(dataFim - dataInicio).TotalDays;
 
@@ -194,6 +195,8 @@ public class ReservasController : Controller
 
             // Agora você pode adicionar a nova reserva ao contexto e salvar as alterações
             _context.Reservas.Add(novaReserva);
+
+            //aqui está o cliente e o Funcionario a null
             await _context.SaveChangesAsync();
 
             // Redirecione para a página de sucesso ou outra página desejada
