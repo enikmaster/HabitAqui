@@ -25,7 +25,7 @@ public class ReservasController : Controller
             .Include(r => r.Cliente)
             .Include(r => r.Habitacao)
             .Include(r => r.RegistoEntregas)
-            .Include(r => r.Habitacao.DetalhesHabitacao) // Inclua os detalhes da habitação
+            .Include(r => r.Habitacao.DetalhesHabitacao)
             .Where(r => r.RegistoEntregas.Any(re => re.TipoTransacao == TipoTransacao.Entrega))
             .ToListAsync();
 
@@ -36,7 +36,6 @@ public class ReservasController : Controller
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        // Lógica para obter os arrendamentos históricos aqui
         var historicoArrendamentos = _context.Reservas
             .Include(r => r.Funcionario)
             .Include(r => r.Cliente)
@@ -93,6 +92,24 @@ public class ReservasController : Controller
         return View(reservasFuncionario);
     }
 
+    public IActionResult ListarReservasCliente()
+    {
+
+        //reservas aceites
+        //registoEntrega != devolucao   
+        var reservasCliente = _context.Reservas
+            .Include(r => r.Habitacao)
+            .Include(r => r.Habitacao.DetalhesHabitacao)
+            .Include(r => r.RegistoEntregas)
+            .Where(r => r.RegistoEntregas.Any(re => re.TipoTransacao != TipoTransacao.Devolucao) && r.Estado == EstadoReserva.Aceite)
+            .ToList();
+
+
+
+        return View("RegistoCliente", reservasCliente);
+    }
+
+
     // GET: Reservas/Reservar
     //[Authorize]
     public async Task<IActionResult> Reservar(int? id)
@@ -110,7 +127,7 @@ public class ReservasController : Controller
             HabitacaoId = habitacao.Id,
             NomeHabitacao = habitacao.DetalhesHabitacao.Nome,
             DescricaoHabitacao = habitacao.DetalhesHabitacao.Descricao,
-            PrecoPorNoiteHabitacao = habitacao.DetalhesHabitacao.PrecoPorNoite
+            PrecoPorNoiteHabitacao = habitacao.DetalhesHabitacao.PrecoPorNoite  
         };
         return View("EfetuarReserva", viewModel);
     }
@@ -124,6 +141,7 @@ public class ReservasController : Controller
             var dataInicio = reservaDto.DataInicio;
             var dataFim = reservaDto.DataFim;
             var AnotacoesCliente = reservaDto.AnotacoesCliente;
+            
 
             var numeroNoites = (int)(dataFim - dataInicio).TotalDays;
 
@@ -186,7 +204,6 @@ public class ReservasController : Controller
             var random = new Random();
             var randomIndex = random.Next(locador.Administradores.Count); // Get a random index
             var selectedAdministrador = locador.Administradores.ElementAt(randomIndex); // Retrieve the administrador at the random index
-
             if (ModelState.IsValid)
             {
                 var novaReserva = new Reserva

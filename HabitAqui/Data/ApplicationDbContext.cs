@@ -55,5 +55,11 @@ public class ApplicationDbContext : IdentityDbContext<DetalhesUtilizador>
             .WithMany()
             .HasForeignKey(f => f.FuncionarioId)
             .OnDelete(DeleteBehavior.NoAction);
+        modelBuilder.Entity<DetalhesUtilizador>()
+        .HasKey(d => d.Id);
+
+        modelBuilder.Entity<DetalhesUtilizador>()
+            .Property(d => d.Id)
+            .ValueGeneratedOnAdd();
     }
 }

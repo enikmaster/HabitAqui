@@ -1,0 +1,14 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Erro de Avaliação";
+}
+
+<h2>Erro de Avaliação</h2>
+
+<div class="alert alert-danger">
+    Não foi possível avaliar: @ViewBag.ErroAvaliacao
+</div>
+<div class="mt-3">
+    <a asp-controller="Reservas" asp-action="Historico" class="btn btn-primary">
+        Voltar para Histórico de Arrendamentos
+    </a>

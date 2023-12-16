@@ -345,8 +345,14 @@ public class HabitacaoController : Controller
         var currentUser = await _userManager.GetUserAsync(User);
         if (currentUser == null) return BadRequest();
         var utilizadorPodeAvaliar = VerificarCondicõesParaAvaliacao(habitacao, currentUser);
-        if (!utilizadorPodeAvaliar)
-            return BadRequest("O utilizador não pode avaliar esta habitação com base nas condições especificadas.");
+        if (!utilizadorPodeAvaliar) {
+            //return BadRequest("O utilizador não pode avaliar esta habitação com base nas condições especificadas.");
+            ViewBag.ErroAvaliacao = "O utilizador não pode avaliar esta habitação com base nas condições especificadas.";
+            return View("ErroAvaliacao");
+
+
+        }
+                //return BadRequest("O utilizador não pode avaliar esta habitação com base nas condições especificadas.");
         var avaliacao = new Avaliacao { HabitacaoId = habitacao.Id };
         return View("Avaliacao", avaliacao);
     }

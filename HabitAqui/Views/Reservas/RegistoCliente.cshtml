@@ -1,0 +1,40 @@
+﻿@model List<Reserva>
+@{
+    ViewData["Title"] = "Reservas Efetuadas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/css/Prettier.css" />
+
+
+<h1>Minhas Reservas</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Estado</th>
+            <th>Habitação</th>
+            <th>Data início</th>
+            <th>Data fim</th>
+            <th>Registo Entrega</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reserva in Model)
+        {
+            <tr>
+                <td>@reserva.Id</td>
+                <td>@reserva.Estado</td>
+                <td>@reserva.Habitacao.DetalhesHabitacao.Nome</td>
+                <td>@reserva.DataInicio</td>
+                <td>@reserva.DataFim</td>
+                <td>
+                    @foreach (var registo in reserva.RegistoEntregas)
+                    {
+                        @registo.TipoTransacao <br />
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

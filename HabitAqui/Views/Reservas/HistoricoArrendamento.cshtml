@@ -11,29 +11,28 @@ else
 {
     <table class="table">
         <thead>
-        <tr>
-            <th>Nome do Cliente</th>
-            <th>Data de Início</th>
-            <th>Data de Fim</th>
-            <th></th>
-            <th></th>
+
+            <tr>
+                <th>Nome do Cliente</th>
+                <th>Data de Início</th>
+                <th>Data de Fim</th>
+                <th></th>
+
 
         </tr>
         </thead>
         <tbody>
-        @foreach (var reserva in Model)
-        {
-            <tr>
-                <td>@reserva.Cliente.Nome</td>
-                <td>@reserva.DataInicio</td>
-                <td>@reserva.DataFim</td>
-                <td>
-                    <a href="/Habitacao/avaliacoes/@reserva.Habitacao.Id">
-                        <i class="fas fa-star" style="color: yellow;"></i>
-                    </a>
-                </td>
-
-
+            @foreach (var reserva in Model)
+            {
+                <tr>
+                    <td>@reserva.Cliente.Nome</td>
+                    <td>@reserva.DataInicio</td>
+                    <td>@reserva.DataFim</td>
+                    @*  <td>
+                        <a href="/Habitacao/avaliacoes/@reserva.Habitacao.Id">
+                            <i class="fas fa-star" style="color: yellow;"></i>
+                        </a>
+                </td>*@
                 <td>
                     <a asp-action="Details" asp-route-id="@reserva.Id">
                         <i class="fas fa-info-circle"></i>
