@@ -128,30 +128,41 @@
     </div>
 </div>
 
-<div class="reserva-container mb-5">
-    <h2>Reserva</h2>
-    @Html.Partial("_ReservaForm", new ReservaDto { HabitacaoId = Model.Id })
-</div>
 
-<div class="avaliacoes-container mb-5">
-    <h2>Avaliações</h2>
-    @if (Model.Avaliacoes.Count > 0)
-    {
-        @foreach (var avaliacao in Model.Avaliacoes)
+<h2>Próxima Data Disponível:</h2>
+@if (ViewBag.ProximaDataDisponivel != null)
+{
+    <p>@(((DateTime)ViewBag.ProximaDataDisponivel).ToString("dd/MM/yyyy"))</p>
+}
+else
+{
+    <p>@DateTime.Today.AddDays(1).ToString("dd/MM/yyyy")</p>
+}
+
+    <div class="reserva-container mb-5">
+        <h2>Reserva</h2>
+        @Html.Partial("_ReservaForm", new ReservaDto { HabitacaoId = @Model.Id })
+    </div>
+
+    <div class="avaliacoes-container mb-5">
+        <h2>Avaliações</h2>
+        @if (@Model.Avaliacoes.Count > 0)
         {
-            <div class="avaliacao">
-                <p>
-                    <strong>Nota:</strong> @avaliacao.Nota
-                </p>
-                <p>
-                    <strong>Comentário:</strong> @avaliacao.Comentario
-                </p>
-                <p>
-                    <strong>Por:</strong> @avaliacao.Cliente.Nome
-                </p>
-            </div>
+            @foreach (var avaliacao in Model.Avaliacoes)
+            {
+                <div class="avaliacao">
+                    <p>
+                        <strong>Nota:</strong> @avaliacao.Nota
+                    </p>
+                    <p>
+                        <strong>Comentário:</strong> @avaliacao.Comentario
+                    </p>
+                    <p>
+                        <strong>Por:</strong> @avaliacao.Cliente.Nome
+                    </p>
+                </div>
+            }
         }
-    }
     else
     {
         <div class="avaliacao">
