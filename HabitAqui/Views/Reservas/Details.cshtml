@@ -1,5 +1,5 @@
-﻿@model HabitAqui.Models.Reserva
-<link rel="stylesheet" href="~/css/Prettier.css" />
+﻿@model Reserva
+@*<link rel="stylesheet" href="~/css/Prettier.css" />*@
 
 @{
     ViewData["Title"] = "Detalhes da Reserva";
@@ -9,7 +9,7 @@
 
 <div class="detalhes-reserva">
     <h4>Detalhes da Reserva</h4>
-    <hr />
+    <hr/>
     <dl class="row">
         <dt class="col-sm-2">ID da Reserva</dt>
         <dd class="col-sm-10">@Model.Id</dd>
@@ -36,35 +36,35 @@
 
 <div class="registos-entrega">
     <h4>Registos de Entrega</h4>
-    <hr />
+    <hr/>
     <table class="table">
         <thead>
-            <tr>
-                <th>Data de Entrega</th>
-                <th>Tipo de Transação</th>
-                <th>Danos</th>
-                <th>Observações</th>
-            </tr>
+        <tr>
+            <th>Data de Entrega</th>
+            <th>Tipo de Transação</th>
+            <th>Danos</th>
+            <th>Observações</th>
+        </tr>
         </thead>
         <tbody>
-            @if (Model.RegistoEntregas != null && Model.RegistoEntregas.Any())
-            {
-                @foreach (var registo in Model.RegistoEntregas)
-                {
-                    <tr>
-                        <td>@registo.DataEntrega.ToString("dd/MM/yyyy")</td>
-                        <td>@registo.TipoTransacao</td>
-                        <td>@registo.Danos</td>
-                        <td>@registo.Observacoes</td>
-                    </tr>
-                }
-            }
-            else
+        @if (Model.RegistoEntregas != null && Model.RegistoEntregas.Any())
+        {
+            @foreach (var registo in Model.RegistoEntregas)
             {
                 <tr>
-                    <td colspan="4">Nenhum Registo de Entrega associado a esta reserva.</td>
+                    <td>@registo.DataEntrega.ToString("dd/MM/yyyy")</td>
+                    <td>@registo.TipoTransacao</td>
+                    <td>@registo.Danos</td>
+                    <td>@registo.Observacoes</td>
                 </tr>
             }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4">Nenhum Registo de Entrega associado a esta reserva.</td>
+            </tr>
+        }
         </tbody>
     </table>
 </div>
