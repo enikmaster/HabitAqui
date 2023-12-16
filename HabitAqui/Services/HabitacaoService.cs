@@ -16,7 +16,9 @@ public class HabitacaoService
     public async Task<Habitacao?> GetHabitacao(int? id)
     {
         var habitacao = await _context.Habitacoes
+            .Include(l => l.Locador)
             .Include(h => h.DetalhesHabitacao)
+            .ThenInclude(l => l.Localizacao)
             .Include(h => h.Categorias)
             .Include(h => h.Imagens)
             .Include(h => h.Avaliacoes)!
