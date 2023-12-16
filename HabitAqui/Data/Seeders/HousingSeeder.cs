@@ -32,8 +32,14 @@ namespace HabitAqui.Data.Seeders
 
                    if (!housingsList.Any())
                     {
-                        var newCategory = CategoriaMock.GenerateCategoria();
-                        await categoriaService.CreateCategoria(newCategory);
+                        var newCategories = CategoriaMock.GenerateListCategorias();
+                        foreach (var categoria in newCategories)
+                        {
+                            await categoriaService.CreateCategoria(categoria);
+                        }
+
+                        var newCategory = newCategories.First(); // 
+                       
 
                         var newHousing = HousingMock.GenerateOneHabitacaoMock(locador.Id);
                         foreach (var habitacao in newHousing)

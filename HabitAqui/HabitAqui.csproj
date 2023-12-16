@@ -26,6 +26,9 @@
 
     <ItemGroup>
       <Folder Include="Migrations\" />
+      <Folder Include="wwwroot\imgs\habitacoes\13\" />
+      <Folder Include="wwwroot\imgs\habitacoes\14\" />
+      <Folder Include="wwwroot\imgs\habitacoes\15\" />
     </ItemGroup>
 
 </Project>
