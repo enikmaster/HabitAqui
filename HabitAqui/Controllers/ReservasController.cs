@@ -5,6 +5,7 @@ using HabitAqui.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace HabitAqui.Controllers;
 
@@ -193,33 +194,41 @@ public class ReservasController : Controller
             .Include(h => h.Reservas)
             .FirstOrDefault();
 
-        //var funcionario = _context.Users.FirstOrDefault("Gestor");
+        var locador = _context.Locadores
+            .Where(u => u.Id == habitacao.LocadorId)
+            .Include(u => u.Administradores)
+            .FirstOrDefault();
 
-        if (ModelState.IsValid)
+        if (locador != null && locador.Administradores.Any())
         {
-            var novaReserva = new Reserva
+            var random = new Random();
+            var randomIndex = random.Next(locador.Administradores.Count); // Get a random index
+            var selectedAdministrador = locador.Administradores.ElementAt(randomIndex); // Retrieve the administrador at the random index
+            if (ModelState.IsValid)
             {
-                //Como vou buscar o funcionario
-                Estado = EstadoReserva.Pendente,
-                ClienteId = User.FindFirstValue(ClaimTypes.NameIdentifier),
-                Id = reservaDto.HabitacaoId,
-                DataInicio = reservaDto.DataInicio,
-                DataFim = reservaDto.DataFim,
-                Habitacao = habitacao
-            };
+                var novaReserva = new Reserva
+                {
+                    //Como vou buscar o funcionario
+                    Estado = EstadoReserva.Pendente,
+                    ClienteId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                    FuncionarioId = selectedAdministrador.Id,
+                    //Id = reservaDto.HabitacaoId,
+                    DataInicio = reservaDto.DataInicio,
+                    DataFim = reservaDto.DataFim,
+                    Habitacao = habitacao
+                };
 
-            var numeroNoites = (int)(novaReserva.DataFim - novaReserva.DataInicio).TotalDays;
+                var numeroNoites = (int)(novaReserva.DataFim - novaReserva.DataInicio).TotalDays;
 
-            // Agora você pode adicionar a nova reserva ao contexto e salvar as alterações
-            _context.Reservas.Add(novaReserva);
+                // Agora você pode adicionar a nova reserva ao contexto e salvar as alterações
+                _context.Reservas.Add(novaReserva);
+                await _context.SaveChangesAsync();
 
-            //aqui está o cliente e o Funcionario a null
-            await _context.SaveChangesAsync();
-
-            // Redirecione para a página de sucesso ou outra página desejada
-            return View("ConfirmarReserva");
+                // Redirecione para a página de sucesso ou outra página desejada
+                return View("Index");
+            }
         }
-
+        else return NotFound();
         // Se houver erros de validação, retorne para a página de confirmação com os erros
         return View(reservaDto);
     }

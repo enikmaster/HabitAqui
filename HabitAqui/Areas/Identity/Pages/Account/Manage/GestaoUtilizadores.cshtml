@@ -1,6 +1,5 @@
 ﻿@page
 @attribute [Authorize(Roles = "Administrador")]
-@using System.Security.Claims
 @using Microsoft.AspNetCore.Authorization
 @model GestaoUtilizadoresModel
 
@@ -13,21 +12,28 @@
 <link rel="stylesheet" href="~/css/custom-table.css"/>
 <h2>@ViewData["Title"]</h2>
 
-<table class="table table-striped">
+<table class="table table-hover">
     <thead>
     <tr>
-        <th class="identificador" onclick="sortTable(0)">Nome de Utilizador</th>
-        <th class="identificador">Email</th>
-        <th class="identificador" onclick="sortTable(2)">Funções</th>
-        <td>
-@*              <span class="identificador" data-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" onclick="editUser('@User.FindFirstValue(ClaimTypes.NameIdentifier)')">Editar</span>
- *@
-                
-
-</td>
-        <th class="identificador">Ativar/Desativar</th>
+        <th>
+            <a class="text-reset text-decoration-none" asp-page="./GestaoUtilizadores"
+               asp-route-sortOrder="@Model.UserNameSort">
+                Nome de Utilizador
+            </a>
+        </th>
+        <th>
+            <a class="text-reset text-decoration-none" asp-page="./GestaoUtilizadores"
+               asp-route-sortOrder="@Model.EmailSort">
+                Email
+            </a>
+        </th>
+        <th>
+            Funções
+        </th>
+        <th></th>
     </tr>
     </thead>
+
     <tbody>
     @foreach (var user in Model.Users)
     {
@@ -37,36 +43,46 @@
             <td>
                 @foreach (var role in user.Roles)
                 {
-                    <span class="@($"{role.ToLower()}-color")">@role</span>
+                    <span class=" @($"{role.ToLower()}-color")">@role</span>
                     <br/>
                 }
             </td>
-            <td>
+            <td class="text-white">
 
-                    <a class="btn btn-primary btn-sm" asp-page="./EditarUtilizador" asp-route-userId="@user.Id">
-                        <i class="fa-solid fa-pen"></i>
-                    </a>
-            </td>
-            <td>
-                <form method="post" asp-controller="Admin" asp-action="ToggleUserStatus" asp-route-id="@user.Id">
-                    
+                <a class="btn btn-primary btn-sm" asp-page="./EditarUtilizador" asp-route-userId="@user.Id">
+                    <i class="fa-solid fa-pen"></i>
+                </a>
+                <form style="display: inline-block;" method="post" asp-controller="Admin" asp-action="ToggleUserStatus" asp-route-id="@user.Id">
+
                     @if (user.Active)
                     {
-                        <button type="submit" class="btn btn-danger">
+                        <button type="submit" class="btn btn-sm btn-danger">
                             <i class="fa fa-times"></i> Desativar
                         </button>
                     }
                     else
                     {
-                        <button type="submit" class="btn btn-success">
+                        <button type="submit" class="btn btn-sm btn-success">
                             <i class="fa fa-check"></i> Ativar
                         </button>
                     }
                 </form>
-
-
             </td>
         </tr>
     }
     </tbody>
 </table>
+<div class="d-flex justify-content-center mb-5">
+    <nav aria-label="User pages">
+        <ul class="pagination">
+            @for (var i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                    <a class="page-link" asp-page="./GestaoUtilizadores" asp-route-sortOrder="@Model.CurrentSort" asp-route-pageNumber="@i">
+                        @i
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
