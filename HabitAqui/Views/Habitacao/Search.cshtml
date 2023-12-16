@@ -29,15 +29,16 @@
                 <tr>
                     <th></th>
                     <th class="text-white">
-                        <a asp-action="Search" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-search="@ViewBag.Search" asp-route-page="@ViewBag.CurrentPage">Nome</a>
+                        <a class="text-reset text-decoration-none"  asp-action="Search" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-search="@ViewBag.Search" asp-route-page="@ViewBag.CurrentPage">Nome</a>
+
                     </th>
                     <th>Localização</th>
                     <th>
-                        <a asp-action="Search" asp-route-sortOrder="@ViewData["RatingSortParm"]" asp-route-search="@ViewBag.Search" asp-route-page="@ViewBag.CurrentPage">Avaliação</a>
+                        <a class="text-reset text-decoration-none"  asp-action="Search" asp-route-sortOrder="@ViewData["RatingSortParm"]" asp-route-search="@ViewBag.Search" asp-route-page="@ViewBag.CurrentPage">Avaliação</a>
                     </th>
                     <th>Disponibilidade</th>
                     <th>
-                        <a asp-action="Search" asp-route-sortOrder="@ViewData["PriceSortParm"]" asp-route-search="@ViewBag.Search" asp-route-page="@ViewBag.CurrentPage">Preço por Noite</a>
+                        <a class="text-reset text-decoration-none"  asp-action="Search" asp-route-sortOrder="@ViewData["PriceSortParm"]" asp-route-search="@ViewBag.Search" asp-route-page="@ViewBag.CurrentPage">Preço por Noite</a>
                     </th>
                 </tr>
             </thead>
