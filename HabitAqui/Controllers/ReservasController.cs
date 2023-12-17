@@ -235,10 +235,16 @@ public class ReservasController : Controller
         return View(reservaDto);
     }
 
+    public IActionResult FuncEntregaReserva()
+    {
+
+        return View("FuncEntregaReserva");
+    }
+
+
     public async Task<IActionResult> EntregarHabitacaoAsync(int id)
     {
         var reserva = _context.Reservas
-            .Include(r=> r.R)
             .FirstOrDefault(r => r.Id == id);
         if (reserva == null)
         {

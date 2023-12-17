@@ -1,0 +1,34 @@
+﻿@model HabitAqui.Dtos.Reservas.EntregaDto
+
+<form asp-action="FuncEntregaReserva" asp-controller="SeuController" method="post">
+    <div class="form-group">
+        <label for="FuncionarioId">ID do Funcionário:</label>
+@*         <input type="text" id="FuncionarioId" name="FuncionarioId" class="form-control" value="@Model.FuncionarioId" readonly />
+ *@    </div>
+
+    <div class="form-group">
+        <label for="DataEntrega">Data de Entrega:</label>
+        <input type="datetime-local" id="DataEntrega" name="DataEntrega" class="form-control" value="@Model.DataEntrega" />
+    </div>
+
+    <div class="form-group">
+        <label for="TipoTransacao">Tipo de Transação:</label>
+        <select id="TipoTransacao" name="TipoTransacao" class="form-control">
+            <option value="Entrega">Entrega</option>
+            <option value="Devolucao">Devolução</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="Danos">Danos:</label>
+        <input type="checkbox" id="Danos" name="Danos" class="form-check-input" value="true" />
+    </div>
+
+    <div class="form-group">
+        <label for="Observacoes">Observações:</label>
+        <textarea id="Observacoes" name="Observacoes" class="form-control">@Model.Observacoes</textarea>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Submeter</button>
+</form>
