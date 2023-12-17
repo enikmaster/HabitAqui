@@ -89,9 +89,26 @@ public class ReservasController : Controller
         var reservasFuncionario = _context.Reservas
             .Include(r => r.Habitacao.DetalhesHabitacao)
             .Include(r => r.RegistoEntregas)
-            .Where(r => r.FuncionarioId == funcionarioId)
+            .Where(r => r.FuncionarioId == funcionarioId && r.Estado != EstadoReserva.Concluido)
             .ToList();
-        return View(reservasFuncionario);
+        return View("RegistoCliente", reservasFuncionario);
+    }
+
+    // GET: Reservas/ListarReservasFuncionario
+    [Authorize(Roles = "Gestor")]
+    public IActionResult ListarCliente()
+    {
+        var funcionarioId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var reservasCliente = _context.Reservas
+           .Include(r => r.Habitacao)
+           .Include(r => r.Habitacao.DetalhesHabitacao)
+           .Include(r => r.RegistoEntregas)
+           .Where(r => r.Estado != EstadoReserva.Aceite && r.Estado != EstadoReserva.Pendente)
+           .ToList();
+
+        return View("RegistoCliente", reservasCliente);
+
     }
 
     public IActionResult ListarReservasCliente()
@@ -102,7 +119,7 @@ public class ReservasController : Controller
             .Include(r => r.Habitacao)
             .Include(r => r.Habitacao.DetalhesHabitacao)
             .Include(r => r.RegistoEntregas)
-            //.Where(r => r.RegistoEntregas.Any(re => re.TipoTransacao != TipoTransacao.Devolucao) && r.Estado == EstadoReserva.Rejeitado)
+            .Where(r => r.Estado != EstadoReserva.Concluido)
             .ToList();
 
 
@@ -230,10 +247,68 @@ public class ReservasController : Controller
         return View(reservaDto);
     }
 
-    public IActionResult FuncEntregaReserva()
+    public IActionResult FuncEntregaReserva(int id)
     {
-        return View("FuncEntregaReserva");
+        var reserva = _context.Reservas
+            .FirstOrDefault(u => u.Id == id);
+
+        var funcionarioId = reserva.FuncionarioId;
+
+        var entregaDto = new EntregaDto
+        {
+            FuncionarioId = funcionarioId,
+            DataEntrega = DateTime.Now,
+            TipoTransacao = TipoTransacao.Entrega,
+            ReservaId = reserva.Id,
+            Danos = false,
+            Observacoes = "Nenhuma observação"
+
+        };
+
+        return View("FuncEntregaReserva", entregaDto);
     }
+
+    public async Task<IActionResult> FinTeste(EntregaDto entregaDto)
+    {
+        var reserva = _context.Reservas
+            .Include(r => r.RegistoEntregas)
+            .FirstOrDefault(u => u.Id == entregaDto.ReservaId);
+
+        if (reserva == null)
+        {
+            return NotFound();
+        }
+
+        var funcionario = await _userManager.GetUserAsync(User);    
+        var entregaDtoFinal = new RegistoEntrega
+        {
+            Funcionario = funcionario,
+            DataEntrega = entregaDto.DataEntrega,
+            TipoTransacao = entregaDto.TipoTransacao,
+            Observacoes = entregaDto.Observacoes,
+            Danos = entregaDto.Danos,
+        };
+
+        if(entregaDtoFinal.TipoTransacao == TipoTransacao.Entrega)
+        {
+            reserva.Estado = EstadoReserva.Aceite;
+        }else if(entregaDto.TipoTransacao == TipoTransacao.Devolucao)
+        {
+            reserva.Estado = EstadoReserva.Concluido;
+        }
+        else
+        {
+            reserva.Estado = EstadoReserva.Rejeitado;
+        }
+
+
+        reserva.RegistoEntregas.Add(entregaDtoFinal);
+        _context.SaveChanges();
+
+
+        return RedirectToAction("Index");
+    }
+
 
 
     public async Task<IActionResult> EntregarHabitacaoAsync(int id)
@@ -251,17 +326,19 @@ public class ReservasController : Controller
             TipoTransacao = TipoTransacao.Entrega,
             Danos = false,
             Observacoes =
-                "Nenhuma observação" // Defina as observações iniciais (você pode alterar isso conforme necessário)
+                "Nenhuma observação"
         };
 
-        // Associe o registro de entrega à reserva
         if (reserva.RegistoEntregas == null) reserva.RegistoEntregas = new List<RegistoEntrega>();
         reserva.RegistoEntregas.Add(registoEntrega);
 
-        // Salve as alterações no banco de dados
         _context.SaveChanges();
 
-        // Redirecione para a página de detalhes da reserva ou outra página desejada
         return RedirectToAction("Detalhes", new { id });
     }
+
+
+ 
+
+
 }

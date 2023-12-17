@@ -15,7 +15,6 @@
         <th>Habitação</th>
         <th>Data início</th>
         <th>Data fim</th>
-        <th>Registo Entrega</th>
     </tr>
     </thead>
     <tbody>
@@ -28,6 +27,7 @@
             <td>@reserva.DataInicio</td>
             <td>@reserva.DataFim</td>
             <td>@reserva.RegistoEntregas.FirstOrDefault().DataEntrega</td>
+            
         </tr>
     }
     </tbody>

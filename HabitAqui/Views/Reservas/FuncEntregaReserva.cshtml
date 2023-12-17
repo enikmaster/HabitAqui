@@ -1,16 +1,10 @@
 ﻿@model HabitAqui.Dtos.Reservas.EntregaDto
 
-@* TODO: Caralhos vos fodam mais ao chatGPT!!!! SeuController!?!?!?!*@
-<form asp-action="FuncEntregaReserva" asp-controller="SeuController" method="post">
-    <div class="form-group">
-        <label for="FuncionarioId">ID do Funcionário:</label>
-@*         <input type="text" id="FuncionarioId" name="FuncionarioId" class="form-control" value="@Model.FuncionarioId" readonly />
- *@    </div>
-
-    <div class="form-group">
-        <label for="DataEntrega">Data de Entrega:</label>
-        <input type="datetime-local" id="DataEntrega" name="DataEntrega" class="form-control" value="@Model.DataEntrega" />
-    </div>
+<form asp-controller="Reservas" asp-action="FinTeste" method="post">
+  
+    <input type="hidden" id="ReservaId" name="ReservaId" value="@Model.ReservaId" />
+    <input type="hidden" id="DataEntrega" name="DataEntrega" value="@Model.DataEntrega" />
+    <input type="hidden" id="FuncionarioId" name="FuncionarioId" value="@Model.FuncionarioId" />
 
     <div class="form-group">
         <label for="TipoTransacao">Tipo de Transação:</label>
@@ -22,13 +16,23 @@
 
     <div class="form-group">
         <label for="Danos">Danos:</label>
-        <input type="checkbox" id="Danos" name="Danos" class="form-check-input" value="true" />
+        <input type="checkbox" id="Danos" name="Danos" class="form-check-input" />
     </div>
 
     <div class="form-group">
         <label for="Observacoes">Observações:</label>
-        <textarea id="Observacoes" name="Observacoes" class="form-control">@Model.Observacoes</textarea>
+        <textarea id="Observacoes" name="Observacoes" class="form-control"></textarea>
     </div>
+
+    <div class="form-group">
+        <label for="Opcionais">Opcionais:</label>
+        <textarea id="Opcionais" name="Opcionais" class="form-control"></textarea>
+    </div>
+
+@*     <div class="form-group">
+        <label for="Imagens">Imagens:</label>
+        <input type="file" id="Imagens" name="Imagens" class="form-control-file" multiple />
+    </div> *@
 
 
     <button type="submit" class="btn btn-primary">Submeter</button>
