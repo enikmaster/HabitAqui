@@ -6,15 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link rel="stylesheet" href="/css/detalhes-habitacao.css"/>
-@*
--- layout
-- Nome da habitação
-- Galeria de imagens
-- Detalhes da habitação
-- Reserva
-- Avaliações
-- Detalhes do Locador?
-*@
+
 <div class="header-container text-left">
     <div class="row">
         <div class="col-md-8 my-4">
@@ -139,47 +131,40 @@ else
     <p>@DateTime.Today.AddDays(1).ToString("dd/MM/yyyy")</p>
 }
 
-    <div class="reserva-container mb-5">
-        <h2>Reserva</h2>
-        @Html.Partial("_ReservaForm", new ReservaDto { HabitacaoId = @Model.Id })
-    </div>
+<div class="reserva-container mb-5">
+    <h2>Reserva</h2>
+    @Html.Partial("_ReservaForm", new ReservaDto { HabitacaoId = Model.Id })
+</div>
 
-    <div class="avaliacoes-container mb-5">
-        <h2>Avaliações</h2>
-        @if (@Model.Avaliacoes.Count > 0)
+<div class="avaliacoes-container mb-5">
+    <h2>Avaliações</h2>
+    @if (Model.Avaliacoes.Count > 0)
+    {
+        @foreach (var avaliacao in Model.Avaliacoes)
         {
-            @foreach (var avaliacao in Model.Avaliacoes)
-            {
-                <div class="avaliacao">
-                    <p>
-                        <strong>Nota:</strong> @avaliacao.Nota
-                    </p>
-                    <p>
-                        <strong>Comentário:</strong> @avaliacao.Comentario
-                    </p>
-                    <p>
-                        <strong>Por:</strong> @avaliacao.Cliente.Nome
-                    </p>
-                </div>
-            }
+            <div class="avaliacao">
+                <p>
+                    <strong>Nota:</strong> @avaliacao.Nota
+                </p>
+                <p>
+                    <strong>Comentário:</strong> @avaliacao.Comentario
+                </p>
+                <p>
+                    <strong>Por:</strong> @avaliacao.Cliente.Nome
+                </p>
+            </div>
         }
+    }
     else
     {
         <div class="avaliacao">
             <p>Parece que ainda não existem avaliações para esta habitação...</p>
         </div>
     }
-
-
     @if (User.Identity.IsAuthenticated && !User.IsInRole(Roles.Cliente.ToString()))
     {
         <div>
             <a asp-action="Avaliar" asp-route-id="@Model.Id">Deixar uma avaliação</a>
         </div>
     }
-
-
-</div>
-<div class="locador-container mb-5">
-    <h2>Detalhes do Locador ?</h2>
 </div>
