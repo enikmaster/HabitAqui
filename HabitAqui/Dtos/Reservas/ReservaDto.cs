@@ -2,7 +2,7 @@
 
 namespace HabitAqui.Dtos.Reservas;
 
-public class ReservaDto
+public class ReservaDto : ReservaGeraldto
 {
     public ReservaDto()
     {
@@ -12,19 +12,7 @@ public class ReservaDto
         DescricaoHabitacao = string.Empty;
         PrecoPorNoiteHabitacao = 0.0m;
     }
-
-    [Required(ErrorMessage = "A data de check-in é obrigatória.")]
-    [Display(Name = "Data de Check-In")]
-    [DataType(DataType.Date)]
-    public DateTime DataInicio { get; set; }
-
-    [Required(ErrorMessage = "A data de check-out é obrigatória.")]
-    [Display(Name = "Data de Check-Out")]
-    [DataType(DataType.Date)]
-    public DateTime DataFim { get; set; }
-
     public int FuncionarioId { get; set; }
-    public int HabitacaoId { get; set; }
 
     [Display(Name = "Nome da Habitação")] public string NomeHabitacao { get; set; }
 
@@ -41,5 +29,5 @@ public class ReservaDto
 
     public decimal precoTotal { get; set; }
 
-    public string AnotacoesCliente { get; set; }
+
 }

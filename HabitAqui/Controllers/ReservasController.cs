@@ -151,7 +151,7 @@ public class ReservasController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult ConfirmarReserva(ReservaDto reservaDto) // TODO: verificar a confirmação da reserva
+    public IActionResult ConfirmarReserva(ReservaGeraldto reservaDto) // TODO: verificar a confirmação da reserva
     {
         if (ModelState.IsValid)
         {
@@ -178,8 +178,8 @@ public class ReservasController : Controller
             var confirmacaoViewModel = new ReservaDto
             {
                 HabitacaoId = reservaDto.HabitacaoId,
-                NomeHabitacao = reservaDto.NomeHabitacao,
-                DescricaoHabitacao = reservaDto.DescricaoHabitacao,
+                NomeHabitacao = habitacao.DetalhesHabitacao.Nome,
+                DescricaoHabitacao = habitacao.DetalhesHabitacao.Descricao,
                 PrecoPorNoiteHabitacao = habitacao.DetalhesHabitacao.PrecoPorNoite,
                 NumeroNoites = numeroNoites,
                 DataInicio = dataInicio,
