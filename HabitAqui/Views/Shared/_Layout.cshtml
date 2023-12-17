@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="~/HabitAqui.styles.css" asp-append-version="true"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 </head>
 <body class="dark-bg">
@@ -58,9 +58,9 @@
                                 Gestão de Arrendamentos
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" asp-area="" asp-controller="Reservas" asp-action="ListarReservasCliente">Reservas Ativas</a>
-                                    <a class="dropdown-item" asp-area="" asp-controller="Reservas" asp-action="ListarCliente">Reservas </a>
-                                    <a class="dropdown-item" href="#">Cenas</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Reservas" asp-action="ListarReservasCliente">Reservas Ativas</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Reservas" asp-action="ListarCliente">Reservas </a>
+                                <a class="dropdown-item" href="#">Cenas</a>
                                 <a class="dropdown-item" href="#">Outras cenas</a>
                             </div>
                         </li>
@@ -76,9 +76,9 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <li>
-                                        <a class="dropdown-item" asp-area="" asp-controller="Reservas" asp-action="ListarReservasCliente">Reservas Ativas</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Reservas" asp-action="ListarReservasCliente">Reservas Ativas</a>
                                 </li>
-                                    
+
                                 <li>
                                     <a class="dropdown-item" asp-area="" asp-controller="Reservas" asp-action="Historico">Histórico de Arrendamentos</a>
                                 </li>

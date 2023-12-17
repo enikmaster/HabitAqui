@@ -1,0 +1,44 @@
+﻿.custom-gallery {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: center;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+    width: 100%;
+    max-width: 100%;
+    flex: 1 1 auto;
+}
+
+.custom-gallery .image-container {
+    max-width: 20%;
+    position: relative;
+}
+
+.custom-gallery .image-container button.custom-btn {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    z-index: 1;
+    padding: 0.5rem;
+    color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+    opacity: 80%;
+}
+
+.custom-gallery .image-container button.custom-btn:hover {
+    opacity: 100%;
+}
+
+.custom-gallery .image-container button.custom-btn .fa-solid {
+    color: #fff;
+    margin: 0;
+}

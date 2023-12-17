@@ -5,184 +5,185 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link rel="stylesheet" href="~/css/custom-form.css">
+<link rel="stylesheet" href="~/css/custom-gallery.css">
 
 <h3>@ViewData["Title"] @Model.Nome</h3>
 
+<div class="row mb-5">
+<div class="col-md-12">
+<form id="editar-habitacao-form" method="post" asp-action="Edit">
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<input type="hidden" asp-for="Id"/>
+<div class="row">
+    <div class="cold-md-12">
+        <div class="form-floating mb-3">
+            <input asp-for="Nome" class="form-control" autocomplete="nome" aria-required="true" placeholder="Nome da Habitação" value="@Model.Nome">
+            <label asp-for="Nome" class="form-label"></label>
+            <span asp-validation-for="Nome" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-floating mb-3">
+            <input
+                asp-for="Morada"
+                autocomplete="morada"
+                aria-required="true"
+                aria-placeholder="Morada"
+                class="form-control"
+                placeholder="Morada"
+                value="@Model.Morada"/>
+            <label
+                asp-for="Morada"
+                class="form-label text-dark">
+            </label>
+            <span
+                asp-validation-for="Morada"
+                class="text-danger">
+            </span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-floating mb-3">
+            <input
+                asp-for="Cidade"
+                autocomplete="cidade"
+                aria-required="true"
+                aria-placeholder="Cidade"
+                class="form-control"
+                placeholder="Cidade"
+                value="@Model.Cidade"/>
+            <label
+                asp-for="Cidade"
+                class="form-label text-dark">
+            </label>
+            <span
+                asp-validation-for="Cidade"
+                class="text-danger">
+            </span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-floating mb-3">
+            <input
+                asp-for="CodigoPostal"
+                autocomplete="codigoPostal"
+                aria-required="true"
+                aria-placeholder="Código Postal"
+                class="form-control"
+                placeholder="Código Postal"
+                value="@Model.CodigoPostal"/>
+            <label
+                asp-for="CodigoPostal"
+                class="form-label text-dark">
+            </label>
+            <span
+                asp-validation-for="CodigoPostal"
+                class="text-danger">
+            </span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-floating mb-3">
+            <input
+                asp-for="Pais"
+                autocomplete="pais"
+                aria-required="true"
+                aria-placeholder="País"
+                class="form-control"
+                placeholder="País"
+                value="@Model.Pais"/>
+            <label
+                asp-for="Pais"
+                class="form-label text-dark">
+            </label>
+            <span
+                asp-validation-for="Pais"
+                class="text-danger">
+            </span>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12">
-        <form id="editar-habitacao-form" method="post" asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id"/>
-            <div class="row">
-                <div class="cold-md-12">
-                    <div class="form-floating mb-3">
-                        <input asp-for="Nome" class="form-control" autocomplete="nome" aria-required="true" placeholder="Nome da Habitação" value="@Model.Nome">
-                        <label asp-for="Nome" class="form-label"></label>
-                        <span asp-validation-for="Nome" class="text-danger"></span>
-                    </div>
+        <label class="mb-2" asp-for="CategoriasId"></label>
+    </div>
+</div>
+<div class="row mb-2">
+    <div class="col-md-12">
+        @if (ViewBag.Categorias != null)
+        {
+            foreach (var categoria in ViewBag.Categorias as List<Categoria>)
+            {
+                var isChecked = Model.CategoriasId.Contains(categoria.Id);
+                <div class="form-check form-check-inline">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="categoria_@categoria.Id"
+                        name="CategoriasId"
+                        value="@categoria.Id"
+                        @(isChecked ? "checked" : "")/>
+                    <label class="form-check-label" for="categoria_@categoria.Id">@categoria.Nome</label>
                 </div>
+            }
+        }
+        else
+        {
+            <div class="alert alert-danger" role="alert">
+                <p>Não existem categorias disponíveis!</p>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-floating mb-3">
-                        <input
-                            asp-for="Morada"
-                            autocomplete="morada"
-                            aria-required="true"
-                            aria-placeholder="Morada"
-                            class="form-control"
-                            placeholder="Morada"
-                            value="@Model.Morada"/>
-                        <label
-                            asp-for="Morada"
-                            class="form-label text-dark">
-                        </label>
-                        <span
-                            asp-validation-for="Morada"
-                            class="text-danger">
-                        </span>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-floating mb-3">
-                        <input
-                            asp-for="Cidade"
-                            autocomplete="cidade"
-                            aria-required="true"
-                            aria-placeholder="Cidade"
-                            class="form-control"
-                            placeholder="Cidade"
-                            value="@Model.Cidade"/>
-                        <label
-                            asp-for="Cidade"
-                            class="form-label text-dark">
-                        </label>
-                        <span
-                            asp-validation-for="Cidade"
-                            class="text-danger">
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-floating mb-3">
-                        <input
-                            asp-for="CodigoPostal"
-                            autocomplete="codigoPostal"
-                            aria-required="true"
-                            aria-placeholder="Código Postal"
-                            class="form-control"
-                            placeholder="Código Postal"
-                            value="@Model.CodigoPostal"/>
-                        <label
-                            asp-for="CodigoPostal"
-                            class="form-label text-dark">
-                        </label>
-                        <span
-                            asp-validation-for="CodigoPostal"
-                            class="text-danger">
-                        </span>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-floating mb-3">
-                        <input
-                            asp-for="Pais"
-                            autocomplete="pais"
-                            aria-required="true"
-                            aria-placeholder="País"
-                            class="form-control"
-                            placeholder="País"
-                            value="@Model.Pais"/>
-                        <label
-                            asp-for="Pais"
-                            class="form-label text-dark">
-                        </label>
-                        <span
-                            asp-validation-for="Pais"
-                            class="text-danger">
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <label class="mb-2" asp-for="CategoriasId"></label>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-md-12">
-                    @if (ViewBag.Categorias != null)
-                    {
-                        foreach (var categoria in ViewBag.Categorias as List<Categoria>)
-                        {
-                            var isChecked = Model.CategoriasId.Contains(categoria.Id);
-                            <div class="form-check form-check-inline">
-                                <input
-                                    class="form-check-input"
-                                    type="checkbox"
-                                    id="categoria_@categoria.Id"
-                                    name="CategoriasId"
-                                    value="@categoria.Id"
-                                    @(isChecked ? "checked" : "")/>
-                                <label class="form-check-label" for="categoria_@categoria.Id">@categoria.Nome</label>
-                            </div>
-                        }
-                    }
-                    else
-                    {
-                        <div class="alert alert-danger" role="alert">
-                            <p>Não existem categorias disponíveis!</p>
-                        </div>
-                    }
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-floating mb-3">
-                        <input
-                            asp-for="Area"
-                            autocomplete="area"
-                            aria-required="false"
-                            aria-placeholder="Área"
-                            class="form-control"
-                            placeholder="Área"
-                            value="@Model.Area"/>
-                        <label
-                            asp-for="Area"
-                            class="form-label text-dark">
-                        </label>
-                        <span
-                            asp-validation-for="Area"
-                            class="text-danger">
-                        </span>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-floating mb-3">
-                        <input
-                            asp-for="PrecoPorNoite"
-                            autocomplete="precoPorNoite"
-                            aria-required="true"
-                            aria-placeholder="Preço por noite"
-                            class="form-control"
-                            placeholder="Preço por noite"
-                            value="@Model.PrecoPorNoite"/>
-                        <label
-                            asp-for="PrecoPorNoite"
-                            class="form-label text-dark">
-                        </label>
-                        <span
-                            asp-validation-for="PrecoPorNoite"
-                            class="text-danger">
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="cold-md-12">
-                    <textarea 
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-floating mb-3">
+            <input
+                asp-for="Area"
+                autocomplete="area"
+                aria-required="false"
+                aria-placeholder="Área"
+                class="form-control"
+                placeholder="Área"
+                value="@Model.Area"/>
+            <label
+                asp-for="Area"
+                class="form-label text-dark">
+            </label>
+            <span
+                asp-validation-for="Area"
+                class="text-danger">
+            </span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-floating mb-3">
+            <input
+                asp-for="PrecoPorNoite"
+                autocomplete="precoPorNoite"
+                aria-required="true"
+                aria-placeholder="Preço por noite"
+                class="form-control"
+                placeholder="Preço por noite"
+                value="@Model.PrecoPorNoite"/>
+            <label
+                asp-for="PrecoPorNoite"
+                class="form-label text-dark">
+            </label>
+            <span
+                asp-validation-for="PrecoPorNoite"
+                class="text-danger">
+            </span>
+        </div>
+    </div>
+</div>
+<div class="row mb-2">
+    <div class="cold-md-12">
+        <textarea 
                                     asp-for="Descricao"
                                     autocomplete="descricao"
                                     aria-required="false"
@@ -192,21 +193,81 @@
                                     rows="8"
                                 value="@Model.Descricao">
                                 </textarea>
-                    <span
-                        asp-validation-for="Descricao"
-                        class="text-danger">
-                    </span>
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary"/>
-            </div>
-        </form>
+        <span
+            asp-validation-for="Descricao"
+            class="text-danger">
+        </span>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="row my-3">
+    <div class="col-md-12">
+        <h4>Imagens:</h4>
+        <div class="row custom-gallery">
+            @foreach (var imagemPath in Model.Imagens)
+            {
+                <div class="image-container">
+                    <img src="/imgs/habitacoes/@Model.Id/@Url.Content(imagemPath)" alt="Imagem" class="img-thumbnail"/>
+                    <button type="button" class="btn custom-btn btn-sm btn-danger" onclick="removerImagem('@imagemPath', '@Model.Id')">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            }
+            @foreach (var imagemId in Model.ImagensId)
+            {
+                <input type="hidden" name="ImagensId" value="@imagemId"/>
+            }
+        </div>
+    </div>
 </div>
+<div class="row mb-5">
+    <div class="col-md-6">
+        <label
+            asp-for="Imagens"
+            class="mb-2">
+            Adicionar imagens
+        </label>
+        <input
+            asp-for="Imagens"
+            aria-required="true"
+            type="file"
+            multiple="multiple"
+            class="form-control"
+            accept="image/png, image/jpeg"/>
+        <span
+            asp-validation-for="Imagens"
+            class="text-danger">
+        </span>
+    </div>
+</div>
+<div class="form-group">
+    <input type="submit" value="Guardar" class="btn btn-primary"/>
+    <a class="btn ctn-sm btn-danger" asp-controller="Habitacao" asp-action="Detalhes" asp-route-id="@Model.Id">Cancelar</a>
+</div>
+</form>
+</div>
+</div>
+
+
+@section scripts {
+    <script>
+        function removerImagem(imagemPath, habitacaoId) {
+                    console.log(JSON.stringify({ Path: imagemPath, habitacaoId: habitacaoId }));
+                    fetch('@Url.Action("RemoverImagem", "Imagem")', {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ imagemPath: imagemPath, habitacaoId: habitacaoId })
+                    })
+                    .then(response => response.json())
+                    .then(novaListaImagens => atualizarListaImagens(novaListaImagens))
+                    .catch(error => {
+                        console.error("Erro na solicitação:", error);
+                    });
+                }
+                
+                function atualizarListaImagens(novaListaImagens) {
+                    viewModel.Imagens = novaListaImagens;
+                }
+    </script>
+}

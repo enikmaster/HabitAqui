@@ -285,22 +285,10 @@ public class HabitacaoController : Controller
     // GET: Habitacao/Edit/5
     public async Task<IActionResult> Edit(int? id)
     {
-        var editarHabitacaoDto = new EditarHabitacaoDto();
         if (id == null || _context.Habitacoes == null) return NotFound();
         var habitacao = await _habitacaoService.GetHabitacao(id);
         if (habitacao == null) return NotFound();
-        editarHabitacaoDto.Id = habitacao.Id;
-        editarHabitacaoDto.Nome = habitacao.DetalhesHabitacao.Nome;
-        editarHabitacaoDto.Descricao = habitacao.DetalhesHabitacao.Descricao;
-        editarHabitacaoDto.PrecoPorNoite = habitacao.DetalhesHabitacao.PrecoPorNoite;
-        editarHabitacaoDto.Area = habitacao.DetalhesHabitacao.Area;
-        editarHabitacaoDto.Morada = habitacao.DetalhesHabitacao.Localizacao.Morada;
-        editarHabitacaoDto.CodigoPostal = habitacao.DetalhesHabitacao.Localizacao.CodigoPostal;
-        editarHabitacaoDto.Cidade = habitacao.DetalhesHabitacao.Localizacao.Cidade;
-        editarHabitacaoDto.Pais = habitacao.DetalhesHabitacao.Localizacao.Pais;
-        editarHabitacaoDto.Imagens = habitacao.Imagens.Select(p => p.Path).ToList();
-        editarHabitacaoDto.ImagensId = habitacao.Imagens.Select(i => i.Id).ToList();
-        editarHabitacaoDto.CategoriasId = habitacao.Categorias.Select(c => c.CategoriaId).ToList();
+        var editarHabitacaoDto = new EditarHabitacaoDto(habitacao);
 
         var categorias = await _categoriaService.GetAllActive();
         ViewBag.Categorias = (categorias.Any() ? categorias : null)!;
@@ -315,9 +303,28 @@ public class HabitacaoController : Controller
         if (id != habitacaoDto.Id) return NotFound();
 
         if (!ModelState.IsValid) return View(habitacaoDto);
+        var habitacao = await _habitacaoService.GetHabitacao(id);
+        if (habitacao == null) return NotFound();
+        if (habitacao.DetalhesHabitacao.Nome != habitacaoDto.Nome)
+            habitacao.DetalhesHabitacao.Nome = habitacaoDto.Nome;
+        if (habitacao.DetalhesHabitacao.Descricao != habitacaoDto.Descricao)
+            habitacao.DetalhesHabitacao.Descricao = habitacaoDto.Descricao;
+        if (habitacao.DetalhesHabitacao.Area != habitacaoDto.Area)
+            habitacao.DetalhesHabitacao.Area = habitacaoDto.Area;
+        if (habitacao.DetalhesHabitacao.Localizacao.Morada != habitacaoDto.Morada)
+            habitacao.DetalhesHabitacao.Localizacao.Morada = habitacaoDto.Morada;
+        if (habitacao.DetalhesHabitacao.Localizacao.CodigoPostal != habitacaoDto.CodigoPostal)
+            habitacao.DetalhesHabitacao.Localizacao.CodigoPostal = habitacaoDto.CodigoPostal;
+        if (habitacao.DetalhesHabitacao.Localizacao.Cidade != habitacaoDto.Cidade)
+            habitacao.DetalhesHabitacao.Localizacao.Cidade = habitacaoDto.Cidade;
+        if (habitacao.DetalhesHabitacao.Localizacao.Pais != habitacaoDto.Pais)
+            habitacao.DetalhesHabitacao.Localizacao.Pais = habitacaoDto.Pais;
+        if (habitacao.DetalhesHabitacao.PrecoPorNoite != habitacaoDto.PrecoPorNoite)
+            habitacao.DetalhesHabitacao.PrecoPorNoite = habitacaoDto.PrecoPorNoite;
+
         try
         {
-            _context.Update(habitacaoDto);
+            _context.Update(habitacao);
             await _context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
