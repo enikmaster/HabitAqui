@@ -32,7 +32,7 @@ public class Program
         builder.Services.AddScoped<LocadorService>();
         builder.Services.AddScoped<HabitacaoService>();
         builder.Services.AddScoped<CategoriaService>();
-        builder.Services.AddScoped<ReservaService>();
+        builder.Services.AddScoped<ReservasService>();
 
         builder.Services.AddControllersWithViews();
         builder.Services.Configure<IdentityOptions>(options =>
@@ -64,6 +64,7 @@ public class Program
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<DetalhesUtilizador>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
+
                 await Startup.CriaDadosIniciais(userManager, roleManager, dbContext);
 
                 // ==== Database seeding ====
@@ -71,6 +72,7 @@ public class Program
                 // call the seeders
                 LandlordSeeder.InitializeAsync(scope.ServiceProvider).Wait();
                 HousingSeeder.InitializeAsync(scope.ServiceProvider).Wait();
+                ReservaSeeder.InitializeAsync(scope.ServiceProvider).Wait();
                 // ==== END OF THE DATA SEEDING ====
 
             }

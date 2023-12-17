@@ -5,11 +5,11 @@ namespace HabitAqui.Data.Mocks;
 
 public static class HousingMock
 {
-    public static List<Habitacao> GenerateOneHabitacaoMock(string locadorId)
+    public static List<Habitacao> GenerateOneHabitacaoMock(List<Locador> locadores)
     {
         List<Habitacao> habitacoes = new List<Habitacao>();
         
-
+       
         // Sample data arrays for variability
         string[] descriptions = {
         "Confortável apartamento com vista para o mar", "Moderno estúdio no centro da cidade",
@@ -43,15 +43,16 @@ public static class HousingMock
 
         decimal[] pricesPerNight = { 45.0m, 55.0m, 65.0m, 75.0m, 90.0m, 110.0m, 130.0m, 150.0m, 170.0m, 190.0m, 210.0m, 230.0m };
 
-
+        int aux = 0;
 
         for (int h = 0; h < 12; h++) // 12 Habitacao objects
         {
+            if(aux == 3) { aux = 0; }
             // Create new Habitacao with varied properties
             var habitacao = new Habitacao
             {
                 
-            LocadorId = locadorId,
+            LocadorId = locadores[aux++].Id,
                 DetalhesHabitacao = new DetalhesHabitacao
                 {
                     Area = areas[h], // Random area between 0 and 500
@@ -97,14 +98,4 @@ public static class HousingMock
         };
     }
 
-
-    public static Categoria generateCategoriaHabitacao()
-    {
-        return new Categoria
-        {
-            Active = true,
-            Nome = "Categoria1",
-            Categorias = null
-        };
-    }
 }

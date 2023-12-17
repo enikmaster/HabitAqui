@@ -263,52 +263,52 @@ public class HabitacaoController : Controller
     }
 
     // GET: Habitacao/Edit/5
-    public async Task<IActionResult> Edit(int? id)
-    {
-        var editarHabitacaoDto = new EditarHabitacaoDto();
-        if (id == null || _context.Habitacoes == null) return NotFound();
-        var habitacao = await _habitacaoService.GetHabitacao(id);
-        if (habitacao == null) return NotFound();
-        editarHabitacaoDto.Id = habitacao.Id;
-        editarHabitacaoDto.Nome = habitacao.DetalhesHabitacao.Nome;
-        editarHabitacaoDto.Descricao = habitacao.DetalhesHabitacao.Descricao;
-        editarHabitacaoDto.PrecoPorNoite = habitacao.DetalhesHabitacao.PrecoPorNoite;
-        editarHabitacaoDto.Area = habitacao.DetalhesHabitacao.Area;
-        editarHabitacaoDto.Morada = habitacao.DetalhesHabitacao.Localizacao.Morada;
-        editarHabitacaoDto.CodigoPostal = habitacao.DetalhesHabitacao.Localizacao.CodigoPostal;
-        editarHabitacaoDto.Cidade = habitacao.DetalhesHabitacao.Localizacao.Cidade;
-        editarHabitacaoDto.Pais = habitacao.DetalhesHabitacao.Localizacao.Pais;
-        editarHabitacaoDto.Imagens = habitacao.Imagens.Select(p => p.Path).ToList();
-        editarHabitacaoDto.ImagensId = habitacao.Imagens.Select(i => i.Id).ToList();
-        editarHabitacaoDto.CategoriasId = habitacao.Categorias.Select(c => c.CategoriaId).ToList();
+    //public async Task<IActionResult> Edit(int? id)
+    //{
+    //    var editarHabitacaoDto = new EditarHabitacaoDto();
+    //    if (id == null || _context.Habitacoes == null) return NotFound();
+    //    var habitacao = await _habitacaoService.GetHabitacao(id);
+    //    if (habitacao == null) return NotFound();
+    //    editarHabitacaoDto.Id = habitacao.Id;
+    //    editarHabitacaoDto.Nome = habitacao.DetalhesHabitacao.Nome;
+    //    editarHabitacaoDto.Descricao = habitacao.DetalhesHabitacao.Descricao;
+    //    editarHabitacaoDto.PrecoPorNoite = habitacao.DetalhesHabitacao.PrecoPorNoite;
+    //    editarHabitacaoDto.Area = habitacao.DetalhesHabitacao.Area;
+    //    editarHabitacaoDto.Morada = habitacao.DetalhesHabitacao.Localizacao.Morada;
+    //    editarHabitacaoDto.CodigoPostal = habitacao.DetalhesHabitacao.Localizacao.CodigoPostal;
+    //    editarHabitacaoDto.Cidade = habitacao.DetalhesHabitacao.Localizacao.Cidade;
+    //    editarHabitacaoDto.Pais = habitacao.DetalhesHabitacao.Localizacao.Pais;
+    //    editarHabitacaoDto.Imagens = habitacao.Imagens.Select(p => p.Path).ToList();
+    //    editarHabitacaoDto.ImagensId = habitacao.Imagens.Select(i => i.Id).ToList();
+    //    editarHabitacaoDto.CategoriasId = habitacao.Categorias.Select(c => c.CategoriaId).ToList();
 
-        var categorias = await _categoriaService.GetAllActive();
-        ViewBag.Categorias = (categorias.Any() ? categorias : null)!;
-        return View(editarHabitacaoDto);
-    }
+    //    var categorias = await _categoriaService.GetAllActive();
+    //    ViewBag.Categorias = (categorias.Any() ? categorias : null)!;
+    //    return View(editarHabitacaoDto);
+    //}
 
     // POST: Habitacao/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id")] EditarHabitacaoDto habitacaoDto)
-    {
-        if (id != habitacaoDto.Id) return NotFound();
+    //public async Task<IActionResult> Edit(int id, [Bind("Id")] EditarHabitacaoDto habitacaoDto)
+    //{
+    //    if (id != habitacaoDto.Id) return NotFound();
 
-        if (!ModelState.IsValid) return View(habitacaoDto);
-        try
-        {
-            _context.Update(habitacaoDto);
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if ((_context.Habitacoes?.Any(e => e.Id == habitacaoDto.Id)).GetValueOrDefault())
-                return NotFound();
-            throw;
-        }
+    //    if (!ModelState.IsValid) return View(habitacaoDto);
+    //    try
+    //    {
+    //        _context.Update(habitacaoDto);
+    //        await _context.SaveChangesAsync();
+    //    }
+    //    catch (DbUpdateConcurrencyException)
+    //    {
+    //        if ((_context.Habitacoes?.Any(e => e.Id == habitacaoDto.Id)).GetValueOrDefault())
+    //            return NotFound();
+    //        throw;
+    //    }
 
-        return RedirectToAction(nameof(Index));
-    }
+    //    return RedirectToAction(nameof(Index));
+    //}
 
     // GET: Habitacao/Delete/5
     public async Task<IActionResult> Delete(int? id)
