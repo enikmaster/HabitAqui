@@ -130,11 +130,15 @@ else
 {
     <p>@DateTime.Today.AddDays(1).ToString("dd/MM/yyyy")</p>
 }
+@if (User.Identity.IsAuthenticated && User.IsInRole(Roles.Cliente.ToString()))
+{
+    <div class="reserva-container mb-5">
+        <h2>Reserva</h2>
+        @Html.Partial("_ReservaForm", new ReservaDto { HabitacaoId = Model.Id })
+    </div>
+}
 
-<div class="reserva-container mb-5">
-    <h2>Reserva</h2>
-    @Html.Partial("_ReservaForm", new ReservaDto { HabitacaoId = Model.Id })
-</div>
+
 
 <div class="avaliacoes-container mb-5">
     <h2>Avaliações</h2>
