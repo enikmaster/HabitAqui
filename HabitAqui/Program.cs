@@ -26,6 +26,7 @@ public class Program
         builder.Services.AddScoped<HabitacaoService>();
         builder.Services.AddScoped<CategoriaService>();
         builder.Services.AddScoped<ReservasService>();
+        builder.Services.AddScoped<ImagemService>();
 
         builder.Services.AddControllersWithViews();
         builder.Services.Configure<IdentityOptions>(options =>
