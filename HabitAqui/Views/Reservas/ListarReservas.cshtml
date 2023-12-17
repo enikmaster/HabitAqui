@@ -27,7 +27,7 @@
             <td>@reserva.Habitacao.DetalhesHabitacao.Nome</td>
             <td>@reserva.DataInicio</td>
             <td>@reserva.DataFim</td>
-            <td>@reserva.RegistoEntregas</td>
+            <td>@reserva.RegistoEntregas.FirstOrDefault().DataEntrega</td>
         </tr>
     }
     </tbody>

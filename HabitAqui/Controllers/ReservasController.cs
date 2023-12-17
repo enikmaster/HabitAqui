@@ -14,10 +14,10 @@ public class ReservasController : Controller
     private readonly ApplicationDbContext _context;
     private readonly UserManager<DetalhesUtilizador> _userManager;
 
-    public ReservasController(ApplicationDbContext context, UserManager<DetalhesUtilizador> _userManager)
+    public ReservasController(ApplicationDbContext context, UserManager<DetalhesUtilizador> userManager)
     {
         _context = context;
-        _userManager = _userManager;
+        _userManager = userManager;
     }
 
     public async Task<IActionResult> Arrendamentos()

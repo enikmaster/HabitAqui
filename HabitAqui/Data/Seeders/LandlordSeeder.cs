@@ -13,14 +13,10 @@ public static class LandlordSeeder
         try
         {
             // Ensure the roles exist
-            string[] roles = new string[] { "Gestor", "Administrador" };
+            string[] roles = { "Gestor", "Administrador", "Cliente" };
             foreach (var roleName in roles)
-            {
                 if (!await roleManager.RoleExistsAsync(roleName))
-                {
                     await roleManager.CreateAsync(new IdentityRole(roleName));
-                }
-            }
 
             // Step 1: Create GestorPrincipal users
             var gestores = LandlordMock.GenerateGestorPrincipalMocks();
@@ -31,18 +27,16 @@ public static class LandlordSeeder
                 {
                     var result = await userManager.CreateAsync(gestor, password);
                     if (result.Succeeded)
-                    {
                         await userManager.AddToRoleAsync(gestor, "Gestor");
-                    }
                     else
-                    {
                         // Log errors and handle user creation failure
                         continue;
-                    }
                 }
             }
+
             // Step 1.5: Create Funcionario users
             var funcionarios = LandlordMock.GenerateFuncionarioMocks();
+            var auxCliente = 0;
             foreach (var funcionario in funcionarios)
             {
                 var user = await userManager.FindByEmailAsync(funcionario.Email);
@@ -51,39 +45,25 @@ public static class LandlordSeeder
                     var result = await userManager.CreateAsync(funcionario, password);
                     if (result.Succeeded)
                     {
-                        await userManager.AddToRoleAsync(funcionario, "Funcionario");
+                        if (auxCliente > 2)
+                            await userManager.AddToRoleAsync(funcionario, "Cliente");
+                        else await userManager.AddToRoleAsync(funcionario, "Funcionario");
+                        auxCliente++;
                     }
-                    else
-                    {
-                        // Log errors and handle user creation failure
-                        continue;
-                    }
+                    // Log errors and handle user creation failure
                 }
             }
 
             // Step 2: Create Locador instances and associate them with gestores
-            var landlords = LandlordMock.GenerateLandlordMocks(gestores,funcionarios);
+            var landlords = LandlordMock.GenerateLandlordMocks(gestores, funcionarios);
             foreach (var landlord in landlords)
             {
-                var aux = 0;
                 var user = await userManager.FindByEmailAsync(landlord.Email);
                 if (user == null)
                 {
                     var result = await userManager.CreateAsync(landlord, password);
-                    if (result.Succeeded)
-                    {
-                        // If landlords have a specific role, assign it here
-                        if(aux > 2)
-                        {
-                            await userManager.AddToRoleAsync(landlord, "Cliente");
-                        }
-                        else await userManager.AddToRoleAsync(landlord, "Gestor");
-                        aux++;
-                    }
-                    else
-                    {
-                        // Log errors and handle landlord creation failure
-                    }
+                    if (result.Succeeded) await userManager.AddToRoleAsync(landlord, "Gestor");
+                    // Log errors and handle landlord creation failure
                 }
             }
         }
