@@ -53,8 +53,7 @@ public class HabitacaoController : Controller
         // If the user is not in a specific role, filter the active Habitacoes
         if (User.IsInRole(Roles.Funcionario.ToString()) || User.IsInRole(Roles.Gestor.ToString()))
         {
-            var userId = _userManager.GetUserId(User);
-            var locador = await _locadorService.GetLocadorGestor(userId);
+            var locador = await _locadorService.GetLocadorGestor(_userManager.GetUserId(User));
             query = await _habitacaoService.GetAllHabitacoesLocador(locador.Id);
         }
         else
