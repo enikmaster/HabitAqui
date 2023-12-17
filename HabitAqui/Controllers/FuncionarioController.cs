@@ -70,7 +70,7 @@ public class FuncionarioController : Controller
     {
         
 
-        var locador = await _locadorService.GetLocador(_userManager.GetUserId(User));
+        var locador = await _locadorService.GetLocadorGestor(_userManager.GetUserId(User));
 
         if (locador == null) return NotFound();
 
@@ -82,6 +82,7 @@ public class FuncionarioController : Controller
         user.Nif = detalhesUtilizador.Nif;
         user.PhoneNumber = detalhesUtilizador.PhoneNumber;
         user.Localizacao = detalhesUtilizador.Localizacao;
+        user.Active = true;
 
 
         var createUserResult = await _userManager.CreateAsync(user, "Test123!");
@@ -134,7 +135,7 @@ public class FuncionarioController : Controller
     [HttpPost]
         public async Task<IActionResult> AdicionarGestor(DetalhesUtilizador detalhesUtilizador)
         {
-            var locador = await _locadorService.GetLocador(_userManager.GetUserId(User));
+            var locador = await _locadorService.GetLocadorGestor(_userManager.GetUserId(User));
 
             if(locador == null) return NotFound();
 
@@ -146,9 +147,10 @@ public class FuncionarioController : Controller
             user.Nif = detalhesUtilizador.Nif;
             user.PhoneNumber = detalhesUtilizador.PhoneNumber;
             user.Localizacao = detalhesUtilizador.Localizacao;
-            
+            user.Active = true;
 
-            var createUserResult = await _userManager.CreateAsync(user, "Test123!");
+
+        var createUserResult = await _userManager.CreateAsync(user, "Test123!");
 
 
             if (createUserResult.Succeeded)
@@ -180,7 +182,7 @@ public class FuncionarioController : Controller
 
     public async Task<IActionResult> ListarFuncionariosAsync()
     {
-        var locador = await _locadorService.GetLocador(_userManager.GetUserId(User));
+        var locador = await _locadorService.GetLocadorGestor(_userManager.GetUserId(User));
         if (locador == null)
         {
             return NotFound();
@@ -201,7 +203,7 @@ public class FuncionarioController : Controller
 
     public async Task<IActionResult> ListarGestoresAsync()
     {
-        var locador = await _locadorService.GetLocador(_userManager.GetUserId(User));
+        var locador = await _locadorService.GetLocadorGestor(_userManager.GetUserId(User));
         if (locador == null)
         {
             return NotFound();
