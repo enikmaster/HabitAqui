@@ -16,7 +16,11 @@
             <th>Data início</th>
             <th>Data fim</th>
             <th>Registo Entrega</th>
-            <th>Entrega</th>
+            @if (!User.IsInRole("Cliente"))
+            {
+                <th>Entrega</th>
+
+            }
             
             
         </tr>
@@ -37,9 +41,10 @@
                         <br />
                     }
                 </td>
+                @if (!User.IsInRole("Cliente"))
+                {
                 <td>
-                    @if (!User.IsInRole("Cliente"))
-                    {
+                   
                         if (@reserva.Estado == EstadoReserva.Aceite)
                         {
                             <a class="btn btn-sm btn-success" asp-controller="Reservas" asp-action="FuncEntregaReserva" asp-route-id="@reserva.Id">Entrega</a>
@@ -48,9 +53,9 @@
                         {
                             <a class="btn btn-sm btn-warning" asp-controller="Reservas" asp-action="FuncEntregaReserva" asp-route-id="@reserva.Id">Entrega</a>
                         }
-                    }
+                    
                 </td>
-           
+                }
                 
 
             </tr>
