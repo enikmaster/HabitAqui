@@ -239,7 +239,7 @@ public class ReservasController : Controller
                 _context.Reservas.Add(novaReserva);
                 await _context.SaveChangesAsync();
 
-                return View("Index");
+                return RedirectToAction("Index", "Habitacao");
             }
         }
         else
@@ -309,7 +309,7 @@ public class ReservasController : Controller
         _context.SaveChanges();
 
 
-        return RedirectToAction("Index");
+        return RedirectToAction("Index", "Habitacao");
     }
 
 
