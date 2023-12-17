@@ -1,0 +1,25 @@
+﻿@model IEnumerable<DetalhesUtilizador>
+
+<link rel="stylesheet" href="~/css/custom-table.css"/>
+
+
+<h2>Funcionários</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var funcionario in Model)
+    {
+        <tr>
+            <td>@funcionario.Nome</td>
+            <td>@funcionario.Email</td>
+        </tr>
+    }
+    </tbody>
+</table>

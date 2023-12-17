@@ -4,7 +4,6 @@ using HabitAqui.Models;
 using HabitAqui.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 public class Program
 {
@@ -16,12 +15,6 @@ public class Program
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(connectionString));
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-        /*builder.Services.AddIdentity<DetalhesUtilizador, IdentityRole>(options =>
-            {
-                options.SignIn.RequireConfirmedAccount = true;
-                options.User.RequireUniqueEmail = true;
-            }).AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();*/
         builder.Services
             .AddDefaultIdentity<DetalhesUtilizador>(options =>
                 options.SignIn.RequireConfirmedAccount =
@@ -43,14 +36,6 @@ public class Program
             options.Password.RequireUppercase = true;
             options.Password.RequiredLength = 8;
             options.Password.RequiredUniqueChars = 1;
-            /*// Lockout settings.
-            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-            options.Lockout.MaxFailedAccessAttempts = 5;
-            options.Lockout.AllowedForNewUsers = true;
-            // User settings.
-            options.User.AllowedUserNameCharacters =
-                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-            options.User.RequireUniqueEmail = true;*/
         });
         var app = builder.Build();
         using (var scope = app.Services.CreateScope())
@@ -74,7 +59,6 @@ public class Program
                 HousingSeeder.InitializeAsync(scope.ServiceProvider).Wait();
                 ReservaSeeder.InitializeAsync(scope.ServiceProvider).Wait();
                 // ==== END OF THE DATA SEEDING ====
-
             }
             catch (Exception e)
             {
