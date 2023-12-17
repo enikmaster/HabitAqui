@@ -46,7 +46,10 @@
             <tbody>
             @foreach (var habitacao in Model)
             {
-                <tr>
+
+                    <tr onclick="window.location='@Url.Action("Detalhes", new { id = habitacao.Id })';" style="cursor:pointer;">
+
+                       
                     <td>
                         <img src="/imgs/habitacoes/@habitacao.Id/@habitacao.Imagens!.First().Path" alt="Imagem da Habitação" class="img-fluid" style="max-width: 100px;">
                     </td>
@@ -63,7 +66,9 @@
                             Ver mais
                         </a>
                     </td>
+                        
                 </tr>
+                
             }
             </tbody>
             <tfoot>
