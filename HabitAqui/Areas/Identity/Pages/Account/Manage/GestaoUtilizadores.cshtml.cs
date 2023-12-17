@@ -41,6 +41,7 @@ namespace HabitAqui.Areas.Identity.Pages.Account.Manage
             CurrentPage = pageNumber ?? 1;
 
             IQueryable<DetalhesUtilizador> usersQuery = UserManager.Users;
+
             switch (sortOrder)
             {
                 case "username_desc":

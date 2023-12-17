@@ -31,7 +31,7 @@ namespace HabitAqui.Data.Mocks
             },
             new DetalhesUtilizador
             {
-                UserName = "eraGesotrPrincipal@isec.pt",
+                UserName = "gestorPrincipal_era@isec.pt",
                 Email = "gestorPrincipal_era@isec.pt",
                 Nome = "Joao",
                 Apelido = "Marques",

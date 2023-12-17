@@ -47,7 +47,7 @@ public static class HousingMock
 
         for (int h = 0; h < 12; h++) // 12 Habitacao objects
         {
-            if(aux == 3) { aux = 0; }
+            if(aux == 2) { aux = 0; }
             // Create new Habitacao with varied properties
             var habitacao = new Habitacao
             {
