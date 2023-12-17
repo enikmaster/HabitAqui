@@ -151,7 +151,7 @@ public class ReservasController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult ConfirmarReserva(ReservaGeraldto reservaDto) // TODO: verificar a confirmação da reserva
+    public IActionResult ConfirmarReserva(ReservaGeraldto reservaDto)
     {
         if (ModelState.IsValid)
         {

@@ -35,8 +35,6 @@ public class HabitacaoController : Controller
         _userManager = userManager;
         _webHostEnvironment = webHostEnvironment;
     }
-    // TODO: Update/Edit
-    // TODO: Delete
 
     // GET: Habitacao
     public async Task<IActionResult> Index(int page = 1, int pageSize = 10)
@@ -408,7 +406,7 @@ public class HabitacaoController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize] // TODO: ESPECIFICAR A ROLE CLIENTE <-  Roles="Cliente"
+    [Authorize]
     public async Task<IActionResult> Avaliar(int id, AvaliacaoDto avaliacaoDto)
     {
         if (ModelState.IsValid)
@@ -419,7 +417,6 @@ public class HabitacaoController : Controller
             var habitacao = await _habitacaoService.GetHabitacao(avaliacaoDto.HabitacaoId);
             if (habitacao == null) return BadRequest();
 
-            // TODO: verificar se  ->>>> o lease dele já tem avaliação ? então bad request
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null) return BadRequest();
             var novaAvalicaoObj = new Avaliacao
@@ -442,7 +439,7 @@ public class HabitacaoController : Controller
             foreach (var erro in erros) Console.WriteLine(erro.ErrorMessage); // Logar os erros
         }
 
-        //return View("Avaliacao", avaliacao); TODO: verificar esta situação
+        //return View("Avaliacao", avaliacao);
         return View("Avaliacao");
     }
 
@@ -469,7 +466,7 @@ public class HabitacaoController : Controller
         var minhasAvaliacoes = await _context.Avaliacoes
             .Include(a => a.Habitacao)
             .ThenInclude(h => h.DetalhesHabitacao)
-            .Where(a => a.Cliente.Id == userId) // Altere de a.Cliente para a.Cliente.Id
+            .Where(a => a.Cliente.Id == userId)
             .ToListAsync();
         return View(minhasAvaliacoes);
     }
