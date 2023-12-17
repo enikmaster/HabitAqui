@@ -54,13 +54,86 @@ public class FuncionarioController : Controller
         return View("FormAdicionarGestor");
     }
 
-        [HttpPost]
+    //GET 
+    public IActionResult AdicionarFuncionario()
+    {
+
+
+
+
+        return View("FormAdicionarFuncionario");
+    }
+
+
+    [HttpPost]
+    public async Task<IActionResult> AdicionarFuncionario(DetalhesUtilizador detalhesUtilizador)
+    {
+        
+
+        var locador = await _locadorService.GetLocador(_userManager.GetUserId(User));
+
+        if (locador == null) return NotFound();
+
+        var user = new DetalhesUtilizador { UserName = detalhesUtilizador.Email, Email = detalhesUtilizador.Email };
+
+        user.Nome = detalhesUtilizador.Nome;
+        user.Apelido = detalhesUtilizador.Apelido;
+        user.Email = detalhesUtilizador.Email;
+        user.Nif = detalhesUtilizador.Nif;
+        user.PhoneNumber = detalhesUtilizador.PhoneNumber;
+        user.Localizacao = detalhesUtilizador.Localizacao;
+
+
+        var createUserResult = await _userManager.CreateAsync(user, "Test123!");
+
+
+        if (createUserResult.Succeeded)
+        {
+            if (!await _roleManager.RoleExistsAsync("Funcionario"))
+            {
+                return NotFound();
+            }
+            await _userManager.AddToRoleAsync(user, "Funcionario");
+
+            //_context.DetalhesUtilizadores.Add(detalhesUtilizador);
+
+            locador.Administradores.Add(user);
+            await _context.SaveChangesAsync();
+
+
+
+
+          
+
+            var funcionarios = new List<DetalhesUtilizador>();
+
+            foreach (var admin in locador.Administradores)
+            {
+                if (await _userManager.IsInRoleAsync(admin, "Funcionario")) //funcionarios não existem aqui, testei com Gestor e funciona
+                {
+                    funcionarios.Add(admin);
+                }
+            }
+
+            return View("ListarFuncionarios", funcionarios);
+        }
+        else
+        {
+            // Adicione os erros do Identity ao ModelState para mostrar na view
+            foreach (var error in createUserResult.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+        }
+
+        return View("FormAdicionarFuncionario", detalhesUtilizador);
+    }
+
+
+
+    [HttpPost]
         public async Task<IActionResult> AdicionarGestor(DetalhesUtilizador detalhesUtilizador)
         {
-            //Enquanto Gestor pretendo criar um novo utilizador com a role Gestor.
-            //  Este novo Gestor fica automaticamente associado 
-            //ao Locador que está associado ao gestor que o está a criar.
-
             var locador = await _locadorService.GetLocador(_userManager.GetUserId(User));
 
             if(locador == null) return NotFound();
@@ -86,24 +159,20 @@ public class FuncionarioController : Controller
                 }
                 await _userManager.AddToRoleAsync(user, "Gestor");
 
-            //_context.DetalhesUtilizadores.Add(detalhesUtilizador);
 
             locador.Administradores.Add(user);
             await _context.SaveChangesAsync();
 
-            // Redireciona para a página de sucesso ou lista de gestores
-            return View("FormAdicionarGestor"); // Ou outra view conforme necessário
+            return View("Index"); 
         }
         else
         {
-            // Adicione os erros do Identity ao ModelState para mostrar na view
             foreach (var error in createUserResult.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
         }
 
-        // Se algo falhar, retorne à view com os dados que o usuário preencheu para que possam ser corrigidos
         return View("FormAdicionarGestor", detalhesUtilizador);
     }
 
@@ -121,7 +190,7 @@ public class FuncionarioController : Controller
 
         foreach (var admin in locador.Administradores)
         {
-            if (await _userManager.IsInRoleAsync(admin, "Gestor")) //funcionarios não existem aqui, testei com Gestor e funciona
+                if (await _userManager.IsInRoleAsync(admin, "Funcionario"))
             {
                 funcionarios.Add(admin);
             }
@@ -130,29 +199,26 @@ public class FuncionarioController : Controller
         return View("ListarFuncionarios", funcionarios);
     }
 
+    public async Task<IActionResult> ListarGestoresAsync()
+    {
+        var locador = await _locadorService.GetLocador(_userManager.GetUserId(User));
+        if (locador == null)
+        {
+            return NotFound();
+        }
 
+        var funcionarios = new List<DetalhesUtilizador>();
 
-    //public IActionResult CriarGestor
+        foreach (var admin in locador.Administradores)
+        {
+            if (await _userManager.IsInRoleAsync(admin, "Gestor")) 
+            {
+                funcionarios.Add(admin);
+            }
+        }
 
-    //[HttpPost]
-    //public async Task<IActionResult> AdicionarGestor2(DetalhesUtilizador detalhesUtilizador)
-    //{
-    //    var user = new IdentityUser { UserName = detalhesUtilizador.Email, Email = detalhesUtilizador.Email };
-    //    var result = await _userManager.CreateAsync(user, "Test123!");
-
-
-    //    var roleExists = await _roleManager.RoleExistsAsync("Gestor");
-    //    var roleResult = await _userManager.AddToRoleAsync(user, "Gestor");
-
-
-
-    //    _context.DetalhesUtilizadores.Add(detalhesUtilizador);
-    //    await _context.SaveChangesAsync();
-
-
-    //    return View("Index");
-
-    //}
+        return View("ListarGestores", funcionarios);
+    }
 }
 
 

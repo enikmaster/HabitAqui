@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-// Adicione o using para Task
-
 namespace HabitAqui.Controllers;
 
 [Route("Admin")]
@@ -15,27 +13,6 @@ public class AdminController : Controller
     {
         _userManager = userManager;
     }
-
-    /*public IActionResult Index()
-    {
-        return View();
-    }*/
-
-
-    // TODO: Joka, verificar isto com urgência
-    /*public IActionResult ListaUtilizadores()
-    {
-        var utilizadores = _userManager.Users.Select(u => new DetalhesUtilizador
-        {
-            Id = u.Id,
-            UserName = u.UserName,
-            Email = u.Email,
-            PhoneNumber = u.PhoneNumber,
-            Active = u.Active
-        }).ToList();
-
-        return View(utilizadores);
-    }*/
 
     [HttpPost]
     [ValidateAntiForgeryToken]

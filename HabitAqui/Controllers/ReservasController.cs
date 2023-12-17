@@ -177,7 +177,6 @@ public class ReservasController : Controller
             return View("ConfirmarReserva", confirmacaoViewModel);
         }
 
-        // Se o modelo não for válido, retorne à página de reserva
         return View("EfetuarReserva", reservaDto);
     }
 
@@ -220,16 +219,13 @@ public class ReservasController : Controller
 
                 var numeroNoites = (int)(novaReserva.DataFim - novaReserva.DataInicio).TotalDays;
 
-                // Agora você pode adicionar a nova reserva ao contexto e salvar as alterações
                 _context.Reservas.Add(novaReserva);
                 await _context.SaveChangesAsync();
 
-                // Redirecione para a página de sucesso ou outra página desejada
                 return View("Index");
             }
         }
         else return NotFound();
-        // Se houver erros de validação, retorne para a página de confirmação com os erros
         return View(reservaDto);
     }
 }
