@@ -63,6 +63,7 @@ public static class LandlordSeeder
                 {
                     var result = await userManager.CreateAsync(landlord, password);
                     if (result.Succeeded) await userManager.AddToRoleAsync(landlord, "Gestor");
+                    landlord.Id = landlord.Id;
                     // Log errors and handle landlord creation failure
                 }
             }

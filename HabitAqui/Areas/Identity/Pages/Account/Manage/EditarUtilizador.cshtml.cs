@@ -47,6 +47,8 @@ namespace HabitAqui.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
+
+
             var user = await _userManager.FindByIdAsync(DetalhesUtilizador.Id);
 
             if (user == null)

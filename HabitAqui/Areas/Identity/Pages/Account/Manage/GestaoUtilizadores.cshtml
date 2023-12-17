@@ -9,9 +9,22 @@
     var users = Model.Users;
 }
 
+
 <link rel="stylesheet" href="~/css/custom-table.css"/>
 <h2>@ViewData["Title"]</h2>
+@if (TempData["WarningMessage"] is string warningMessage && !string.IsNullOrEmpty(warningMessage))
+{
+    <div class="alert alert-warning" role="alert">
+        @warningMessage
+    </div>
+}
 
+@if (TempData["ErrorMessage"] is string errorMessage && !string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @errorMessage
+    </div>
+}
 <table class="table table-hover">
     <thead>
     <tr>
@@ -54,21 +67,28 @@
                 <a class="btn btn-primary btn-sm" asp-page="./EditarUtilizador" asp-route-userId="@user.Id">
                     <i class="fa-solid fa-pen"></i>
                 </a>
-                <form style="display: inline-block;" method="post" asp-controller="Admin" asp-action="ToggleUserStatus" asp-route-id="@user.Id">
+                
+                   @if (user.Roles.FirstOrDefault().ToString().ToLower() != "administrador")
+                    {
+                    <form style="display: inline-block;" method="post" asp-controller="Admin" asp-action="ToggleUserStatus" asp-route-id="@user.Id">
+                   
+                            @if (user.Active)
+                            {
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <i class="fa fa-times"></i> Desativar
+                                </button>
 
-                    @if (user.Active)
-                    {
-                        <button type="submit" class="btn btn-sm btn-danger">
-                            <i class="fa fa-times"></i> Desativar
-                        </button>
-                    }
-                    else
-                    {
-                        <button type="submit" class="btn btn-sm btn-success">
-                            <i class="fa fa-check"></i> Ativar
-                        </button>
-                    }
-                </form>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-sm btn-success">
+                                    <i class="fa fa-check"></i> Ativar
+                                </button>
+                            }
+                   
+                    </form>
+                }
+         
             </td>
         </tr>
     }

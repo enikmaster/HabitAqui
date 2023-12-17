@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using HabitAqui.Models;
+using HabitAqui.Data;
 
 namespace HabitAqui.Areas.Identity.Pages.Account
 {
@@ -22,11 +23,13 @@ namespace HabitAqui.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<DetalhesUtilizador> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public LoginModel(SignInManager<DetalhesUtilizador> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<DetalhesUtilizador> signInManager, ILogger<LoginModel> logger, ApplicationDbContext context)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _context = context;
         }
 
         /// <summary>
@@ -108,8 +111,16 @@ namespace HabitAqui.Areas.Identity.Pages.Account
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
+
+
             if (ModelState.IsValid)
             {
+               var utilizador = _context.DetalhesUtilizadores.Where(u => u.Email == Input.Email).FirstOrDefault();
+                if (!utilizador.Active)
+                {
+                    ModelState.AddModelError(string.Empty, "Esta conta foi desativada pelo administrador.\nContacte o mesmo.");
+                    return Page();
+                }
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);

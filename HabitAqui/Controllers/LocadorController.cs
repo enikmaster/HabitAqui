@@ -2,16 +2,21 @@
 using HabitAqui.Models;
 using HabitAqui.Services;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.EntityFrameworkCore;
+using HabitAqui.Data;
 namespace HabitAqui.Controllers;
 
 public class LocadorController : Controller
 {
     private readonly LocadorService _locadorService;
+    
+    private readonly ApplicationDbContext _context;
 
-    public LocadorController(LocadorService locadorService)
+    public LocadorController(LocadorService locadorService, ApplicationDbContext context)
     {
         _locadorService = locadorService;
+        _context = context;
+
     }
 
     /*public IActionResult Create()
@@ -71,10 +76,44 @@ public class LocadorController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> SoftDelete(string Id)
+    public async Task<IActionResult> Delete(string Id, string value)
     {
         if (!string.IsNullOrEmpty(Id))
-            await _locadorService.DeleteLocador(Id);
+        {
+            var locador = await _locadorService.GetLocador(Id);
+
+            if (locador == null)
+            {
+                // Handle the case where the locador does not exist
+                // For example, return a not found result or set an error message
+                return NotFound();
+            }
+
+            if (locador.Habitacoes != null && locador.Habitacoes.Any())
+            {
+                TempData["ErrorMessage"] = "Não é possível apagar o Locador porque está associado a uma ou mais habitações.";
+                return View(locador);
+            }
+
+            // Delete Administradores associated with the Locador
+            if (locador.Administradores != null)
+            {
+                foreach (var administrador in locador.Administradores)
+                {
+                    administrador.Active = false; // Set the Active property to false
+                    await _context.SaveChangesAsync();
+                }
+                locador.Active = false;
+                locador.EstadoDaSubscricao = "Desativo";
+                _locadorService.UpdateLocador(locador);
+
+            }
+
+            
+            
+        }
+
         return Redirect("/Identity/Account/Manage/GestaoLocadores");
     }
+
 }
