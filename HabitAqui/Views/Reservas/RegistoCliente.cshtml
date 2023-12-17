@@ -36,22 +36,23 @@
                 <td>@reserva.DataFim</td>
                 <td>
                     @foreach (var registo in reserva.RegistoEntregas)
-                    {
+                    {   
                         @registo.TipoTransacao
                         <br />
                     }
                 </td>
+                
                 @if (!User.IsInRole("Cliente"))
                 {
-                <td>
+                    <td>
                    
-                        if (@reserva.Estado == EstadoReserva.Aceite)
+                        @if (@reserva.Estado == EstadoReserva.Aceite)
                         {
-                            <a class="btn btn-sm btn-success" asp-controller="Reservas" asp-action="FuncEntregaReserva" asp-route-id="@reserva.Id">Entrega</a>
+                            <a class="btn btn-sm btn-success" asp-controller="Reservas" asp-action="FuncEntregaReserva" asp-route-id="@reserva.Id">Entregar</a>
                         }
                         else if (reserva.Estado == EstadoReserva.Pendente)
                         {
-                            <a class="btn btn-sm btn-warning" asp-controller="Reservas" asp-action="FuncEntregaReserva" asp-route-id="@reserva.Id">Entrega</a>
+                            <a class="btn btn-sm btn-warning" asp-controller="Reservas" asp-action="FuncEntregaReserva" asp-route-id="@reserva.Id">Entregar</a>
                         }
                     
                 </td>

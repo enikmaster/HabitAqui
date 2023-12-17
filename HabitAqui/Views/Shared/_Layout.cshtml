@@ -48,7 +48,6 @@
                                 Gestão de Habitações
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Ver todos</a>
                                 <a class="dropdown-item" asp-controller="Habitacao" asp-action="Create">Adicionar Habitação</a>
 
                             </div>
@@ -60,13 +59,9 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" asp-area="" asp-controller="Reservas" asp-action="ListarReservasCliente">Reservas Ativas</a>
                                     <a class="dropdown-item" asp-area="" asp-controller="Reservas" asp-action="ListarCliente">Reservas </a>
-                                    <a class="dropdown-item" href="#">Cenas</a>
-                                <a class="dropdown-item" href="#">Outras cenas</a>
                             </div>
                         </li>
-                        @*<li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Reservas" asp-action="ListarReservas">Listar Reservas</a>
-                        </li>*@
+                       
                     }
                     @if (User.IsInRole(Roles.Cliente.ToString()))
                     {
