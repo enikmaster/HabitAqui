@@ -107,6 +107,9 @@ public class ReservasController : Controller
            .Where(r => r.Estado != EstadoReserva.Aceite && r.Estado != EstadoReserva.Pendente)
            .ToList();
 
+
+        ViewData["Title"] = "Reservas Terminadas";
+
         return View("RegistoCliente", reservasCliente);
 
     }
@@ -122,7 +125,7 @@ public class ReservasController : Controller
             .Where(r => r.Estado != EstadoReserva.Concluido)
             .ToList();
 
-
+        ViewData["Title"] = "Reservas Ativas/Pendentes";
         return View("RegistoCliente", reservasCliente);
     }
 
