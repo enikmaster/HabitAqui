@@ -134,10 +134,6 @@ public class FuncionarioController : Controller
     [HttpPost]
         public async Task<IActionResult> AdicionarGestor(DetalhesUtilizador detalhesUtilizador)
         {
-            //Enquanto Gestor pretendo criar um novo utilizador com a role Gestor.
-            //  Este novo Gestor fica automaticamente associado 
-            //ao Locador que está associado ao gestor que o está a criar.
-
             var locador = await _locadorService.GetLocador(_userManager.GetUserId(User));
 
             if(locador == null) return NotFound();
@@ -223,28 +219,6 @@ public class FuncionarioController : Controller
 
         return View("ListarGestores", funcionarios);
     }
-
-    //public IActionResult CriarGestor
-
-    //[HttpPost]
-    //public async Task<IActionResult> AdicionarGestor2(DetalhesUtilizador detalhesUtilizador)
-    //{
-    //    var user = new IdentityUser { UserName = detalhesUtilizador.Email, Email = detalhesUtilizador.Email };
-    //    var result = await _userManager.CreateAsync(user, "Test123!");
-
-
-    //    var roleExists = await _roleManager.RoleExistsAsync("Gestor");
-    //    var roleResult = await _userManager.AddToRoleAsync(user, "Gestor");
-
-
-
-    //    _context.DetalhesUtilizadores.Add(detalhesUtilizador);
-    //    await _context.SaveChangesAsync();
-
-
-    //    return View("Index");
-
-    //}
 }
 
 

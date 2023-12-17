@@ -73,10 +73,21 @@
                                 <p>@habitacao.DetalhesHabitacao.Localizacao?.Cidade, @habitacao.DetalhesHabitacao.Localizacao?.Pais</p>
 
                             </div>
+                            
                             <div>
-                                @* TODO: colocar aqui a data disponível *@
-                                <p>próxima data disponível</p>
+                                <p>
+                                    <strong>Próxima Data Disponível:</strong>
+                                    @if (ViewBag.ProximaDataDisponivel != null)
+                                    {
+                                    <p>@(((DateTime)ViewBag.ProximaDataDisponivel).ToString("dd/MM/yyyy"))</p>
+                                    }
+                                    else
+                                    {
+                                    <p>@DateTime.Today.AddDays(1).ToString("dd/MM/yyyy")</p>
+                                    }
+                                </p>
                             </div>
+
                             <div>
                                 <p>€ <strong>@habitacao.DetalhesHabitacao.PrecoPorNoite</strong> por noite</p>
                             </div>
