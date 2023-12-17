@@ -108,6 +108,30 @@ public class FuncionarioController : Controller
     }
 
 
+
+    public async Task<IActionResult> ListarFuncionariosAsync()
+    {
+        var locador = await _locadorService.GetLocador(_userManager.GetUserId(User));
+        if (locador == null)
+        {
+            return NotFound();
+        }
+
+        var funcionarios = new List<DetalhesUtilizador>();
+
+        foreach (var admin in locador.Administradores)
+        {
+            if (await _userManager.IsInRoleAsync(admin, "Gestor")) //funcionarios não existem aqui, testei com Gestor e funciona
+            {
+                funcionarios.Add(admin);
+            }
+        }
+
+        return View("ListarFuncionarios", funcionarios);
+    }
+
+
+
     //public IActionResult CriarGestor
 
     //[HttpPost]
