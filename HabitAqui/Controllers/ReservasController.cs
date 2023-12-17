@@ -81,7 +81,7 @@ public class ReservasController : Controller
     }
 
     // GET: Reservas/ListarReservasFuncionario
-    [Authorize(Roles = "Gestor")]
+    [Authorize(Roles = "Gestor, Funcionario")]
     public IActionResult ListarReservas()
     {
         var funcionarioId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -95,7 +95,7 @@ public class ReservasController : Controller
     }
 
     // GET: Reservas/ListarReservasFuncionario
-    [Authorize(Roles = "Gestor")]
+    [Authorize(Roles = "Gestor, Funcionario")]
     public IActionResult ListarCliente()
     {
         var funcionarioId = User.FindFirstValue(ClaimTypes.NameIdentifier);
