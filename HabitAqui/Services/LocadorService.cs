@@ -23,7 +23,7 @@ public class LocadorService
             .Include(l => l.Localizacao)
             .Include(h => h.Habitacoes)
             .Include(a => a.Administradores)
-            .FirstOrDefaultAsync(l => l.Administradores.Any(a => a.Id == id));
+            .FirstOrDefaultAsync(l => l.Id == id);
         return locador;
     }
 
