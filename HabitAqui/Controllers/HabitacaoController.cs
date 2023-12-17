@@ -427,17 +427,10 @@ public class HabitacaoController : Controller
 
     private bool VerificarCondicõesParaAvaliacao(Habitacao habitacao, DetalhesUtilizador utilizador)
     {
-        var utilizadorJaAvaliouHabitacao =
-            _context.Avaliacoes.Any(a => a.HabitacaoId == habitacao.Id && a.Cliente.Id == utilizador.Id);
+        var nAvaliacoesCliente = _context.Avaliacoes.Count(a => a.Cliente.Id == utilizador.Id);
+        var nReservasCliente = _context.Reservas.Count(r => r.Cliente.Id == utilizador.Id);
 
-        var teveArrendamentoAnterior =
-            habitacao.Reservas != null && habitacao.Reservas.Any(r =>
-                r.Cliente == utilizador &&
-                (r.Estado == EstadoReserva.Aceite || (r.RegistoEntregas != null &&
-                                                      r.RegistoEntregas.Any(re =>
-                                                          re.TipoTransacao == TipoTransacao.Devolucao))));
-
-        return !utilizadorJaAvaliouHabitacao && teveArrendamentoAnterior;
+        return nAvaliacoesCliente < nReservasCliente;
     }
 
     // GET: Habitacao/Avaliar/5
@@ -470,7 +463,7 @@ public class HabitacaoController : Controller
         if (ModelState.IsValid)
         {
             var reserva = _context.Reservas.FirstOrDefault(r => r.Id == id);
-            if (reserva == null || reserva.Estado != EstadoReserva.Aceite)
+            if (reserva == null || reserva.Estado != EstadoReserva.Concluido)
                 return BadRequest("A reserva não está disponivel para avaliação");
             var habitacao = await _habitacaoService.GetHabitacao(avaliacaoDto.HabitacaoId);
             if (habitacao == null) return BadRequest();

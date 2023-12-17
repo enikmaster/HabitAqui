@@ -36,13 +36,13 @@ public static class ReservaSeeder
                     await context.SaveChangesAsync();
                 }
 
-                var mockRegistoEntregas = ReservaMock.GenerateRegistoEntregaMocks(mockReservas);
+                //var mockRegistoEntregas = ReservaMock.GenerateRegistoEntregaMocks(mockReservas);
 
-                foreach (var mockRegistoEntrega in mockRegistoEntregas)
-                {
-                    context.RegistoEntregas.Add(mockRegistoEntrega);
-                    await context.SaveChangesAsync();
-                }
+                //foreach (var mockRegistoEntrega in mockRegistoEntregas)
+                //{
+                //    context.RegistoEntregas.Add(mockRegistoEntrega);
+                //    await context.SaveChangesAsync();
+                //}
             }
         }
     }
