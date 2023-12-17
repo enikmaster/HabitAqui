@@ -106,6 +106,7 @@ namespace HabitAqui.Migrations
             modelBuilder.Entity("HabitAqui.Models.DetalhesUtilizador", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")

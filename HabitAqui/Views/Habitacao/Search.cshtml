@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<link rel="stylesheet" href="/css/card-habitacao.css"/>
+<link rel="stylesheet" href="~/css/custom-table.css"/>
 
 <div class="text-lg-start">
     <h1 class="text-center">@ViewData["TitleSearch"]</h1>
@@ -23,26 +23,26 @@
         <div class="text-center mb-3">
             <h4>@ViewBag.TotalRecords Resultado(s) encontrado(s)</h4>
         </div>
-        <table class="table table-dark table-hover">
+        <table class="table table-hover">
             <!-- Table Header -->
             <thead>
-                <tr>
-                    <th></th>
-                    <th class="text-white">
-                        <a class="text-reset text-decoration-none" asp-action="Search" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-search="@ViewBag.Search" asp-route-page="@ViewBag.CurrentPage">Nome <i class="bi-chevron-expand"></i></a>
-                        
-                    </th>
-                    <th>Localização</th>
-                    <th>
-                        <a class="text-reset text-decoration-none" asp-action="Search" asp-route-sortOrder="@ViewData["RatingSortParm"]" asp-route-search="@ViewBag.Search" asp-route-page="@ViewBag.CurrentPage">Avaliação <i class="bi-chevron-expand"></i></a>
-                        
-                    </th>
-                    <th>Disponibilidade</th>
-                    <th>
-                        <a class="text-reset text-decoration-none" asp-action="Search" asp-route-sortOrder="@ViewData["PriceSortParm"]" asp-route-search="@ViewBag.Search" asp-route-page="@ViewBag.CurrentPage">Preço por Noite <i class="bi-chevron-expand"></i></a>
-                        
-                    </th>
-                </tr>
+            <tr>
+                <th></th>
+                <th>
+                    <a class="text-reset text-decoration-none" asp-action="Search" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-search="@ViewBag.Search" asp-route-page="@ViewBag.CurrentPage">Nome <i class="bi-chevron-expand"></i></a>
+
+                </th>
+                <th>Localização</th>
+                <th>
+                    <a class="text-reset text-decoration-none" asp-action="Search" asp-route-sortOrder="@ViewData["RatingSortParm"]" asp-route-search="@ViewBag.Search" asp-route-page="@ViewBag.CurrentPage">Avaliação <i class="bi-chevron-expand"></i></a>
+
+                </th>
+                <th>Disponibilidade</th>
+                <th>
+                    <a class="text-reset text-decoration-none" asp-action="Search" asp-route-sortOrder="@ViewData["PriceSortParm"]" asp-route-search="@ViewBag.Search" asp-route-page="@ViewBag.CurrentPage">Preço por Noite <i class="bi-chevron-expand"></i></a>
+
+                </th>
+            </tr>
             </thead>
             <!-- Table Body -->
             <tbody>

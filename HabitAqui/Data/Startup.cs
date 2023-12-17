@@ -51,57 +51,7 @@ public static class Startup
             await userManager.AddToRoleAsync(user, Roles.Administrador.ToString());
         }
 
-        const string funcionarioEmail = "funcionario@isec.pt";
-        const string funcionarioPassword = "Test123!";
-        if (await userManager.FindByEmailAsync(funcionarioEmail) == null)
-        {
-            var funcionarioUser = new DetalhesUtilizador
-            {
-                UserName = funcionarioEmail,
-                Email = funcionarioEmail,
-                Nome = "Funcionário",
-                Apelido = "Funcionário",
-                Nif = "123456789",
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = true,
-                Localizacao = new Localizacao
-                {
-                    Morada = "Morada",
-                    CodigoPostal = "1234-123",
-                    Cidade = "Cidade",
-                    Pais = "País"
-                },
-                Active = true
-            };
-            await userManager.CreateAsync(funcionarioUser, funcionarioPassword);
-            await userManager.AddToRoleAsync(funcionarioUser, Roles.Funcionario.ToString());
-        }
-
-        const string gestorEmail = "gestor@isec.pt";
-        const string gestorPassword = "Test123!";
-        if (await userManager.FindByEmailAsync(gestorEmail) == null)
-        {
-            var gestorUser = new DetalhesUtilizador
-            {
-                UserName = gestorEmail,
-                Email = gestorEmail,
-                Nome = "Gestor",
-                Apelido = "Gestor",
-                Nif = "123456789",
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = true,
-                Localizacao = new Localizacao
-                {
-                    Morada = "Morada",
-                    CodigoPostal = "1234-123",
-                    Cidade = "Cidade",
-                    Pais = "País"
-                },
-                Active = true
-            };
-            await userManager.CreateAsync(gestorUser, gestorPassword);
-            await userManager.AddToRoleAsync(gestorUser, Roles.Gestor.ToString());
-        }
+      
 
         const string clienteEmail = "cliente@isec.pt";
         const string clientePassword = "Test123!";

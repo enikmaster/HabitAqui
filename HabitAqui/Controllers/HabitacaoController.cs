@@ -159,7 +159,6 @@ public class HabitacaoController : Controller
 
         if (habitacao == null) return NotFound();
 
-
         var reservas = _context.Reservas
             .Where(r => r.Habitacao.Id == id)
             .OrderByDescending(r => r.DataFim)
@@ -313,7 +312,7 @@ public class HabitacaoController : Controller
     // POST: Habitacao/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id")] EditarHabitacaoDto habitacaoDto)
+    public async Task<IActionResult> Edit(int id, EditarHabitacaoDto habitacaoDto)
     {
         if (id != habitacaoDto.Id) return NotFound();
 
