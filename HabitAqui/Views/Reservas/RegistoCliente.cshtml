@@ -16,6 +16,7 @@
         <th>Data início</th>
         <th>Data fim</th>
         <th>Registo Entrega</th>
+        <th>Entrega</th>
     </tr>
     </thead>
     <tbody>
@@ -33,6 +34,9 @@
                     @registo.TipoTransacao
                     <br/>
                 }
+            </td>
+            <td>
+                    <a asp-controller="Reservas" asp-action="FuncEntregaReserva">Entrega</a>
             </td>
         </tr>
     }
