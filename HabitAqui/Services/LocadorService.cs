@@ -24,10 +24,21 @@ public class LocadorService
             .Include(h => h.Habitacoes)
             .Include(a => a.Administradores)
             .FirstOrDefaultAsync(l => l.Id == id);
-        return locador;
+        return locador ?? null;
     }
 
-    public async Task<Locador?> GetLocadorByEmail(string email) {
+    public async Task<Locador> GetLocadorGestor(string id)
+    {
+        var locador = await _context.Locadores
+            .Include(l => l.Localizacao)
+            .Include(h => h.Habitacoes)
+            .Include(a => a.Administradores)
+            .FirstOrDefaultAsync(l => l.Administradores.Any(a => a.Id == id));
+        return locador ?? null;
+    }
+
+    public async Task<Locador?> GetLocadorByEmail(string email)
+    {
         var locador = _context.Locadores
             .Where(x => x.Email == email)
             .FirstOrDefault();
