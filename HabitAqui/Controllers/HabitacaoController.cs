@@ -156,7 +156,7 @@ public class HabitacaoController : Controller
 
         var reservas = _context.Reservas
             .Where(r => r.Habitacao.Id == id)
-            .OrderByDescending(r => r.DataFim) 
+            .OrderByDescending(r => r.DataFim)
             .ToList();
 
         DateTime? proximaDataDisponivel = null;
@@ -166,11 +166,11 @@ public class HabitacaoController : Controller
             var dataCheckOutMaisRecente = reservas.First().DataFim;
             proximaDataDisponivel = dataCheckOutMaisRecente.AddDays(1);
         }
+
         ViewBag.ProximaDataDisponivel = proximaDataDisponivel;
 
 
-
-        return View(habitacao); 
+        return View(habitacao);
     }
 
     // GET: Habitacao/Create
@@ -192,7 +192,7 @@ public class HabitacaoController : Controller
         {
             if (ModelState.IsValid)
             {
-                var locador = await _locadorService.GetLocador(_userManager.GetUserId(User));
+                var locador = await _locadorService.GetLocadorGestor(_userManager.GetUserId(User));
                 var habitacao = new Habitacao
                 {
                     Active = true,
