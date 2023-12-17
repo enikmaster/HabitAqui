@@ -68,7 +68,7 @@ public class HabitacaoService
             .Include(h => h.Habitacoes)!
             .ThenInclude(d => d.DetalhesHabitacao)
             .ThenInclude(l => l.Localizacao)
-            .FirstOrDefaultAsync(l => l.Administradores.Any(a => a.Id == userId));
+            .FirstOrDefaultAsync(l => l.Id == userId);
         return locador == null
             ? await GetAllActiveHabitacoes()
             : locador.Habitacoes.ToList();

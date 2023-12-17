@@ -51,9 +51,16 @@ public class HabitacaoController : Controller
         var query = new List<Habitacao>();
 
         // If the user is not in a specific role, filter the active Habitacoes
-        if (!User.IsInRole(Roles.Funcionario.ToString()) && !User.IsInRole(Roles.Gestor.ToString()))
+        if (User.IsInRole(Roles.Funcionario.ToString()) || User.IsInRole(Roles.Gestor.ToString()))
+        {
+            var userId = _userManager.GetUserId(User);
+            var locador = await _locadorService.GetLocadorGestor(userId);
+            query = await _habitacaoService.GetAllHabitacoesLocador(locador.Id);
+        }
+        else
+        {
             query = await _habitacaoService.GetAllActiveHabitacoes(); // Assuming there is an IsActive property
-
+        }
 
         // Apply the pagination logic
         var totalRecords = query.Count;
