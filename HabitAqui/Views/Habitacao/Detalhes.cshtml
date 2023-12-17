@@ -4,6 +4,8 @@
 @{
     ViewData["Title"] = "Nome da habitação";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    bool flagsToViewButtons = ViewData["FlagsToViewButtons"] != null && (bool)ViewData["FlagsToViewButtons"];
 }
 <link rel="stylesheet" href="/css/detalhes-habitacao.css"/>
 
@@ -12,9 +14,13 @@
         <div class="col-md-8 my-4">
             <h1 class="display-4">@Model.DetalhesHabitacao.Nome</h1>
         </div>
-        <div class="d-flex col-4 justify-content-end align-items-center">
-            @if (User.Identity.IsAuthenticated && (User.IsInRole(Roles.Funcionario.ToString()) || User.IsInRole(Roles.Gestor.ToString())))
+        <div class="d-flex col-4 justify-content-end align-items-center"> 
+            
+            
+
+            @if (flagsToViewButtons && User.Identity.IsAuthenticated && (User.IsInRole(Roles.Funcionario.ToString()) || User.IsInRole(Roles.Gestor.ToString())))
             {
+               
                 <span>
                     <a class="btn mx-2 btn-lg btn-primary" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a>
                 </span>

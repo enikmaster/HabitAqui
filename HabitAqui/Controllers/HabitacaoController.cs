@@ -145,13 +145,20 @@ public class HabitacaoController : Controller
     {
         if (id == null) return NotFound();
 
+        var UtilizadorLogado = await _userManager.GetUserAsync(User);
+
+        
         var habitacao = await _context.Habitacoes
+            .Include(l => l.Locador)
+            .ThenInclude(a => a.Administradores)
             .Include(i => i.Imagens)
             .Include(d => d.DetalhesHabitacao)
             .ThenInclude(l => l.Localizacao)
             .Include(h => h.Avaliacoes)! // Carrega as avaliações relacionadas
             .ThenInclude(a => a.Cliente) // Inclui informações do cliente que fez a avaliação
             .FirstOrDefaultAsync(m => m.Id == id);
+
+        
 
         if (habitacao == null) return NotFound();
 
@@ -161,7 +168,7 @@ public class HabitacaoController : Controller
             .ToList();
 
         DateTime? proximaDataDisponivel = null;
-
+        ViewData["FlagsToViewButtons"] = habitacao.Locador.Administradores.Any(a => a.Id == UtilizadorLogado?.Id) ? true : false;
         if (reservas.Any())
         {
             var dataCheckOutMaisRecente = reservas.First().DataFim;
@@ -288,6 +295,19 @@ public class HabitacaoController : Controller
         if (habitacao == null) return NotFound();
         var editarHabitacaoDto = new EditarHabitacaoDto(habitacao);
 
+
+        var userLogado = await _userManager.GetUserAsync(User);
+        if (userLogado == null)
+        {
+            return Unauthorized();
+
+        }
+        var Permissoes = habitacao.Locador.Administradores.Any(a => a.Id == userLogado?.Id) ? true : false;
+        if (!Permissoes)
+        {
+            return Unauthorized();
+        }
+
         var categorias = await _categoriaService.GetAllActive();
         ViewBag.Categorias = (categorias.Any() ? categorias : null)!;
         return View(editarHabitacaoDto);
@@ -299,6 +319,7 @@ public class HabitacaoController : Controller
     public async Task<IActionResult> Edit(int id, EditarHabitacaoDto habitacaoDto)
     {
         if (id != habitacaoDto.Id) return NotFound();
+
 
         if (!ModelState.IsValid) return View(habitacaoDto);
         var habitacao = await _habitacaoService.GetHabitacao(id);
@@ -319,6 +340,20 @@ public class HabitacaoController : Controller
             habitacao.DetalhesHabitacao.Localizacao.Pais = habitacaoDto.Pais;
         if (habitacao.DetalhesHabitacao.PrecoPorNoite != habitacaoDto.PrecoPorNoite)
             habitacao.DetalhesHabitacao.PrecoPorNoite = habitacaoDto.PrecoPorNoite;
+
+       
+
+        var userLogado = await _userManager.GetUserAsync(User);
+        if(userLogado == null)
+        {
+            return Unauthorized();
+
+        }
+        var Permissoes = habitacao.Locador.Administradores.Any(a => a.Id == userLogado?.Id) ? true : false;
+        if(!Permissoes)
+        {
+            return Unauthorized();
+        }
 
         try
         {
@@ -344,6 +379,19 @@ public class HabitacaoController : Controller
             .FirstOrDefaultAsync(m => m.Id == id);
         if (habitacao == null) return NotFound();
 
+
+        var userLogado = await _userManager.GetUserAsync(User);
+        if (userLogado == null)
+        {
+            return Unauthorized();
+
+        }
+        var Permissoes = habitacao.Locador.Administradores.Any(a => a.Id == userLogado?.Id) ? true : false;
+        if (!Permissoes)
+        {
+            return Unauthorized();
+        }
+
         return View(habitacao);
     }
 
@@ -356,7 +404,17 @@ public class HabitacaoController : Controller
         if (_context.Habitacoes == null) return Problem("Entity set 'ApplicationDbContext.Habitacoes' is null.");
         var habitacao = await _context.Habitacoes.FindAsync(id);
         if (habitacao != null) _context.Habitacoes.Remove(habitacao);
+        var userLogado = await _userManager.GetUserAsync(User);
+        if (userLogado == null)
+        {
+            return Unauthorized();
 
+        }
+        var Permissoes = habitacao.Locador.Administradores.Any(a => a.Id == userLogado?.Id) ? true : false;
+        if (!Permissoes)
+        {
+            return Unauthorized();
+        }
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }

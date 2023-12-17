@@ -17,6 +17,7 @@ public class HabitacaoService
     {
         var habitacao = await _context.Habitacoes
             .Include(l => l.Locador)
+            .ThenInclude(l=> l.Administradores)
             .Include(h => h.DetalhesHabitacao)
             .ThenInclude(l => l.Localizacao)
             .Include(h => h.Categorias)
