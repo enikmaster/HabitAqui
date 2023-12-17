@@ -3,10 +3,9 @@ using HabitAqui.Data;
 using HabitAqui.Dtos.Reservas;
 using HabitAqui.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using Microsoft.AspNetCore.Identity;
 
 namespace HabitAqui.Controllers;
 
@@ -97,7 +96,6 @@ public class ReservasController : Controller
 
     public IActionResult ListarReservasCliente()
     {
-
         //reservas aceites
         //registoEntrega != devolucao   
         var reservasCliente = _context.Reservas
@@ -106,7 +104,6 @@ public class ReservasController : Controller
             .Include(r => r.RegistoEntregas)
             //.Where(r => r.RegistoEntregas.Any(re => re.TipoTransacao != TipoTransacao.Devolucao) && r.Estado == EstadoReserva.Rejeitado)
             .ToList();
-
 
 
         return View("RegistoCliente", reservasCliente);
@@ -130,22 +127,20 @@ public class ReservasController : Controller
             HabitacaoId = habitacao.Id,
             NomeHabitacao = habitacao.DetalhesHabitacao.Nome,
             DescricaoHabitacao = habitacao.DetalhesHabitacao.Descricao,
-            PrecoPorNoiteHabitacao = habitacao.DetalhesHabitacao.PrecoPorNoite  
+            PrecoPorNoiteHabitacao = habitacao.DetalhesHabitacao.PrecoPorNoite
         };
         return View("EfetuarReserva", viewModel);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult ConfirmarReserva(ReservaDto reservaDto)
+    public IActionResult ConfirmarReserva(ReservaDto reservaDto) // TODO: verificar a confirmação da reserva
     {
         if (ModelState.IsValid)
         {
             var dataInicio = reservaDto.DataInicio;
             var dataFim = reservaDto.DataFim;
             var AnotacoesCliente = reservaDto.AnotacoesCliente;
-            
-
             var numeroNoites = (int)(dataFim - dataInicio).TotalDays;
 
             if (numeroNoites < 1)
@@ -161,7 +156,6 @@ public class ReservasController : Controller
 
             if (habitacao == null) return NotFound();
 
-
             var precoTotal = numeroNoites * habitacao.DetalhesHabitacao.PrecoPorNoite;
 
             var confirmacaoViewModel = new ReservaDto
@@ -176,15 +170,11 @@ public class ReservasController : Controller
                 precoTotal = precoTotal,
                 AnotacoesCliente = AnotacoesCliente
             };
-
             return View("ConfirmarReserva", confirmacaoViewModel);
         }
 
         return View("EfetuarReserva", reservaDto);
     }
-
-
-
 
     //USER CONFIRMA A RESERVA, FICA PENDENTE
     [HttpPost]
@@ -208,7 +198,8 @@ public class ReservasController : Controller
         {
             var random = new Random();
             var randomIndex = random.Next(locador.Administradores.Count); // Get a random index
-            var selectedAdministrador = locador.Administradores.ElementAt(randomIndex); // Retrieve the administrador at the random index
+            var selectedAdministrador =
+                locador.Administradores.ElementAt(randomIndex); // Retrieve the administrador at the random index
             if (ModelState.IsValid)
             {
                 var novaReserva = new Reserva
@@ -231,13 +222,16 @@ public class ReservasController : Controller
                 return View("Index");
             }
         }
-        else return NotFound();
+        else
+        {
+            return NotFound();
+        }
+
         return View(reservaDto);
     }
 
     public IActionResult FuncEntregaReserva()
     {
-
         return View("FuncEntregaReserva");
     }
 
@@ -246,35 +240,28 @@ public class ReservasController : Controller
     {
         var reserva = _context.Reservas
             .FirstOrDefault(r => r.Id == id);
-        if (reserva == null)
-        {
-            return NotFound(); // Retorna uma resposta NotFound caso a reserva não seja encontrada
-        }
+        if (reserva == null) return NotFound(); // Retorna uma resposta NotFound caso a reserva não seja encontrada
         var funcionario = await _userManager.GetUserAsync(User);
 
         // Crie uma nova instância do objeto RegistoEntrega
         var registoEntrega = new RegistoEntrega
         {
             Funcionario = funcionario,
-            DataEntrega = DateTime.Now, 
-            TipoTransacao = TipoTransacao.Entrega, 
-            Danos = false, 
-            Observacoes = "Nenhuma observação" // Defina as observações iniciais (você pode alterar isso conforme necessário)
+            DataEntrega = DateTime.Now,
+            TipoTransacao = TipoTransacao.Entrega,
+            Danos = false,
+            Observacoes =
+                "Nenhuma observação" // Defina as observações iniciais (você pode alterar isso conforme necessário)
         };
 
         // Associe o registro de entrega à reserva
-        if (reserva.RegistoEntregas == null)
-        {
-            reserva.RegistoEntregas = new List<RegistoEntrega>();
-        }
+        if (reserva.RegistoEntregas == null) reserva.RegistoEntregas = new List<RegistoEntrega>();
         reserva.RegistoEntregas.Add(registoEntrega);
 
         // Salve as alterações no banco de dados
         _context.SaveChanges();
 
         // Redirecione para a página de detalhes da reserva ou outra página desejada
-        return RedirectToAction("Detalhes", new { id = id });
+        return RedirectToAction("Detalhes", new { id });
     }
-
-
 }

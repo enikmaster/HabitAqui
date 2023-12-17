@@ -11,7 +11,7 @@
     <h1 class="text-center">@ViewData["TitleSearch"]</h1>
 </div>
 
-<div class="container mt-4">
+<div class="container my-5 ">
     @if (!Model.Any())
     {
         <div class="text-center">
@@ -30,18 +30,16 @@
                 <th></th>
                 <th>
                     <a class="text-reset text-decoration-none" asp-action="Search" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-search="@ViewBag.Search" asp-route-page="@ViewBag.CurrentPage">Nome <i class="bi-chevron-expand"></i></a>
-
                 </th>
                 <th>Localização</th>
                 <th>
                     <a class="text-reset text-decoration-none" asp-action="Search" asp-route-sortOrder="@ViewData["RatingSortParm"]" asp-route-search="@ViewBag.Search" asp-route-page="@ViewBag.CurrentPage">Avaliação <i class="bi-chevron-expand"></i></a>
-
                 </th>
                 <th>Disponibilidade</th>
                 <th>
                     <a class="text-reset text-decoration-none" asp-action="Search" asp-route-sortOrder="@ViewData["PriceSortParm"]" asp-route-search="@ViewBag.Search" asp-route-page="@ViewBag.CurrentPage">Preço por Noite <i class="bi-chevron-expand"></i></a>
-
                 </th>
+                <th></th>
             </tr>
             </thead>
             <!-- Table Body -->
@@ -50,9 +48,7 @@
             {
                 <tr>
                     <td>
-                        <a asp-action="Detalhes" asp-route-id="@habitacao.Id">
-                            <img src="/imgs/habitacoes/@habitacao.Id/@habitacao.Imagens!.First().Path" alt="Imagem da Habitação" class="img-fluid" style="max-width: 100px;">
-                        </a>
+                        <img src="/imgs/habitacoes/@habitacao.Id/@habitacao.Imagens!.First().Path" alt="Imagem da Habitação" class="img-fluid" style="max-width: 100px;">
                     </td>
                     <td>@habitacao.DetalhesHabitacao.Nome</td>
                     <td>@habitacao.DetalhesHabitacao.Localizacao?.Cidade, @habitacao.DetalhesHabitacao.Localizacao?.Pais</td>
@@ -62,6 +58,11 @@
                     <td>
                     </td>
                     <td>€ @habitacao.DetalhesHabitacao.PrecoPorNoite</td>
+                    <td>
+                        <a class="btn btn-sm btn-primary" asp-action="Detalhes" asp-route-id="@habitacao.Id">
+                            Ver mais
+                        </a>
+                    </td>
                 </tr>
             }
             </tbody>

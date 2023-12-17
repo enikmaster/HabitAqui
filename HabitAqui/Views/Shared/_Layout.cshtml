@@ -24,8 +24,6 @@
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1 mr-auto">
                     <li class="nav-item">
@@ -38,14 +36,10 @@
                                 Gestão de Funcionários
                             </a>
                             <div class="dropdown-menu">
-                                    <a class="dropdown-item" asp-controller="Funcionario" asp-action="ListarFuncionarios">Funcionários</a>
-                                    <a class="dropdown-item" asp-controller="Funcionario" asp-action="ListarGestores">Gestores</a>
-
-                                    <a class="dropdown-item" asp-controller="Funcionario" asp-action="AdicionarGestor">Adicionar Gestor</a>
-                                    <a class="dropdown-item" asp-controller="Funcionario" asp-action="AdicionarFuncionario">Adicionar Funcionario</a>
-
-                                <a class="dropdown-item" href="#">Editar</a>
-                                <a class="dropdown-item" href="#">Remover</a>
+                                <a class="dropdown-item" asp-controller="Funcionario" asp-action="ListarFuncionarios">Funcionários</a>
+                                <a class="dropdown-item" asp-controller="Funcionario" asp-action="AdicionarFuncionario">Adicionar Funcionário</a>
+                                <a class="dropdown-item" asp-controller="Funcionario" asp-action="ListarGestores">Gestores</a>
+                                <a class="dropdown-item" asp-controller="Funcionario" asp-action="AdicionarGestor">Adicionar Gestor</a>
                             </div>
 
                         </li>
@@ -58,7 +52,7 @@
                             </a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="#">Ver todos</a>
-                                <a class="dropdown-item" asp-controller="Habitacao" asp-action="Create">Adicionar Gestor</a>
+                                <a class="dropdown-item" asp-controller="Habitacao" asp-action="Create">Adicionar Habitação</a>
 
                             </div>
                         </li>
@@ -67,7 +61,7 @@
                                 Gestão de Arrendamentos
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" asp-area="" asp-controller="Reservas" asp-action="ListarReservasCliente">Reservas</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Reservas" asp-action="ListarReservasCliente">Reservas</a>
                                 <a class="dropdown-item" href="#">Entregas</a>
                                 <a class="dropdown-item" href="#">Cenas</a>
                                 <a class="dropdown-item" href="#">Outras cenas</a>
@@ -77,22 +71,25 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Reservas" asp-action="ListarReservas">Listar Reservas</a>
                         </li>*@
                     }
-                        @if (User.IsInRole(Roles.Cliente.ToString()))
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Gestão de Reservas
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-@*                                     <li><a class="dropdown-item" asp-area="" asp-controller="Reservas" asp-action="ListarReservas">Reservas</a></li>
-
- *@
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Reservas" asp-action="ListarReservasCliente">Reservas</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Reservas" asp-action="Historico">Histórico de Arrendamentos</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Habitacao" asp-action="MinhasAvaliacoes">Avaliações</a></li>
-                                </ul>
-                            </li>
-                        }
+                    @if (User.IsInRole(Roles.Cliente.ToString()))
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Gestão de Reservas
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Reservas" asp-action="ListarReservasCliente">Reservas</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Reservas" asp-action="Historico">Histórico de Arrendamentos</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Habitacao" asp-action="MinhasAvaliacoes">Avaliações</a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
 
                 </ul>
 
