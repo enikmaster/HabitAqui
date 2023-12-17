@@ -6,16 +6,19 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
 
 namespace HabitAqui.Controllers;
 
 public class ReservasController : Controller
 {
     private readonly ApplicationDbContext _context;
+    private readonly UserManager<DetalhesUtilizador> _userManager;
 
-    public ReservasController(ApplicationDbContext context)
+    public ReservasController(ApplicationDbContext context, UserManager<DetalhesUtilizador> _userManager)
     {
         _context = context;
+        _userManager = _userManager;
     }
 
     public async Task<IActionResult> Arrendamentos()
@@ -101,7 +104,7 @@ public class ReservasController : Controller
             .Include(r => r.Habitacao)
             .Include(r => r.Habitacao.DetalhesHabitacao)
             .Include(r => r.RegistoEntregas)
-            .Where(r => r.RegistoEntregas.Any(re => re.TipoTransacao != TipoTransacao.Devolucao) && r.Estado == EstadoReserva.Aceite)
+            //.Where(r => r.RegistoEntregas.Any(re => re.TipoTransacao != TipoTransacao.Devolucao) && r.Estado == EstadoReserva.Rejeitado)
             .ToList();
 
 
@@ -181,6 +184,9 @@ public class ReservasController : Controller
     }
 
 
+
+
+    //USER CONFIRMA A RESERVA, FICA PENDENTE
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> FinalizarReserva(ReservaDto reservaDto)
@@ -228,4 +234,41 @@ public class ReservasController : Controller
         else return NotFound();
         return View(reservaDto);
     }
+
+    public async Task<IActionResult> EntregarHabitacaoAsync(int id)
+    {
+        var reserva = _context.Reservas
+            .Include(r=> r.R)
+            .FirstOrDefault(r => r.Id == id);
+        if (reserva == null)
+        {
+            return NotFound(); // Retorna uma resposta NotFound caso a reserva não seja encontrada
+        }
+        var funcionario = await _userManager.GetUserAsync(User);
+
+        // Crie uma nova instância do objeto RegistoEntrega
+        var registoEntrega = new RegistoEntrega
+        {
+            Funcionario = funcionario,
+            DataEntrega = DateTime.Now, 
+            TipoTransacao = TipoTransacao.Entrega, 
+            Danos = false, 
+            Observacoes = "Nenhuma observação" // Defina as observações iniciais (você pode alterar isso conforme necessário)
+        };
+
+        // Associe o registro de entrega à reserva
+        if (reserva.RegistoEntregas == null)
+        {
+            reserva.RegistoEntregas = new List<RegistoEntrega>();
+        }
+        reserva.RegistoEntregas.Add(registoEntrega);
+
+        // Salve as alterações no banco de dados
+        _context.SaveChanges();
+
+        // Redirecione para a página de detalhes da reserva ou outra página desejada
+        return RedirectToAction("Detalhes", new { id = id });
+    }
+
+
 }
