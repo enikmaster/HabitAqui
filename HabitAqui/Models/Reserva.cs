@@ -15,8 +15,8 @@ public class Reserva
 {
     [Key] public int Id { get; set; }
 
-    public EstadoReserva Estado { get; set; } //gerir registos das reservas
-    public string FuncionarioId { get; set; } // TODO: volta a ver depois
+    public EstadoReserva Estado { get; set; }
+    public string FuncionarioId { get; set; }
     [ForeignKey("FuncionarioId")] public DetalhesUtilizador Funcionario { get; set; }
     public string ClienteId { get; set; }
     [ForeignKey("ClienteId")] public DetalhesUtilizador Cliente { get; set; }

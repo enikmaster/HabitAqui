@@ -35,8 +35,6 @@ public class HabitacaoController : Controller
         _userManager = userManager;
         _webHostEnvironment = webHostEnvironment;
     }
-    // DONE: Index
-    // DONE: Create
     // TODO: Update/Edit
     // TODO: Delete
 
@@ -468,70 +466,4 @@ public class HabitacaoController : Controller
             .ToListAsync();
         return View(minhasAvaliacoes);
     }
-
-
-    // GET: Habitacao/EditarAvaliacoes/5
-    /*public async Task<IActionResult> EditarAvaliacoes(int? id)
-    {
-        if (id == null) return NotFound();
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var avaliacao = await _context.Avaliacoes
-            .Include(a => a.Habitacao)
-            .ThenInclude(h => h.DetalhesHabitacao)
-            .FirstOrDefaultAsync(a => a.Id == id && a.Cliente.Id == userId);
-
-        if (avaliacao == null) return NotFound();
-
-        return View(new AvaliacaoEditar { Id = avaliacao.Id, Nota = avaliacao.Nota, Comentario = avaliacao.Comentario }); // Passe a avaliacao para a view
-    }*/
-
-    private bool AvaliacaoExists(int id)
-    {
-        return _context.Avaliacoes.Any(e => e.Id == id);
-    }
-
-    // POST: Habitacao/EditarAvaliacao/5
-    /*[HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditarAvaliacao(int id, AvaliacaoEditar avaliacao)
-    {
-        if (id != avaliacao.Id) return NotFound();
-        if (ModelState.IsValid)
-        {
-            try
-            {
-
-                // Busque a avaliação existente no banco de dados
-                var avaliacaoExistente = await _context.Avaliacoes
-                    .Include(a => a.Habitacao) // Inclua a propriedade Habitacao
-                    .FirstOrDefaultAsync(a => a.Id == avaliacao.Id);
-
-
-                if (avaliacaoExistente == null)
-                {
-                    return NotFound();
-                }
-                avaliacaoExistente.Nota = avaliacao.Nota;
-                avaliacaoExistente.Comentario = avaliacao.Comentario;
-
-                _context.Update(avaliacaoExistente);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AvaliacaoExists(avaliacao.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return RedirectToAction(nameof(MinhasAvaliacoes));
-        }
-        return View(avaliacao);
-
-      }
-    }*/
 }
