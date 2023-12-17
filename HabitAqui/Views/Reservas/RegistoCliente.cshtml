@@ -38,15 +38,16 @@
                     }
                 </td>
                 <td>
-                    @if(@reserva.Estado == EstadoReserva.Aceite)
+                    @if (!User.IsInRole("Cliente"))
                     {
-                        <a class="btn btn-sm btn-success" asp-controller="Reservas" asp-action="FuncEntregaReserva" asp-route-id="@reserva.Id">Entrega</a>
-
-
-                    }else if(reserva.Estado == EstadoReserva.Pendente)
-                    {
-                        <a class="btn btn-sm btn-warning" asp-controller="Reservas" asp-action="FuncEntregaReserva" asp-route-id="@reserva.Id">Entrega</a>
-
+                        if (@reserva.Estado == EstadoReserva.Aceite)
+                        {
+                            <a class="btn btn-sm btn-success" asp-controller="Reservas" asp-action="FuncEntregaReserva" asp-route-id="@reserva.Id">Entrega</a>
+                        }
+                        else if (reserva.Estado == EstadoReserva.Pendente)
+                        {
+                            <a class="btn btn-sm btn-warning" asp-controller="Reservas" asp-action="FuncEntregaReserva" asp-route-id="@reserva.Id">Entrega</a>
+                        }
                     }
                 </td>
            
