@@ -6,12 +6,8 @@ public class Habitacao
 {
     public int Id { get; set; }
     public bool Active { get; set; }
-
     public string LocadorId { get; set; }
-
     [ForeignKey("LocadorId")] public virtual Locador Locador { get; set; }
-
-    //public DetalhesUtilizador Funcionario { get; set; }
     public DetalhesHabitacao DetalhesHabitacao { get; set; }
     public ICollection<HabitacaoCategoria>? Categorias { get; set; }
     public ICollection<Imagem>? Imagens { get; set; }

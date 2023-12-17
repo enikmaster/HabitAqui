@@ -18,35 +18,35 @@
             <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
                asp-route-sortOrder="@Model.NomeSort">
                 @Html.DisplayNameFor(model => model.Input.Nome)
-                    <i class="bi-chevron-expand"></i>
+                <i class="bi-chevron-expand"></i>
             </a>
         </th>
         <th class="identificador text-white">
             <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
                asp-route-sortOrder="@Model.EstadoSubscricaoSort">
                 Estado da Subscrição
-                    <i class="bi-chevron-expand"></i>
+                <i class="bi-chevron-expand"></i>
             </a>
         </th>
         <th class="identificador text-white">
             <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
                asp-route-sortOrder="@Model.EstadoSort">
                 Estado
-                    <i class="bi-chevron-expand"></i>
+                <i class="bi-chevron-expand"></i>
             </a>
         </th>
         <th class="identificador text-white">
             <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
                asp-route-sortOrder="@Model.TotalHabitacoesSort">
                 Total de Habitações
-                    <i class="bi-chevron-expand"></i>
+                <i class="bi-chevron-expand"></i>
             </a>
         </th>
         <th class="identificador text-white">
             <a class="text-reset text-decoration-none" asp-page="./GestaoLocadores"
                asp-route-sortOrder="@Model.AdministradoresSort">
                 @Html.DisplayNameFor(model => model.Input.Administradores)
-                    <i class="bi-chevron-expand"></i>
+                <i class="bi-chevron-expand"></i>
             </a>
         </th>
         <th class="identificador text-white"></th> <!-- Coluna vazia para os botões -->
@@ -81,7 +81,7 @@
                     <td>@Html.DisplayFor(model => loc.Administradores.Count)</td>
                     <td>
                         <a class="btn btn-success btn-sm"
-                           href="@Url.Action("Detalhes", "Locador", new { id = loc.Id })">
+                            href="@Url.Action("Detalhes", "Locador", new { id = loc.Id })">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </a>
                         <a class="btn btn-primary btn-sm"
@@ -203,6 +203,7 @@
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" name="sortOrder" value="asc"/>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                         <button type="submit" class="btn btn-primary">Guardar</button>
